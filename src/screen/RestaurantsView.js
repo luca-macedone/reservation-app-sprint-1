@@ -3,9 +3,12 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import React from "react";
+import RestaurantCardComp from "../components/RestaurantCardComp";
 
 const dummyRestaurant = {
+  id: 0,
   name: "Route 66 - American Diner",
   description: "lorem ipsum dolor amet",
   type: ["American", "Hamburger"],
@@ -152,21 +155,13 @@ const RestaurantsView = () => {
           </h2>
           <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5">
             {/* list of restaurants */}
-            <div className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary">
-              <div className="h-20 aspect-square rounded-full overflow-hidden ring ring-secondary">
-                <img
-                  src={dummyRestaurant.img.src}
-                  alt={dummyRestaurant.img.alt}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div>
-                <h3 className="font-semibold border-b-2 border-secondary">
-                  {dummyRestaurant.name}
-                </h3>
-                <small className="">{dummyRestaurant.type}</small>
-              </div>
-            </div>
+            <RestaurantCardComp
+              id={dummyRestaurant.id}
+              type={dummyRestaurant.type}
+              name={dummyRestaurant.name}
+              src={dummyRestaurant.img.src}
+              alt={dummyRestaurant.img.alt}
+            />
           </div>
         </section>
       </div>
