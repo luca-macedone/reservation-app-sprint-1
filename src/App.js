@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import routes from "./routes";
 import NavbarComp from "./components/NavbarComp";
+import FooterComp from "./components/FooterComp";
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
           );
         })}
       </Routes>
+      <footer className="bg-dark">
+        <FooterComp />
+      </footer>
     </Router>
   );
 }

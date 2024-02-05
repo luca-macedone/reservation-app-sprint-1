@@ -9,11 +9,6 @@ const NavbarComp = () => {
           id="logo-wrapper"
           className="flex items-center gap-2"
         >
-          {/* <img
-            src="/logo.svg"
-            alt="Bistroo's Logo"
-            className="h-16"
-          /> */}
           <h2
             className="font-bold font-special text-2xl drop-shadow-lg text-light"
             id="app-logo"
