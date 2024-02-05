@@ -17,7 +17,7 @@ const HomeView = () => {
                 icon={faMap}
                 className="h-12 text-primary text-center"
               />
-              <h2 className="text-2xl font-semibold text-primary">
+              <h2 className="text-2xl text-primary font-special">
                 Discover new restaurants
               </h2>
             </div>
@@ -35,11 +35,18 @@ const HomeView = () => {
               </button>
             </div>
           </div>
-          <img
-            src="https://images.pexels.com/photos/4870430/pexels-photo-4870430.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt="Conversation's around the table"
-            className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
-          />
+          <picture>
+            <img
+              sizes="(max-width: 500px) 100vw, 500px"
+              srcset="
+            /images/food-example/food-example_z0l0l6_c_scale,w_200.webp 200w,
+            /images/food-example/food-example_z0l0l6_c_scale,w_492.webp 492w,
+            /images/food-example/food-example_z0l0l6_c_scale,w_500.webp 500w"
+              src="/images/food-example/food-example_z0l0l6_c_scale,w_500.webp"
+              alt="Your next favorite dish example"
+              className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+            />
+          </picture>
         </div>
       </section>
       <section className="container mx-auto px-3 py-10 mt-10">
@@ -50,7 +57,7 @@ const HomeView = () => {
                 icon={faPenToSquare}
                 className="h-12 text-primary text-center"
               />
-              <h2 className="text-2xl font-semibold text-primary">
+              <h2 className="text-2xl text-primary font-special">
                 Quick book your table
               </h2>
             </div>
@@ -59,11 +66,24 @@ const HomeView = () => {
               conversations happen around the table.
             </p>
           </div>
-          <img
-            src="https://images.pexels.com/photos/696218/pexels-photo-696218.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          {/* <img
+            src="/images/guys-at-the-table.webp"
             alt="Conversation's around the table"
             className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
-          />
+          /> */}
+          <picture>
+            <img
+              sizes="(max-width: 1125px) 100vw, 1125px"
+              srcset="
+              /images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_200.webp 200w,
+              /images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_719.webp 719w,
+              /images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_1109.webp 1109w,
+              /images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_1125.webp 1125w"
+              src="/images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_1125.webp"
+              alt="Conversation's around the table"
+              className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+            />
+          </picture>
         </div>
       </section>
     </>

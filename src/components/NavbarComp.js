@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const NavbarComp = () => {
   return (
     <>
-      <nav className="container mx-auto flex items-center justify-between py-3 px-3 md:px-0">
+      <nav className="container mx-auto flex items-center justify-between py-3 px-3">
         <div
           id="logo-wrapper"
           className="flex items-center gap-2"
