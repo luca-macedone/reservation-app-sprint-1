@@ -1,7 +1,12 @@
 import React from "react";
+import HeroComp from "../components/HeroComp";
 
 const HomeView = () => {
-  return <div>HomeView</div>;
+  return (
+    <>
+      <HeroComp />
+    </>
+  );
 };
 
 export default HomeView;
