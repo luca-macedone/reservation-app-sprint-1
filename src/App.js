@@ -7,7 +7,7 @@ import FooterComp from "./components/FooterComp";
 function App() {
   return (
     <Router className="relative">
-      <header className="bg-primary sticky left-0 top-0 z-30">
+      <header className="bg-primary sticky shadow-lg left-0 top-0 z-30">
         <NavbarComp />
       </header>
       <Routes>

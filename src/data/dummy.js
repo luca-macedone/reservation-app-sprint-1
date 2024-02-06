@@ -7,23 +7,26 @@ const dummyRestaurant = {
   max_seats: 82,
   free_seats: 28,
   avg_rating: 4.5,
+  address: "425E Rte 66",
+  city: "Williams",
+  country: "Arizona, US",
   openings: [
     {
       day: "Monday",
       lunch: {
-        start: "00:00",
-        end: "00:00",
+        start: "-1",
+        end: "-1",
       },
       dinner: {
-        start: "00:00",
-        end: "00:00",
+        start: "-1",
+        end: "-1",
       },
     },
     {
       day: "Tuesday",
       lunch: {
-        start: "00:00",
-        end: "00:00",
+        start: "-1",
+        end: "-1",
       },
       dinner: {
         start: "19:00",
@@ -96,7 +99,7 @@ const dummyRestaurant = {
   },
   gallery: [
     {
-      src: "https://files.oaiusercontent.com/file-Mfx2FW2yLkFzx9MEB8yr7tIc?se=2024-02-06T08%3A59%3A06Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D8d45a014-9848-434f-bc2b-db87336c3d2e.webp&sig=DQnUyTitbqK07Dq2fZXQTTfPvD4B8lq8ESzZYDk13WY%3D",
+      src: "/images/diner.webp",
       alt: "Our next diner, in NY",
       caption:
         "These are the projects for the second Route 66 Diner opening next year in NY, stay Toasted :-P",
