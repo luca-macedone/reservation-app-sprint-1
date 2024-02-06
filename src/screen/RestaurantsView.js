@@ -3,65 +3,10 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import React from "react";
 import RestaurantCardComp from "../components/RestaurantCardComp";
 
-const dummyRestaurant = {
-  id: 0,
-  name: "Route 66 - American Diner",
-  description: "lorem ipsum dolor amet",
-  type: ["American", "Hamburger"],
-  max_seats: 82,
-  free_seats: 28,
-  img: {
-    src: "https://images.pexels.com/photos/1162361/pexels-photo-1162361.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    alt: "dummy",
-  },
-  menu: [
-    {
-      name: "Classic Cheeseburger",
-      description:
-        "A juicy beef patty topped with melted cheese, lettuce, tomato, and our special sauce, served on a toasted bun.",
-      price: 5.99,
-      category: "Burgers",
-    },
-    {
-      name: "Crispy Chicken Sandwich",
-      description:
-        "Crispy fried chicken breast with pickles and mayo on a soft bun.",
-      price: 6.49,
-      category: "Sandwiches",
-    },
-    {
-      name: "Veggie Burger",
-      description:
-        "A delicious, plant-based patty topped with avocado, lettuce, tomato, and vegan mayo, served on a whole grain bun.",
-      price: 7.99,
-      category: "Burgers",
-    },
-    {
-      name: "Large Fries",
-      description: "A generous portion of our signature crispy, golden fries.",
-      price: 2.99,
-      category: "Sides",
-    },
-    {
-      name: "Chocolate Milkshake",
-      description:
-        "Rich and creamy chocolate milkshake, topped with whipped cream and a cherry.",
-      price: 3.99,
-      category: "Beverages",
-    },
-    {
-      name: "Caesar Salad",
-      description:
-        "Crisp romaine lettuce, parmesan cheese, croutons, and Caesar dressing.",
-      price: 5.49,
-      category: "Salads",
-    },
-  ],
-};
+import dummyRestaurant from "../data/dummy";
 
 const RestaurantsView = () => {
   return (
@@ -154,13 +99,13 @@ const RestaurantsView = () => {
             <span className="font-special text-4xl p-2">1</span> Result
           </h2>
           <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5">
-            {/* list of restaurants */}
+            {/* TODO list of restaurants */}
             <RestaurantCardComp
               id={dummyRestaurant.id}
               type={dummyRestaurant.type}
               name={dummyRestaurant.name}
-              src={dummyRestaurant.img.src}
-              alt={dummyRestaurant.img.alt}
+              src={dummyRestaurant.profile_img.src}
+              alt={dummyRestaurant.profile_img.alt}
             />
           </div>
         </section>

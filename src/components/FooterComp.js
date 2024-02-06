@@ -5,7 +5,7 @@ import { faCopyright } from "@fortawesome/free-solid-svg-icons";
 
 const FooterComp = () => {
   return (
-    <div className="container mx-auto text-light py-[60px] flex-col md:flex-row flex items-center md:items-start justify-start gap-10">
+    <div className="container mx-auto text-light py-[60px] flex-col md:flex-row flex items-center md:items-start justify-between gap-10 md:px-3">
       <div
         id="logo-wrapper"
         className="flex flex-col items-center md:items-start gap-2"
@@ -23,7 +23,7 @@ const FooterComp = () => {
         </small>
       </div>
       <nav>
-        <ul className="flex flex-col items-center md:items-start">
+        <ul className="flex flex-col items-center md:items-end">
           <li>
             <Link to="/">Home</Link>
           </li>

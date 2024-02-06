@@ -20,7 +20,7 @@ const HeroComp = () => {
         />
       </picture>
       <div className="z-10 relative w-full backdrop-blur-sm">
-        <div className="container flex-col gap-5 flex items-center justify-center min-h-[50vh] md:min-h-[90vh] mx-auto">
+        <div className="container flex-col gap-5 flex items-center justify-center min-h-[50vh] md:min-h-[95vh] mx-auto">
           <h1 className="text-4xl md:text-5xl font-semibold text-light drop-shadow-lg">
             Welcome to
             <span className="bg-logo-gradient bg-clip-text text-transparent font-special ms-3">

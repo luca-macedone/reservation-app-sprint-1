@@ -16,7 +16,7 @@ const routes = [
     element: <RestaurantsView />,
   },
   {
-    path: "/restaurant/:id",
+    path: "/restaurants/:id",
     element: <SingleRestaurantView />,
   },
   {
