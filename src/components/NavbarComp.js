@@ -1,10 +1,23 @@
-import React from "react";
+import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const NavbarComp = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const handleClick = (prev) => {
+    setIsMenuOpen(!prev);
+
+    document.body.classList.toggle("no-scroll");
+  };
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, []);
+
   return (
     <>
-      <nav className="container mx-auto flex items-center justify-between py-3 px-3">
+      <nav className="container mx-auto flex items-center justify-between py-3 px-3 relative">
         <div
           id="logo-wrapper"
           className="flex items-center gap-2"
@@ -18,11 +31,64 @@ const NavbarComp = () => {
         </div>
         <div
           id="links"
-          className="flex items-center gap-3 text-light"
+          className="items-center gap-3 text-light hidden lg:flex"
         >
           <Link to="/">Home</Link>
           <Link to="/restaurants">Restaurants</Link>
+          {/* TODO aggiungere verifica se l'utente ha effettuato il login, mostare altrimenti il SignIn */}
           <Link to="/me">User</Link>
+        </div>
+        <button
+          className={
+            isMenuOpen
+              ? "bg-tertiary rounded-lg shadow-lg text-xl flex lg:hidden items-center justify-center py-1.5 px-3"
+              : "bg-transparent text-2xl flex lg:hidden items-center justify-center py-1 px-3"
+          }
+          onClick={() => handleClick(isMenuOpen)}
+        >
+          {!isMenuOpen ? (
+            <FontAwesomeIcon
+              icon={faBars}
+              className="text-light"
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faX}
+              className="text-red-800"
+            />
+          )}
+        </button>
+        <div
+          className={
+            isMenuOpen
+              ? "absolute top-[56px] right-0 p-5 w-full h-screen bg-light shadow-lg"
+              : "hidden"
+          }
+        >
+          <div className="flex flex-col items-center justify-start gap-4">
+            <Link
+              to="/"
+              className="w-full text-center"
+              onClick={() => handleClick(isMenuOpen)}
+            >
+              Home
+            </Link>
+            <Link
+              to="/restaurants"
+              className="w-full text-center"
+              onClick={() => handleClick(isMenuOpen)}
+            >
+              Restaurants
+            </Link>
+            {/* TODO aggiungere verifica se l'utente ha effettuato il login, mostare altrimenti il SignIn */}
+            <Link
+              to="/me"
+              className="w-full text-center"
+              onClick={() => handleClick(isMenuOpen)}
+            >
+              User
+            </Link>
+          </div>
         </div>
       </nav>
     </>

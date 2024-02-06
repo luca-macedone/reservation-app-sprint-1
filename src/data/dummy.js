@@ -102,10 +102,10 @@ const dummyRestaurant = {
       src: "/images/diner.webp",
       alt: "Our next diner, in NY",
       caption:
-        "These are the projects for the second Route 66 Diner opening next year in NY, stay Toasted :-P",
+        "These is the concept art for the new and second Route 66 Diner, opening next year in NY, stay hungry! 😋",
     },
     {
-      src: "https://images.pexels.com/photos/1247755/pexels-photo-1247755.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      src: "https://images.pexels.com/photos/18338616/pexels-photo-18338616/free-photo-of-uomo-cameriere-in-piedi-sorridente.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       alt: "serving our food",
       caption: "Serving our food for the customers.",
     },

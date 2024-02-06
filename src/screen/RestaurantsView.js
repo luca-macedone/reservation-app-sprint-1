@@ -49,6 +49,14 @@ const RestaurantsView = () => {
                 />
               </div>
               <div className="flex flex-col items-start gap-1">
+                <label htmlFor="where">Where</label>
+                <input
+                  type="text"
+                  id="where"
+                  className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                />
+              </div>
+              <div className="flex flex-col items-start gap-1">
                 <label htmlFor="day-filter">When</label>
                 <input
                   type="date"
@@ -75,7 +83,7 @@ const RestaurantsView = () => {
                   defaultValue={1}
                 />
               </div>
-              <div className="flex items-center justify-end gap-3 col-span-2">
+              <div className="flex items-center justify-end gap-3">
                 <button
                   type="reset"
                   className="bg-light text-dark px-3 py-2 rounded-lg flex items-center gap-3"
