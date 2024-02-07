@@ -19,19 +19,41 @@ const FooterComp = () => {
         <small className="flex items-center gap-2 text-[.75rem]">
           Copyright
           <FontAwesomeIcon icon={faCopyright} />
-          by <Link to="/">Bistroo's</Link>, 2024
+          by{" "}
+          <Link
+            to="/"
+            className="hover:text-primary text-light transition-colors ease-in-out duration-200"
+          >
+            Bistroo's
+          </Link>
+          , 2024
         </small>
       </div>
       <nav>
         <ul className="flex flex-col items-center md:items-end">
           <li>
-            <Link to="/">Home</Link>
+            <Link
+              to="/"
+              className="hover:text-primary text-light transition-colors ease-in-out duration-200"
+            >
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/restaurants">Restaurants</Link>
+            <Link
+              to="/restaurants"
+              className="hover:text-primary text-light transition-colors ease-in-out duration-200"
+            >
+              Restaurants
+            </Link>
           </li>
           <li>
-            <Link to="/me">User</Link>
+            <Link
+              to="/me"
+              className="hover:text-primary text-light transition-colors ease-in-out duration-200"
+            >
+              User
+            </Link>
           </li>
         </ul>
       </nav>

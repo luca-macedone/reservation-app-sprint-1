@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const HeroComp = () => {
+  const navigator = useNavigate();
   return (
     <section
       className="relative"
@@ -34,7 +36,7 @@ const HeroComp = () => {
             <button
               type="button"
               onClick={() => navigator("/restaurants")}
-              className="bg-accent px-5 py-2 rounded-lg text-light shadow-lg"
+              className="bg-accent px-5 py-2 rounded-lg text-light shadow-lg hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
             >
               Your next experience is here
             </button>

@@ -86,14 +86,14 @@ const RestaurantsView = () => {
               <div className="flex items-center justify-end gap-3">
                 <button
                   type="reset"
-                  className="bg-light text-dark px-3 py-2 rounded-lg flex items-center gap-3"
+                  className="bg-light text-dark px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
                 >
                   <FontAwesomeIcon icon={faArrowRotateLeft} />
                   Reset
                 </button>
                 <button
                   type="submit"
-                  className="bg-accent px-8 py-2 rounded-lg flex items-center gap-3 col-span-1"
+                  className="bg-accent px-8 py-2 rounded-lg flex items-center gap-3 col-span-1 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
                 >
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                   Search

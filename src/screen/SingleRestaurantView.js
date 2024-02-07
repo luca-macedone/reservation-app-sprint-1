@@ -94,7 +94,7 @@ const SingleRestaurantView = () => {
                 <button
                   type="button"
                   onClick={() => navigator("/restaurants")}
-                  className="bg-accent px-5 py-2 rounded-lg text-light shadow-md font-semibold uppercase"
+                  className="bg-accent px-5 py-2 rounded-lg text-light shadow-md font-semibold uppercase hover:bg-primary hover:scale-105 transition-all ease-in-out duration-200"
                 >
                   Back
                 </button>
@@ -253,15 +253,15 @@ const SingleRestaurantView = () => {
                 <div className="flex items-end justify-end gap-5 col-span-1 md:col-span-2">
                   <button
                     type="reset"
-                    className="bg-light text-dark px-3 py-2 rounded-lg flex items-center gap-3"
+                    className="bg-light text-dark px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
                   >
                     Reset
                   </button>
                   <button
                     type="submit"
-                    className="bg-accent px-8 py-2 rounded-lg flex items-center gap-3 col-span-1"
+                    className="bg-accent px-8 py-2 rounded-lg flex items-center gap-3 col-span-1 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
                   >
-                    Search
+                    Reserve
                   </button>
                 </div>
               </div>
