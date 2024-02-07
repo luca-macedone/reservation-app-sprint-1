@@ -1,3 +1,5 @@
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -5,29 +7,43 @@ const RestaurantCardComp = ({ id, src, alt, name, type }) => {
   return (
     <Link
       to={`/restaurants/${id}`}
-      className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary"
+      className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary hover:scale-105 transition-transform ease-in-out duration-200"
       key={id}
     >
-      <div className="h-20 aspect-square rounded-full overflow-hidden ring ring-secondary">
-        <img
+      <div
+        className="min-w-14 md:w-20  aspect-square rounded-full overflow-hidden ring ring-secondary"
+        style={{
+          backgroundImage: `url(${src})`,
+          backgroundPosition: `center`,
+          backgroundSize: `cover`,
+        }}
+      >
+        {/* <img
           src={src}
           alt={alt}
           className="h-full w-full object-cover"
-        />
+        /> */}
       </div>
-      <div>
-        <h3 className="font-semibold border-b-2 border-secondary">{name}</h3>
-        <div className="text-xs flex items-start flex-wrap gap-2 py-2">
-          {type.map((t, index) => {
-            return (
-              <span
-                key={index}
-                className="bg-primary text-light px-2 py-1 rounded-md"
-              >
-                {t}
-              </span>
-            );
-          })}
+      <div className=" flex items-center justify-between gap-4 w-full">
+        <div className="w-full">
+          <h3 className="font-semibold border-b-2 border-secondary w-max">
+            {name}
+          </h3>
+          <div className="text-xs flex items-start flex-wrap gap-2 py-2">
+            {type.map((t, index) => {
+              return (
+                <span
+                  key={index}
+                  className="bg-primary text-light px-2 py-1 rounded-md"
+                >
+                  {t}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+        <div className="text-accent text-opacity-30 text-3xl md:text-4xl flex items-center justify-center h-full">
+          <FontAwesomeIcon icon={faPenToSquare} />
         </div>
       </div>
     </Link>

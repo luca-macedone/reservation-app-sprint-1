@@ -19,7 +19,7 @@ const FooterComp = () => {
         <small className="flex items-center gap-2 text-[.75rem]">
           Copyright
           <FontAwesomeIcon icon={faCopyright} />
-          by Bistroo's, 2024
+          by <Link to="/">Bistroo's</Link>, 2024
         </small>
       </div>
       <nav>

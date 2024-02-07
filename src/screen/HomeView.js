@@ -11,7 +11,7 @@ const HomeView = () => {
       <HeroComp />
       <section className="container mx-auto px-3 py-10 mt-10">
         <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-5">
-          <div className="flex flex-col items-center md:items-start gap-8">
+          <div className="flex flex-col items-center  gap-8">
             <div className="flex flex-col items-center gap-5">
               <FontAwesomeIcon
                 icon={faMap}
@@ -21,11 +21,11 @@ const HomeView = () => {
                 Discover new restaurants
               </h2>
             </div>
-            <p className="max-w-96 text-center md:text-start">
+            <p className="max-w-96 text-center w-max">
               Embark on a culinary quest. Your next favorite dish is just a
               search away.
             </p>
-            <div className="w-full flex items-center justify-center md:justify-start mt-5">
+            <div className="w-full flex items-center justify-center mt-5">
               <button
                 type="button"
                 onClick={() => navigator("/restaurants")}
@@ -49,10 +49,11 @@ const HomeView = () => {
           </picture>
         </div>
       </section>
+      {/* TODO Aggiungere una selezione di ristoranti così da incuriosire il cliente */}
       <section className="container mx-auto px-3 py-10 mt-10">
         <div className="flex flex-col md:flex-row-reverse items-center justify-center gap-10 md:gap-5">
-          <div className="flex flex-col items-center md:items-start gap-8">
-            <div className="flex flex-col items-center gap-5">
+          <div className="flex flex-col items-center gap-8">
+            <div className="flex flex-col items-center gap-5 w-full">
               <FontAwesomeIcon
                 icon={faPenToSquare}
                 className="h-12 text-primary text-center"
@@ -61,17 +62,12 @@ const HomeView = () => {
                 Quick book your table
               </h2>
             </div>
-            <p className="max-w-96 text-center md:text-start">
+            <p className="max-w-96 text-center">
               Seize the moment, reserve your spot. Because the best
               conversations happen around the table.
             </p>
           </div>
-          {/* <img
-            src="/images/guys-at-the-table.webp"
-            alt="Conversation's around the table"
-            className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
-          /> */}
-          <picture>
+          {/* <picture>
             <img
               sizes="(max-width: 1125px) 100vw, 1125px"
               srcset="
@@ -81,6 +77,30 @@ const HomeView = () => {
               /images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_1125.webp 1125w"
               src="/images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_1125.webp"
               alt="Conversation's around the table"
+              className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+            />
+          </picture> */}
+          <picture>
+            <img
+              sizes="(max-width: 1400px) 100vw, 1400px"
+              srcset="
+            /images/tables/tables_u77kfd_c_scale,w_200.jpg 200w,
+            /images/tables/tables_u77kfd_c_scale,w_352.jpg 352w,
+            /images/tables/tables_u77kfd_c_scale,w_470.jpg 470w,
+            /images/tables/tables_u77kfd_c_scale,w_658.jpg 658w,
+            /images/tables/tables_u77kfd_c_scale,w_773.jpg 773w,
+            /images/tables/tables_u77kfd_c_scale,w_849.jpg 849w,
+            /images/tables/tables_u77kfd_c_scale,w_927.jpg 927w,
+            /images/tables/tables_u77kfd_c_scale,w_998.jpg 998w,
+            /images/tables/tables_u77kfd_c_scale,w_1056.jpg 1056w,
+            /images/tables/tables_u77kfd_c_scale,w_1182.jpg 1182w,
+            /images/tables/tables_u77kfd_c_scale,w_1244.jpg 1244w,
+            /images/tables/tables_u77kfd_c_scale,w_1323.jpg 1323w,
+            /images/tables/tables_u77kfd_c_scale,w_1390.jpg 1390w,
+            /images/tables/tables_u77kfd_c_scale,w_1394.jpg 1394w,
+            /images/tables/tables_u77kfd_c_scale,w_1400.jpg 1400w"
+              src="/images/tables/tables_u77kfd_c_scale,w_1400.jpg"
+              alt="Restaurant's tables"
               className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
             />
           </picture>

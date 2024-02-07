@@ -8,7 +8,9 @@ import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
 const SingleRestaurantView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [avgOpening, setAvgOpening] = useState({});
-  const [isDinner, setIsDinner] = useState(false);
+  // const [isDinner, setIsDinner] = useState(false);
+  // const [maxDateTime, setMaxDateTime] = useState();
+  // const [now, setNow] = useState();
   const {
     name,
     description,
@@ -26,9 +28,9 @@ const SingleRestaurantView = () => {
   } = dummyRestaurant;
   const navigator = useNavigate();
 
-  const handleClick = (prev) => {
-    setIsDinner(!prev);
-  };
+  // const handleClick = (prev) => {
+  //   setIsDinner(!prev);
+  // };
 
   useEffect(() => {
     setIsLoading(true);
@@ -37,6 +39,11 @@ const SingleRestaurantView = () => {
       (op) => op.lunch.start !== "-1" && op.dinner.start !== "-1"
     )[0];
     // console.log(res);
+
+    // const nowDate = new Date();
+    // setNow(nowDate);
+
+    // console.log(now);
 
     setAvgOpening(res);
 
@@ -49,12 +56,19 @@ const SingleRestaurantView = () => {
         <div className="container mx-auto px-3 min-h-screen">
           <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 items-center justify-center gap-10">
             <div className="flex flex-col lg:flex-row items-center gap-3 py-5 col-span-1 md:col-span-2">
-              <div className="h-36 aspect-square rounded-full overflow-hidden ring ring-secondary">
-                <img
+              <div
+                className="min-w-36 aspect-square rounded-full overflow-hidden ring ring-secondary"
+                style={{
+                  backgroundImage: `url(${profile_img.src})`,
+                  backgroundPosition: `center`,
+                  backgroundSize: `cover`,
+                }}
+              >
+                {/* <img
                   src={profile_img.src}
                   alt={profile_img.alt}
                   className="object-cover h-full object-center"
-                />
+                /> */}
               </div>
               <div className="flex flex-col-reverse md:flex-row items-end md:items-start justify-between gap-5 w-full">
                 <div className="flex flex-col items-end md:items-start justify-start gap-5 md:gap-1 w-full">
@@ -129,7 +143,7 @@ const SingleRestaurantView = () => {
               );
             })}
           </section>
-          <section className="grid grid-flow-row grid-cols-1 lg:grid-cols-3 items-start justify-center gap-10 py-10">
+          <section className="grid grid-flow-row grid-cols-1 lg:grid-cols-3 items-center justify-center gap-10 py-10">
             <div className="col-span-1 lg:col-span-1">
               <h2 className="text-3xl font-bold pb-5 text-center font-special text-primary">
                 Openings
@@ -165,7 +179,7 @@ const SingleRestaurantView = () => {
                 </tbody>
               </table>
             </div>
-            <form className="col-span-1 lg:col-span-2 bg-secondary text-light shadow-lg rounded-3xl p-5 md:p-10 ">
+            <form className="col-span-1 lg:col-span-2 bg-secondary text-light shadow-lg rounded-3xl p-5 md:p-10 h-max">
               {/* TODO form per la prenotazione */}
               <div className="flex flex-col md:flex-row items-center md:items-start justify-between mb-5 md:mb-0">
                 <h2 className="font-special font-light text-3xl mb-5">
@@ -197,34 +211,34 @@ const SingleRestaurantView = () => {
                   />
                 </div>
                 <div className="flex flex-col items-start justify-start h-full gap-1">
-                  <label htmlFor="reservation_hour">When</label>
+                  <label htmlFor="reservation_date">When</label>
                   <div className="flex item-end gap-2 w-full">
-                    {!isDinner ? (
-                      <input
-                        type="time"
-                        id="reservation_hour"
-                        min={avgOpening.lunch.start}
+                    {/* {!isDinner ? ( */}
+                    <input
+                      type="datetime-local"
+                      id="reservation_date"
+                      // min={`T${avgOpening.lunch.start}`}
+                      step={1800}
+                      max={`T${avgOpening.lunch.end}`}
+                      className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                    />
+                    {/* ) : ( */}
+                    {/* <input
+                        type="datetime-local"
+                        id="reservation_date"
+                        min={`T${avgOpening.dinner.start}`}
                         step={1800}
-                        max={avgOpening.lunch.end}
+                        max={`T${avgOpening.dinner.end}`}
                         className="bg-light px-5 py-2 rounded-lg text-dark w-full"
-                      />
-                    ) : (
-                      <input
-                        type="time"
-                        id="reservation_hour"
-                        min={avgOpening.dinner.start}
-                        step={1800}
-                        max={avgOpening.dinner.end}
-                        className="bg-light px-5 py-2 rounded-lg text-dark w-full"
-                      />
-                    )}
+                      /> */}
+                    {/* )}
                     <button
                       type="button"
                       className="bg-accent px-5 rounded-lg"
                       onClick={() => handleClick(isDinner)}
                     >
                       {!isDinner ? "Lunch" : "Dinner"}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 <div className="flex flex-col items-start justify-start h-full gap-1">
@@ -272,7 +286,7 @@ const SingleRestaurantView = () => {
                   <img
                     src={pic.src}
                     alt={pic.alt}
-                    className=""
+                    className="my-5"
                   />
                   <div className="flex items-center justify-center">
                     <p className="text-center font-bold text-xl leading-10 italic max-w-[600px]">

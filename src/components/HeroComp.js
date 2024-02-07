@@ -21,15 +21,24 @@ const HeroComp = () => {
       </picture>
       <div className="z-10 relative w-full backdrop-blur-sm">
         <div className="container flex-col gap-5 flex items-center justify-center min-h-[50vh] md:min-h-[95vh] mx-auto">
-          <h1 className="text-4xl md:text-5xl font-semibold text-light drop-shadow-lg">
+          <h1 className="text-4xl md:text-5xl font-semibold text-light drop-shadow-lg text-center">
             Welcome to
             <span className="bg-logo-gradient bg-clip-text text-transparent font-special ms-3">
               Bistroo's
             </span>
           </h1>
-          <p className="font-semibold text-light">
+          <p className="font-semibold text-light text-center">
             Find Your Table for Any Occasion – Reserve in Seconds!
           </p>
+          <div className="w-full flex items-center justify-center mt-5">
+            <button
+              type="button"
+              onClick={() => navigator("/restaurants")}
+              className="bg-accent px-5 py-2 rounded-lg text-light shadow-lg"
+            >
+              Your next experience is here
+            </button>
+          </div>
         </div>
       </div>
     </section>

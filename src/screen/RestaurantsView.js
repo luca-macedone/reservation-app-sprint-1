@@ -29,16 +29,16 @@ const RestaurantsView = () => {
             />
           </picture>
           <div className="z-10 relative w-full backdrop-blur-sm p-5">
-            <h1 className="text-2xl py-5 font-bold text-secondary">
-              Seach your next
-              <span className="font-special font-light capitalize ms-3 text-3xl">
-                Experience
-              </span>
-            </h1>
             <form
               action=""
-              className="bg-secondary text-light p-5 rounded-xl shadow-lg w-full grid grid-flow-row items-end gap-3 grid-cols-1 md:grid-cols-3"
+              className="bg-secondary text-light p-5 rounded-xl shadow-lg w-full grid grid-flow-row items-end gap-3 mt-[100px] grid-cols-1 md:grid-cols-3"
             >
+              <h1 className="text-2xl font-bold text-light drop-shadow-lg col-span-1 md:col-span-3">
+                Seach your next
+                <span className="font-special font-light capitalize ms-3 text-3xl">
+                  Experience
+                </span>
+              </h1>
               <div className="flex flex-col items-start gap-1">
                 {/* TODO change the input to a select of options, maybe with multiple selection */}
                 <label htmlFor="food-type">Food type</label>
