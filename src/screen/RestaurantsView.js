@@ -63,13 +63,15 @@ const RestaurantsView = () => {
   }, []);
 
   const handleTypeFilter = (evt) => {
+    setSelectedTypeValue(evt.target.value);
+  };
+
+  const filterResults = () => {
     setIsLoading(true);
 
-    setSelectedTypeValue(evt.target.value);
-
-    if (evt.target.value !== "all") {
+    if (selectedTypeValue !== "all") {
       const data = restaurants.filter((elem) =>
-        elem.type.includes(evt.target.value)
+        elem.type.includes(selectedTypeValue)
       );
       setFilteredRestaurants(data);
     } else {
@@ -185,6 +187,11 @@ const RestaurantsView = () => {
                 <button
                   type="submit"
                   className="bg-accent px-8 py-2 rounded-lg flex items-center gap-3 col-span-1 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    filterResults();
+                  }}
                 >
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                   Search
