@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from "react";
 
-import dummyRestaurant from "../data/dummy";
-import { useNavigate } from "react-router-dom";
+// import dummyRestaurant from "../data/dummy";
+import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const SingleRestaurantView = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [avgOpening, setAvgOpening] = useState({});
+  // const [avgOpening, setAvgOpening] = useState({});
   // const [isDinner, setIsDinner] = useState(false);
   // const [maxDateTime, setMaxDateTime] = useState();
   // const [now, setNow] = useState();
-  const {
-    name,
-    description,
-    type,
-    address,
-    city,
-    country,
-    max_seats,
-    free_seats,
-    profile_img,
-    about_img,
-    gallery,
-    openings,
-    menu,
-  } = dummyRestaurant;
+  const { id } = useParams();
+
+  const [restaurant, setRestaurant] = useState({
+    data: {},
+    gallery: [],
+    menu: [],
+  });
   const navigator = useNavigate();
 
   // const handleClick = (prev) => {
@@ -33,22 +26,43 @@ const SingleRestaurantView = () => {
   // };
 
   useEffect(() => {
+    const fetchRestaurant = async () => {
+      try {
+        const [res1, res2, res3] = await Promise.all([
+          axios.get(
+            `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${id}`
+          ),
+          axios.get(
+            `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${id}/gallery`
+          ),
+          axios.get(
+            `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${id}/Menu`
+          ),
+        ]);
+
+        // console.log(res1.data, res2.data, res3.data);
+        setRestaurant({
+          data: { ...res1.data },
+          gallery: [...res2.data],
+          menu: [...res3.data],
+        });
+
+        // let res = res1.data.openings.filter(
+        //   (op) => op.lunch.start !== "-1" && op.dinner.start !== "-1"
+        // )[0];
+
+        // setAvgOpening(res);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    // console.log(id);
     setIsLoading(true);
 
-    let res = openings.filter(
-      (op) => op.lunch.start !== "-1" && op.dinner.start !== "-1"
-    )[0];
-    // console.log(res);
-
-    // const nowDate = new Date();
-    // setNow(nowDate);
-
-    // console.log(now);
-
-    setAvgOpening(res);
-
-    setIsLoading(false);
-  }, [openings]);
+    fetchRestaurant();
+  }, []);
 
   return (
     <>
@@ -59,27 +73,25 @@ const SingleRestaurantView = () => {
               <div
                 className="min-w-36 aspect-square rounded-full overflow-hidden ring ring-secondary"
                 style={{
-                  backgroundImage: `url(${profile_img.src})`,
+                  backgroundImage: `url(${restaurant.data.profile_img.src})`,
                   backgroundPosition: `center`,
                   backgroundSize: `cover`,
                 }}
-              >
-                {/* <img
-                  src={profile_img.src}
-                  alt={profile_img.alt}
-                  className="object-cover h-full object-center"
-                /> */}
-              </div>
+              ></div>
               <div className="flex flex-col-reverse md:flex-row items-end md:items-start justify-between gap-5 w-full">
                 <div className="flex flex-col items-end md:items-start justify-start gap-5 md:gap-1 w-full">
                   <h1 className="text-4xl font-bold border-b-2 border-secondary px-3 w-full md:w-max text-end md:text-start">
-                    {name}
+                    {restaurant.data.name}
                   </h1>
                   <div className="px-3 py-2 text-end md:text-start">
-                    {address + ", " + city + ", " + country}
+                    {restaurant.data.address +
+                      ", " +
+                      restaurant.data.city +
+                      ", " +
+                      restaurant.data.country}
                   </div>
                   <div className="flex items-start justify-end md:justify-start gap-3 flex-wrap p-3">
-                    {type.map((type, index) => {
+                    {restaurant.data.type.map((type, index) => {
                       return (
                         <span
                           key={index}
@@ -102,8 +114,8 @@ const SingleRestaurantView = () => {
             </div>
             <div className="w-full overflow-hidden rounded-3xl shadow-lg">
               <img
-                src={about_img.src}
-                alt={about_img.alt}
+                src={restaurant.data.about_img.src}
+                alt={restaurant.data.about_img.alt}
                 className="object-cover h-full w-full"
               />
             </div>
@@ -112,7 +124,9 @@ const SingleRestaurantView = () => {
                 About us
               </h2>
               <p
-                dangerouslySetInnerHTML={{ __html: description }}
+                dangerouslySetInnerHTML={{
+                  __html: restaurant.data.description,
+                }}
                 className=" text-justify leading-7 text-xl"
               />
             </div>
@@ -123,7 +137,7 @@ const SingleRestaurantView = () => {
                 Menu
               </h2>
             </div>
-            {menu.map((dish, index) => {
+            {restaurant.menu.map((dish, index) => {
               return (
                 <div
                   key={index}
@@ -157,7 +171,7 @@ const SingleRestaurantView = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {openings.map((day, index) => {
+                  {restaurant.data.openings.map((day, index) => {
                     return (
                       <tr key={index}>
                         <td className="text-start ps-5 pe-10 py-2 border-e-2 border-secondary">
@@ -186,7 +200,9 @@ const SingleRestaurantView = () => {
                   Reserve your table
                 </h2>
                 <span className="bg-accent text-light px-8 py-2 rounded-lg">
-                  {free_seats < max_seats ? "Reservations avalable" : "Full"}
+                  {restaurant.data.free_seats < restaurant.data.max_seats
+                    ? "Reservations avalable"
+                    : "Full"}
                 </span>
               </div>
               <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 justify-center items-center">
@@ -206,7 +222,7 @@ const SingleRestaurantView = () => {
                     min={1}
                     step={1}
                     defaultValue={1}
-                    max={max_seats}
+                    max={restaurant.data.max_seats}
                     className="bg-light px-5 py-2 rounded-lg text-dark w-full"
                   />
                 </div>
@@ -219,7 +235,7 @@ const SingleRestaurantView = () => {
                       id="reservation_date"
                       // min={`T${avgOpening.lunch.start}`}
                       step={1800}
-                      max={`T${avgOpening.lunch.end}`}
+                      // max={`T${restaurant.data.avgOpening.lunch.end}`}
                       className="bg-light px-5 py-2 rounded-lg text-dark w-full"
                     />
                     {/* ) : ( */}
@@ -273,7 +289,7 @@ const SingleRestaurantView = () => {
                 Gallery
               </h2>
             </div>
-            {gallery.map((pic, index) => {
+            {restaurant.gallery.map((pic, index) => {
               return (
                 <div
                   key={index}
