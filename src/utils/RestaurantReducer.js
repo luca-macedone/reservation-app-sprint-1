@@ -20,15 +20,19 @@ export default async function restaurantReducer(state, action) {
     //   };
     // }
 
-    case "FETCH_ALL": {
-      let res = [];
-      await axios
-        .get("https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant")
-        .then((response) => {
-          res = response.data;
-        })
-        .catch((err) => console.error(err));
-      return res;
+    // case "FETCH_ALL": {
+    //   let res = [];
+    //   await axios
+    //     .get("https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant")
+    //     .then((response) => {
+    //       res = response.data;
+    //     })
+    //     .catch((err) => console.error(err));
+    //   return res;
+    // }
+
+    case "FILTER_BY_TYPE": {
+      return;
     }
 
     case "FETCH_ONE": {

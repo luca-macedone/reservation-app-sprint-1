@@ -3,43 +3,73 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import RestaurantCardComp from "../components/RestaurantCardComp";
 import axios from "axios";
-import dummyRestaurant from "../data/dummy";
+import restaurantReducer from "../utils/RestaurantReducer";
+// import dummyRestaurant from "../data/dummy";
 
 const RestaurantsView = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const fetchRestaurants = async () => {
-    let res = [];
-    let url = new URL(
-      "https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant"
-    );
-    url.searchParams.append("limit", 5);
-
-    await axios
-      .get(url)
-      .then((response) => {
-        res = response.data;
-      })
-      .catch((err) => console.error(err))
-      .finally(() => {
-        setRestaurants(res);
-        setIsLoading(false);
-      });
-
-    // console.log(res);
-
-    // console.log(restaurants);
-  };
+  const [isLoadingTypes, setIsLoadingTypes] = useState(true);
+  const [types, setTypes] = useState([]);
+  const [selectedTypeValue, setSelectedTypeValue] = useState("all");
+  const [state, dispatch] = useReducer(restaurantReducer, restaurants);
 
   useEffect(() => {
+    console.log(state);
+    const fetchRestaurants = async () => {
+      let url = new URL(
+        "https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant"
+      );
+      let res;
+      await axios
+        .get(url)
+        .then((response) => {
+          setRestaurants(response.data);
+          res = response.data;
+          res = response.data;
+        })
+        .catch((err) => console.error(err))
+        .finally(() => {
+          setIsLoading(false);
+        });
+      // console.log(res);
+      return res;
+    };
+
+    const fetchTypes = (fetchedRestaurants) => {
+      // console.log(fetchedRestaurants);
+      let result = [];
+      result = fetchedRestaurants.flatMap((res) => res.type);
+      // console.log(result);
+
+      const filteredResult = [...new Set(result)];
+      setTypes(filteredResult);
+      setIsLoadingTypes(false);
+      // console.log(result);
+      // console.log(filteredResult);
+    };
+
+    setTypes([]);
     setIsLoading(true);
-    fetchRestaurants();
+    setIsLoadingTypes(true);
+    fetchRestaurants().then((response) => {
+      if (response.length > 0) {
+        fetchTypes(response);
+      }
+    });
+
     // console.log(restaurants);
+    // console.log(types);
   }, []);
+
+  const handleTypeFilter = (evt) => {
+    setSelectedTypeValue(evt.target.value);
+    console.log(evt.target.value);
+    dispatch("FILTER_BY_TYPE", { payload: evt.target.type });
+  };
 
   return (
     <>
@@ -48,7 +78,7 @@ const RestaurantsView = () => {
           <picture>
             <img
               sizes="(max-width: 1125px) 100vw, 1125px"
-              srcset="
+              srcSet="
                 /images/search-bg/pexels-photo-1850600_mucwjd_c_scale,w_200.jpg 200w,
                 /images/search-bg/pexels-photo-1850600_mucwjd_c_scale,w_542.jpg 542w,
                 /images/search-bg/pexels-photo-1850600_mucwjd_c_scale,w_787.jpg 787w,
@@ -74,11 +104,34 @@ const RestaurantsView = () => {
               <div className="flex flex-col items-start gap-1">
                 {/* TODO change the input to a select of options, maybe with multiple selection */}
                 <label htmlFor="food-type">Food type</label>
-                <input
-                  type="text"
-                  id="food-type"
-                  className="bg-light px-5 py-2 rounded-lg text-dark w-full"
-                />
+
+                {!isLoadingTypes ? (
+                  <select
+                    id="food-type"
+                    className="bg-light px-5 py-2.5 rounded-lg text-dark w-full"
+                    onChange={handleTypeFilter}
+                    value={selectedTypeValue}
+                  >
+                    <option value="all">All</option>
+                    {types.map((t, i) => {
+                      return (
+                        <option
+                          key={i}
+                          value={t}
+                        >
+                          {t}
+                        </option>
+                      );
+                    })}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    id="food-type"
+                    className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                    disabled
+                  />
+                )}
               </div>
               <div className="flex flex-col items-start gap-1">
                 <label htmlFor="where">Where</label>
@@ -141,19 +194,20 @@ const RestaurantsView = () => {
             </span>{" "}
             Result
           </h2>
+          {/* TODO list of restaurants */}
+          {/* <RestaurantCardComp
+          id={dummyRestaurant.id}
+          type={dummyRestaurant.type}
+          name={dummyRestaurant.name}
+          src={dummyRestaurant.profile_img.src}
+          alt={dummyRestaurant.profile_img.alt}
+        /> */}
           {!isLoading && (
             <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5">
-              {/* TODO list of restaurants */}
-              {/* <RestaurantCardComp
-              id={dummyRestaurant.id}
-              type={dummyRestaurant.type}
-              name={dummyRestaurant.name}
-              src={dummyRestaurant.profile_img.src}
-              alt={dummyRestaurant.profile_img.alt}
-            /> */}
               {restaurants.map((res) => {
                 return (
                   <RestaurantCardComp
+                    key={res.id}
                     id={res.id}
                     src={res.profile_img.src}
                     alt={res.profile_img.alt}

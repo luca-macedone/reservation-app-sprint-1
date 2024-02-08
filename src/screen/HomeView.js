@@ -156,7 +156,7 @@ const HomeView = () => {
               Our suggestions for you
             </h2>
           </div>
-          <div className="flex flex-col items-center px-3 gap-5">
+          <div className="flex flex-col items-center px-3 gap-10">
             {restaurants.map((res) => {
               return (
                 <div
