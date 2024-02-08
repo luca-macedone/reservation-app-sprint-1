@@ -3,12 +3,44 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import RestaurantCardComp from "../components/RestaurantCardComp";
-
+import axios from "axios";
 import dummyRestaurant from "../data/dummy";
 
 const RestaurantsView = () => {
+  const [restaurants, setRestaurants] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchRestaurants = async () => {
+    let res = [];
+    let url = new URL(
+      "https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant"
+    );
+    url.searchParams.append("limit", 5);
+
+    await axios
+      .get(url)
+      .then((response) => {
+        res = response.data;
+      })
+      .catch((err) => console.error(err))
+      .finally(() => {
+        setRestaurants(res);
+        setIsLoading(false);
+      });
+
+    // console.log(res);
+
+    // console.log(restaurants);
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchRestaurants();
+    // console.log(restaurants);
+  }, []);
+
   return (
     <>
       <div className="container mx-auto py-5 min-h-screen px-3">
@@ -104,18 +136,34 @@ const RestaurantsView = () => {
         </section>
         <section>
           <h2 className="text-xl font-semibold mt-6 border-b-2 border-primary">
-            <span className="font-special text-4xl p-2">1</span> Result
+            <span className="font-special text-4xl p-2">
+              {restaurants.length}
+            </span>{" "}
+            Result
           </h2>
-          <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5">
-            {/* TODO list of restaurants */}
-            <RestaurantCardComp
+          {!isLoading && (
+            <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5">
+              {/* TODO list of restaurants */}
+              {/* <RestaurantCardComp
               id={dummyRestaurant.id}
               type={dummyRestaurant.type}
               name={dummyRestaurant.name}
               src={dummyRestaurant.profile_img.src}
               alt={dummyRestaurant.profile_img.alt}
-            />
-          </div>
+            /> */}
+              {restaurants.map((res) => {
+                return (
+                  <RestaurantCardComp
+                    id={res.id}
+                    src={res.profile_img.src}
+                    alt={res.profile_img.alt}
+                    name={res.name}
+                    type={res.type}
+                  />
+                );
+              })}
+            </div>
+          )}
         </section>
       </div>
     </>

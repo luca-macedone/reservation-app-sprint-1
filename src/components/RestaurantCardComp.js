@@ -7,7 +7,7 @@ const RestaurantCardComp = ({ id, src, alt, name, type }) => {
   return (
     <Link
       to={`/restaurants/${id}`}
-      className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary hover:scale-105 transition-transform ease-in-out duration-200"
+      className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary hover:scale-105 transition-transform ease-in-out duration-200 w-full"
       key={id}
     >
       <div
@@ -26,7 +26,7 @@ const RestaurantCardComp = ({ id, src, alt, name, type }) => {
       </div>
       <div className=" flex items-center justify-between gap-4 w-full">
         <div className="w-full">
-          <h3 className="font-semibold border-b-2 border-secondary w-max">
+          <h3 className="font-semibold border-b-2 border-secondary w-max text-wrap">
             {name}
           </h3>
           <div className="text-xs flex items-start flex-wrap gap-2 py-2">

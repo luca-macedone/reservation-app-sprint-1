@@ -1,11 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HeroComp from "../components/HeroComp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMap, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMap,
+  faPenToSquare,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import RestaurantCardComp from "../components/RestaurantCardComp";
 
 const HomeView = () => {
   const navigator = useNavigate();
+  const [restaurants, setRestaurants] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchRestaurants = async () => {
+    let res = [];
+    let url = new URL(
+      "https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant"
+    );
+    url.searchParams.append("limit", 5);
+
+    await axios
+      .get(url)
+      .then((response) => {
+        res = response.data;
+      })
+      .catch((err) => console.error(err))
+      .finally(() => {
+        res.length = 5;
+        setRestaurants(res);
+        setIsLoading(false);
+      });
+
+    console.log(res);
+
+    // console.log(restaurants);
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchRestaurants();
+    // console.log(restaurants);
+  }, []);
+
   return (
     <>
       <HeroComp />
@@ -106,6 +145,41 @@ const HomeView = () => {
           </picture>
         </div>
       </section>
+      {!isLoading ? (
+        <section className="container mx-auto px-3 py-10 mt-10">
+          <div className="flex flex-col items-center gap-5 w-full mb-10">
+            <FontAwesomeIcon
+              icon={faStar}
+              className="h-12 text-primary text-center"
+            />
+            <h2 className="text-2xl text-primary font-special">
+              Our suggestions for you
+            </h2>
+          </div>
+          <div className="flex flex-col items-center px-3 gap-5">
+            {restaurants.map((res) => {
+              return (
+                <div
+                  className="md:odd:right-[100px] md:even:left-[100px] relative w-full md:max-w-[800px]"
+                  key={res.id}
+                >
+                  <RestaurantCardComp
+                    id={res.id}
+                    src={res.profile_img.src}
+                    alt={res.profile_img.alt}
+                    name={res.name}
+                    type={res.type}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ) : (
+        <>
+          <h2>loading</h2>
+        </>
+      )}
     </>
   );
 };
