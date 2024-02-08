@@ -11,14 +11,17 @@ import restaurantReducer from "../utils/RestaurantReducer";
 
 const RestaurantsView = () => {
   const [restaurants, setRestaurants] = useState([]);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const [types, setTypes] = useState([]);
   const [selectedTypeValue, setSelectedTypeValue] = useState("all");
-  const [state, dispatch] = useReducer(restaurantReducer, restaurants);
+  const [state, dispatch] = useReducer(restaurantReducer, {
+    data: [],
+  });
 
   useEffect(() => {
-    console.log(state);
+    setSelectedTypeValue("all");
     const fetchRestaurants = async () => {
       let url = new URL(
         "https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant"
@@ -28,28 +31,25 @@ const RestaurantsView = () => {
         .get(url)
         .then((response) => {
           setRestaurants(response.data);
-          res = response.data;
+          setFilteredRestaurants(response.data);
+          state.data = response.data;
           res = response.data;
         })
         .catch((err) => console.error(err))
         .finally(() => {
           setIsLoading(false);
         });
-      // console.log(res);
+
       return res;
     };
 
     const fetchTypes = (fetchedRestaurants) => {
-      // console.log(fetchedRestaurants);
       let result = [];
       result = fetchedRestaurants.flatMap((res) => res.type);
-      // console.log(result);
 
       const filteredResult = [...new Set(result)];
       setTypes(filteredResult);
       setIsLoadingTypes(false);
-      // console.log(result);
-      // console.log(filteredResult);
     };
 
     setTypes([]);
@@ -60,15 +60,22 @@ const RestaurantsView = () => {
         fetchTypes(response);
       }
     });
-
-    // console.log(restaurants);
-    // console.log(types);
   }, []);
 
   const handleTypeFilter = (evt) => {
+    setIsLoading(true);
+
     setSelectedTypeValue(evt.target.value);
-    console.log(evt.target.value);
-    dispatch("FILTER_BY_TYPE", { payload: evt.target.type });
+
+    if (evt.target.value !== "all") {
+      const data = restaurants.filter((elem) =>
+        elem.type.includes(evt.target.value)
+      );
+      setFilteredRestaurants(data);
+    } else {
+      setFilteredRestaurants(restaurants);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -104,7 +111,6 @@ const RestaurantsView = () => {
               <div className="flex flex-col items-start gap-1">
                 {/* TODO change the input to a select of options, maybe with multiple selection */}
                 <label htmlFor="food-type">Food type</label>
-
                 {!isLoadingTypes ? (
                   <select
                     id="food-type"
@@ -194,28 +200,38 @@ const RestaurantsView = () => {
             </span>{" "}
             Result
           </h2>
-          {/* TODO list of restaurants */}
-          {/* <RestaurantCardComp
-          id={dummyRestaurant.id}
-          type={dummyRestaurant.type}
-          name={dummyRestaurant.name}
-          src={dummyRestaurant.profile_img.src}
-          alt={dummyRestaurant.profile_img.alt}
-        /> */}
           {!isLoading && (
             <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5">
-              {restaurants.map((res) => {
-                return (
-                  <RestaurantCardComp
-                    key={res.id}
-                    id={res.id}
-                    src={res.profile_img.src}
-                    alt={res.profile_img.alt}
-                    name={res.name}
-                    type={res.type}
-                  />
-                );
-              })}
+              {/* {selectedTypeValue !== "all" ? (
+                <small>NOT ALL</small>
+              ) : (
+                <small>ALL</small>
+              )} */}
+              {selectedTypeValue !== "all"
+                ? filteredRestaurants.map((res) => {
+                    return (
+                      <RestaurantCardComp
+                        key={res.id}
+                        id={res.id}
+                        src={res.profile_img.src}
+                        alt={res.profile_img.alt}
+                        name={res.name}
+                        type={res.type}
+                      />
+                    );
+                  })
+                : restaurants.map((res) => {
+                    return (
+                      <RestaurantCardComp
+                        key={res.id}
+                        id={res.id}
+                        src={res.profile_img.src}
+                        alt={res.profile_img.alt}
+                        name={res.name}
+                        type={res.type}
+                      />
+                    );
+                  })}
             </div>
           )}
         </section>
