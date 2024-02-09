@@ -17,6 +17,7 @@ const RestaurantsView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const [types, setTypes] = useState([]);
+  const [filterObj, setFilterObj] = useState(null);
   const [selectedTypeValue, setSelectedTypeValue] = useState("all");
   const [state, dispatch] = useReducer(restaurantReducer, {
     data: [],
@@ -70,6 +71,18 @@ const RestaurantsView = () => {
 
   const handleTypeFilter = (evt) => {
     setSelectedTypeValue(evt.target.value);
+  };
+
+  const handleChange = (evt) => {
+    console.log(evt.target);
+    switch (evt.target.name) {
+      case "where":
+        if (evt.target.value.length > 2)
+          setFilterObj({ ...filterObj, where: evt.target.value });
+        break;
+      default:
+        return;
+    }
   };
 
   const filterResults = () => {
@@ -162,7 +175,9 @@ const RestaurantsView = () => {
                 <input
                   type="text"
                   id="where"
+                  name="where"
                   className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex flex-col items-start gap-1">
