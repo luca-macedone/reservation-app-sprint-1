@@ -78,7 +78,10 @@ const RestaurantsView = () => {
     switch (evt.target.name) {
       case "where":
         if (evt.target.value.length > 2)
-          setFilterObj({ ...filterObj, where: evt.target.value });
+          setFilterObj({
+            ...filterObj,
+            city: evt.target.value,
+          });
         break;
       default:
         return;
@@ -88,14 +91,21 @@ const RestaurantsView = () => {
   const filterResults = () => {
     setIsLoading(true);
 
-    if (selectedTypeValue !== "all") {
-      const data = restaurants.filter((elem) =>
-        elem.type.includes(selectedTypeValue)
+    // if (selectedTypeValue !== "all") {
+    //   const data = restaurants.filter((elem) =>
+    //     elem.type.includes(selectedTypeValue)
+    //   );
+    //   setFilteredRestaurants(data);
+    // } else {
+    //   setFilteredRestaurants(restaurants);
+    // }
+    console.log(filterObj);
+    const result = filteredRestaurants.filter((restaurant) => {
+      return Object.keys(filterObj).every(
+        (key) => restaurant[key] === filterObj[key]
       );
-      setFilteredRestaurants(data);
-    } else {
-      setFilteredRestaurants(restaurants);
-    }
+    });
+    console.log(result);
     setIsLoading(false);
   };
 
