@@ -55,6 +55,7 @@ const SingleRestaurantView = () => {
         // setAvgOpening(res);
       } catch (err) {
         console.error(err);
+        navigator("/error");
       } finally {
         setIsLoading(false);
       }
