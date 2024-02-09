@@ -11,7 +11,7 @@ const HeroComp = () => {
       <picture>
         <img
           sizes="(max-width: 1260px) 100vw, 1260px"
-          srcset="
+          srcSet="
         /images/hero-bg/hero-background_vpvx2l_c_scale,w_200.webp 200w,
         /images/hero-bg/hero-background_vpvx2l_c_scale,w_677.webp 677w,
         /images/hero-bg/hero-background_vpvx2l_c_scale,w_944.webp 944w,

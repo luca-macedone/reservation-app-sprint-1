@@ -168,19 +168,19 @@ const RestaurantsView = () => {
               <div className="flex flex-col items-start gap-1">
                 <label htmlFor="day-filter">When</label>
                 <input
-                  type="date"
+                  type="datetime-local"
                   id="day-filter"
                   className="bg-light px-5 py-2 rounded-lg text-dark w-full"
                 />
               </div>
-              <div className="flex flex-col items-start gap-1">
+              {/* <div className="flex flex-col items-start gap-1">
                 <label htmlFor="hour-filter">Hour</label>
                 <input
                   type="time"
                   id="hour-filter"
                   className="bg-light px-5 py-2 rounded-lg text-dark w-full"
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col items-start gap-1">
                 <label htmlFor="seats-filter">Seats</label>
                 <input
@@ -192,7 +192,7 @@ const RestaurantsView = () => {
                   defaultValue={1}
                 />
               </div>
-              <div className="flex items-center justify-end gap-3">
+              <div className="flex items-center justify-end gap-3 col-span-1 md:col-span-2">
                 <button
                   type="reset"
                   className="bg-light text-dark px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"

@@ -81,7 +81,7 @@ const HomeView = () => {
           <picture>
             <img
               sizes="(max-width: 500px) 100vw, 500px"
-              srcset="
+              srcSet="
             /images/food-example/food-example_z0l0l6_c_scale,w_200.webp 200w,
             /images/food-example/food-example_z0l0l6_c_scale,w_492.webp 492w,
             /images/food-example/food-example_z0l0l6_c_scale,w_500.webp 500w"
@@ -126,7 +126,7 @@ const HomeView = () => {
           <picture>
             <img
               sizes="(max-width: 1400px) 100vw, 1400px"
-              srcset="
+              srcSet="
             /images/tables/tables_u77kfd_c_scale,w_200.jpg 200w,
             /images/tables/tables_u77kfd_c_scale,w_352.jpg 352w,
             /images/tables/tables_u77kfd_c_scale,w_470.jpg 470w,

@@ -14,7 +14,7 @@ const ErrorView = () => {
       <picture>
         <img
           sizes="(max-width: 1125px) 100vw, 1125px"
-          srcset="
+          srcSet="
       /images/notfound/notfound_lramd6_c_scale,w_200.webp 200w,
       /images/notfound/notfound_lramd6_c_scale,w_623.webp 623w,
       /images/notfound/notfound_lramd6_c_scale,w_1083.webp 1083w,
