@@ -30,8 +30,10 @@ const HomeView = () => {
       })
       .catch((err) => console.error(err))
       .finally(() => {
-        res.length = 5;
-        setRestaurants(res);
+        if (res.length > 0) {
+          res.length = 5;
+          setRestaurants(res);
+        }
         setIsLoading(false);
       });
 
@@ -146,39 +148,45 @@ const HomeView = () => {
           </picture>
         </div>
       </section>
-      {!isLoading ? (
-        <section className="container mx-auto px-3 py-10 mt-10">
-          <div className="flex flex-col items-center gap-5 w-full mb-10">
-            <FontAwesomeIcon
-              icon={faStar}
-              className="h-12 text-primary text-center"
-            />
-            <h2 className="text-2xl text-primary font-special">
-              Our suggestions for you
-            </h2>
-          </div>
+      <section className="container mx-auto px-3 py-10 mt-10">
+        <div className="flex flex-col items-center gap-5 w-full mb-10">
+          <FontAwesomeIcon
+            icon={faStar}
+            className="h-12 text-primary text-center"
+          />
+          <h2 className="text-2xl text-primary font-special">
+            Our suggestions for you
+          </h2>
+        </div>
+        {!isLoading ? (
           <div className="flex flex-col items-center px-3 gap-10">
-            {restaurants.map((res) => {
-              return (
-                <div
-                  className="md:odd:right-[100px] md:even:left-[100px] relative w-full md:max-w-[800px]"
-                  key={res.id}
-                >
-                  <RestaurantCardComp
-                    id={res.id}
-                    src={res.profile_img.src}
-                    alt={res.profile_img.alt}
-                    name={res.name}
-                    type={res.type}
-                  />
-                </div>
-              );
-            })}
+            {restaurants.length > 0 ? (
+              restaurants.map((res) => {
+                return (
+                  <div
+                    className="md:odd:right-[100px] md:even:left-[100px] relative w-full md:max-w-[800px]"
+                    key={res.id}
+                  >
+                    <RestaurantCardComp
+                      id={res.id}
+                      src={res.profile_img.src}
+                      alt={res.profile_img.alt}
+                      name={res.name}
+                      type={res.type}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <h2 className="text-dark font-semibold text-center">
+                No restaurants here yet! <br /> Stay tuned..
+              </h2>
+            )}
           </div>
-        </section>
-      ) : (
-        <LoadingComp />
-      )}
+        ) : (
+          <LoadingComp />
+        )}
+      </section>
     </>
   );
 };
