@@ -13,3 +13,8 @@ body {
   height: 100% !important;
   overflow: hidden;
 }
+
+.restaurant-card:hover .restaurant-card-icon {
+  color: theme("colors.accent");
+  opacity: 50%;
+}

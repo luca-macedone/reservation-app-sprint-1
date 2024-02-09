@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import LoadingComp from "../components/LoadingComp";
 
 const SingleRestaurantView = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -66,7 +67,7 @@ const SingleRestaurantView = () => {
 
   return (
     <>
-      {!isLoading && (
+      {!isLoading ? (
         <div className="container mx-auto px-3 min-h-screen">
           <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 items-center justify-center gap-10">
             <div className="flex flex-col lg:flex-row items-center gap-3 py-5 col-span-1 md:col-span-2">
@@ -322,6 +323,8 @@ const SingleRestaurantView = () => {
             })}
           </section>
         </div>
+      ) : (
+        <LoadingComp />
       )}
     </>
   );

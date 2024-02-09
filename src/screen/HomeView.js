@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import RestaurantCardComp from "../components/RestaurantCardComp";
+import LoadingComp from "../components/LoadingComp";
 
 const HomeView = () => {
   const navigator = useNavigate();
@@ -176,9 +177,7 @@ const HomeView = () => {
           </div>
         </section>
       ) : (
-        <>
-          <h2>loading</h2>
-        </>
+        <LoadingComp />
       )}
     </>
   );

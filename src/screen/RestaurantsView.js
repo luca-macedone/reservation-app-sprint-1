@@ -1,12 +1,14 @@
 import {
   faArrowRotateLeft,
   faMagnifyingGlass,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useReducer, useState } from "react";
 import RestaurantCardComp from "../components/RestaurantCardComp";
 import axios from "axios";
 import restaurantReducer from "../utils/RestaurantReducer";
+import LoadingComp from "../components/LoadingComp";
 // import dummyRestaurant from "../data/dummy";
 
 const RestaurantsView = () => {
@@ -133,12 +135,20 @@ const RestaurantsView = () => {
                     })}
                   </select>
                 ) : (
-                  <input
-                    type="text"
-                    id="food-type"
-                    className="bg-light px-5 py-2 rounded-lg text-dark w-full"
-                    disabled
-                  />
+                  <div className="relative w-full">
+                    <input
+                      type="text"
+                      id="food-type"
+                      className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                      disabled
+                    />
+                    <span className="absolute top-2.5 right-2 z-10">
+                      <FontAwesomeIcon
+                        icon={faSpinner}
+                        className="animate-spin text-dark text-xl"
+                      />
+                    </span>
+                  </div>
                 )}
               </div>
               <div className="flex flex-col items-start gap-1">
@@ -207,7 +217,7 @@ const RestaurantsView = () => {
             </span>{" "}
             Result
           </h2>
-          {!isLoading && (
+          {!isLoading ? (
             <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5">
               {/* {selectedTypeValue !== "all" ? (
                 <small>NOT ALL</small>
@@ -240,6 +250,8 @@ const RestaurantsView = () => {
                     );
                   })}
             </div>
+          ) : (
+            <LoadingComp />
           )}
         </section>
       </div>
