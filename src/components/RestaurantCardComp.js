@@ -45,7 +45,7 @@ const RestaurantCardComp = ({ id, src, alt, name, type }) => {
         <div className="text-accent text-opacity-20 flex items-center justify-center h-full absolute z-0 right-4 top-0">
           <FontAwesomeIcon
             icon={faPenToSquare}
-            className="text-6xl rotate-[-20deg] restaurant-card-icon transition-colors ease-in-out duration-200"
+            className="text-5xl rotate-[-20deg] restaurant-card-icon transition-colors ease-in-out duration-200"
           />
         </div>
       </div>

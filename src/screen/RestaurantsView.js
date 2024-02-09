@@ -32,10 +32,13 @@ const RestaurantsView = () => {
       await axios
         .get(url)
         .then((response) => {
-          setRestaurants(response.data);
-          setFilteredRestaurants(response.data);
-          state.data = response.data;
-          res = response.data;
+          console.log(response);
+          if (response.data) {
+            setRestaurants(response.data);
+            setFilteredRestaurants(response.data);
+            state.data = response.data;
+            res = response.data;
+          }
         })
         .catch((err) => console.error(err))
         .finally(() => {
@@ -142,12 +145,14 @@ const RestaurantsView = () => {
                       className="bg-light px-5 py-2 rounded-lg text-dark w-full"
                       disabled
                     />
-                    <span className="absolute top-2.5 right-2 z-10">
-                      <FontAwesomeIcon
-                        icon={faSpinner}
-                        className="animate-spin text-dark text-xl"
-                      />
-                    </span>
+                    {isLoading && (
+                      <span className="absolute top-2.5 right-2 z-10">
+                        <FontAwesomeIcon
+                          icon={faSpinner}
+                          className="animate-spin text-dark text-xl"
+                        />
+                      </span>
+                    )}
                   </div>
                 )}
               </div>
@@ -224,31 +229,50 @@ const RestaurantsView = () => {
               ) : (
                 <small>ALL</small>
               )} */}
-              {selectedTypeValue !== "all"
-                ? filteredRestaurants.map((res) => {
-                    return (
-                      <RestaurantCardComp
-                        key={res.id}
-                        id={res.id}
-                        src={res.profile_img.src}
-                        alt={res.profile_img.alt}
-                        name={res.name}
-                        type={res.type}
-                      />
-                    );
-                  })
-                : restaurants.map((res) => {
-                    return (
-                      <RestaurantCardComp
-                        key={res.id}
-                        id={res.id}
-                        src={res.profile_img.src}
-                        alt={res.profile_img.alt}
-                        name={res.name}
-                        type={res.type}
-                      />
-                    );
-                  })}
+              {selectedTypeValue !== "all" ? (
+                <>
+                  {filteredRestaurants.lenght > 0 ? (
+                    filteredRestaurants.map((res) => {
+                      return (
+                        <RestaurantCardComp
+                          key={res.id}
+                          id={res.id}
+                          src={res.profile_img.src}
+                          alt={res.profile_img.alt}
+                          name={res.name}
+                          type={res.type}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h2 className="text-dark font-semibold text-center col-span-1 md:col-span-2 lg:col-span-3 py-10">
+                      No restaurants here yet! <br /> Stay tuned..
+                    </h2>
+                  )}
+                </>
+              ) : (
+                <>
+                  {" "}
+                  {restaurants.length > 0 ? (
+                    restaurants.map((res) => {
+                      return (
+                        <RestaurantCardComp
+                          key={res.id}
+                          id={res.id}
+                          src={res.profile_img.src}
+                          alt={res.profile_img.alt}
+                          name={res.name}
+                          type={res.type}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h2 className="text-dark font-semibold text-center col-span-1 md:col-span-2 lg:col-span-3 py-10">
+                      No restaurants here yet! <br /> Stay tuned..
+                    </h2>
+                  )}
+                </>
+              )}
             </div>
           ) : (
             <LoadingComp />
