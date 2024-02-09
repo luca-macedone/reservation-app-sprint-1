@@ -219,7 +219,7 @@ const RestaurantsView = () => {
         <section>
           <h2 className="text-xl font-semibold mt-6 border-b-2 border-primary">
             <span className="font-special text-4xl p-2">
-              {restaurants.length}
+              {filteredRestaurants.length}
             </span>{" "}
             Result
           </h2>
@@ -230,30 +230,23 @@ const RestaurantsView = () => {
               ) : (
                 <small>ALL</small>
               )} */}
-              {selectedTypeValue !== "all" ? (
+              {/* {selectedTypeValue !== "all" ? (
                 <>
-                  {filteredRestaurants.lenght > 0 ? (
-                    filteredRestaurants.map((res) => {
-                      return (
-                        <RestaurantCardComp
-                          key={res.id}
-                          id={res.id}
-                          src={res.profile_img.src}
-                          alt={res.profile_img.alt}
-                          name={res.name}
-                          type={res.type}
-                        />
-                      );
-                    })
-                  ) : (
-                    <h2 className="text-dark font-semibold text-center col-span-1 md:col-span-2 lg:col-span-3 py-10">
-                      No restaurants here yet! <br /> Stay tuned..
-                    </h2>
-                  )}
+                  {filteredRestaurants.map((res) => {
+                    return (
+                      <RestaurantCardComp
+                        key={res.id}
+                        id={res.id}
+                        src={res.profile_img.src}
+                        alt={res.profile_img.alt}
+                        name={res.name}
+                        type={res.type}
+                      />
+                    );
+                  })}
                 </>
               ) : (
                 <>
-                  {" "}
                   {restaurants.length > 0 ? (
                     restaurants.map((res) => {
                       return (
@@ -273,7 +266,20 @@ const RestaurantsView = () => {
                     </h2>
                   )}
                 </>
-              )}
+              )} */}
+              {filteredRestaurants.length > 0 &&
+                filteredRestaurants.map((res) => {
+                  return (
+                    <RestaurantCardComp
+                      key={res.id}
+                      id={res.id}
+                      src={res.profile_img.src}
+                      alt={res.profile_img.alt}
+                      name={res.name}
+                      type={res.type}
+                    />
+                  );
+                })}
             </div>
           ) : (
             <LoadingComp />
