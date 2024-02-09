@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ErrorView = () => {
   const navigator = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div
       className="min-h-screen grid justify-center items-center relative"
@@ -30,13 +33,13 @@ const ErrorView = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigator("/")}
-              className="bg-accent text-light rounded-2xl shadow-lg px-10 py-2"
+              className="bg-accent text-light px-8 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
             >
               Home
             </button>
             <button
               onClick={() => navigator("/restaurants")}
-              className="bg-accent text-light rounded-2xl shadow-lg px-10 py-2"
+              className="bg-accent text-light px-8 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
             >
               Restaurants
             </button>

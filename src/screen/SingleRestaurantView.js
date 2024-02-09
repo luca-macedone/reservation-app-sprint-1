@@ -27,6 +27,7 @@ const SingleRestaurantView = () => {
   // };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchRestaurant = async () => {
       try {
         const [res1, res2, res3] = await Promise.all([

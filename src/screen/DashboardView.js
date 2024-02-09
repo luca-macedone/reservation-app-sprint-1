@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import dummyRestaurant from "../data/dummy";
 import RestaurantCardComp from "../components/RestaurantCardComp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -72,6 +72,9 @@ const dummyMsgs = [
 ];
 
 const DashboardView = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="container mx-auto py-5 px-3 min-h-[90vh]">
       <header>

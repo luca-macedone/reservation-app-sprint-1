@@ -7,7 +7,7 @@ const RestaurantCardComp = ({ id, src, alt, name, type }) => {
   return (
     <Link
       to={`/restaurants/${id}`}
-      className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary hover:scale-105 transition-transform ease-in-out duration-200 w-full restaurant-card"
+      className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary hover:scale-105 transition-transform ease-in-out duration-200 w-full restaurant-card relative"
       key={id}
     >
       <div
@@ -24,7 +24,7 @@ const RestaurantCardComp = ({ id, src, alt, name, type }) => {
           className="h-full w-full object-cover"
         /> */}
       </div>
-      <div className=" flex items-center justify-between gap-4 w-full relative">
+      <div className=" flex items-center justify-between gap-4 w-full">
         <div className="w-full">
           <h3 className="font-semibold border-b-2 border-secondary w-max max-w-full text-wrap">
             {name}
@@ -42,12 +42,12 @@ const RestaurantCardComp = ({ id, src, alt, name, type }) => {
             })}
           </div>
         </div>
-        <div className="text-accent text-opacity-20 flex items-center justify-center h-full absolute z-0 right-4 top-0">
-          <FontAwesomeIcon
-            icon={faPenToSquare}
-            className="text-5xl rotate-[-20deg] restaurant-card-icon transition-colors ease-in-out duration-200"
-          />
-        </div>
+      </div>
+      <div className="text-accent text-opacity-20 flex items-center justify-center h-full absolute z-0 right-4 top-0">
+        <FontAwesomeIcon
+          icon={faPenToSquare}
+          className="text-5xl rotate-[-20deg] restaurant-card-icon transition-colors ease-in-out duration-200"
+        />
       </div>
     </Link>
   );

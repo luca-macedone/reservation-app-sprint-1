@@ -37,12 +37,13 @@ const HomeView = () => {
         setIsLoading(false);
       });
 
-    console.log(res);
+    // console.log(res);
 
     // console.log(restaurants);
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setIsLoading(true);
     fetchRestaurants();
     // console.log(restaurants);

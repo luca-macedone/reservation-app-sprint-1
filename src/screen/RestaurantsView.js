@@ -23,6 +23,7 @@ const RestaurantsView = () => {
   });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setSelectedTypeValue("all");
     const fetchRestaurants = async () => {
       let url = new URL(
@@ -32,7 +33,7 @@ const RestaurantsView = () => {
       await axios
         .get(url)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           if (response.data) {
             setRestaurants(response.data);
             setFilteredRestaurants(response.data);

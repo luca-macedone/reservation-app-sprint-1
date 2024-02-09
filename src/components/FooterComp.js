@@ -17,7 +17,7 @@ const FooterComp = () => {
           Bistroo's
         </h2>
         <small className="flex items-center gap-2 text-[.75rem]">
-          Copyright
+          2024, Copyright
           <FontAwesomeIcon icon={faCopyright} />
           by{" "}
           <Link
@@ -26,7 +26,6 @@ const FooterComp = () => {
           >
             Bistroo's
           </Link>
-          , 2024
         </small>
       </div>
       <nav>

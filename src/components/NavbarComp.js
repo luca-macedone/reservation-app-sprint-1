@@ -78,7 +78,7 @@ const NavbarComp = () => {
       <div
         className={
           isMenuOpen
-            ? "absolute top-[80px] right-0 p-5 w-full h-screen bg-light shadow-lg"
+            ? "absolute top-[79px] right-0 p-5 w-full h-screen bg-light shadow-lg"
             : "hidden"
         }
       >
