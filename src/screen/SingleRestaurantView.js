@@ -203,9 +203,9 @@ const SingleRestaurantView = () => {
                   Reserve your table
                 </h2>
                 <span className="bg-accent text-light px-8 py-2 rounded-lg">
-                  {restaurant.data.free_seats < restaurant.data.max_seats
-                    ? "Reservations avalable"
-                    : "Full"}
+                  {restaurant.data.free_seats === 0
+                    ? "Full"
+                    : "Reservation avaliable"}
                 </span>
               </div>
               <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 justify-center items-center">
