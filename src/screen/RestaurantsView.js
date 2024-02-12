@@ -17,6 +17,8 @@ const RestaurantsView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const [types, setTypes] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [isLoadingCities, setIsLoadingCities] = useState(true);
   const [filterObj, setFilterObj] = useState({});
   const [selectedTypeValue, setSelectedTypeValue] = useState("all");
   const formRef = useRef(null);
@@ -62,9 +64,18 @@ const RestaurantsView = () => {
     fetchRestaurants().then((response) => {
       if (response.length > 0) {
         fetchTypes(response);
+        fetchCities(response);
       }
     });
   }, []);
+
+  const fetchCities = (fetchedRestaurants) => {
+    let result = [];
+    result = fetchedRestaurants.flatMap((res) => res.city);
+    const filteredResult = [...new Set(result)];
+    setCities(filteredResult);
+    setIsLoadingCities(false);
+  };
 
   const handleChange = (evt) => {
     console.log(evt.target.name);
@@ -109,7 +120,6 @@ const RestaurantsView = () => {
   };
 
   const filterResults = () => {
-    let isEmptyObj = false;
     setIsLoading(true);
     // console.log(filterObj);
 
@@ -240,8 +250,25 @@ const RestaurantsView = () => {
                   name="where"
                   className="bg-light px-5 py-2 rounded-lg text-dark w-full"
                   onChange={handleChange}
+                  list="cities"
                 />
               </div>
+              <datalist id="cities">
+                {!isLoadingCities ? (
+                  cities.map((city, index) => {
+                    return (
+                      <option
+                        key={index}
+                        value={city}
+                      >
+                        {city}
+                      </option>
+                    );
+                  })
+                ) : (
+                  <option>Loading...</option>
+                )}
+              </datalist>
               <div className="flex flex-col items-start gap-1">
                 <label htmlFor="day-filter">When</label>
                 <input
