@@ -18,3 +18,102 @@ body {
   color: theme("colors.accent");
   opacity: 50%;
 }
+
+.pictures-wrapper-bottom > picture:nth-child(3),
+.pictures-wrapper-top > picture:nth-child(3),
+.pictures-wrapper-bottom > picture:nth-child(2),
+.pictures-wrapper-top > picture:nth-child(2) {
+  display: none;
+}
+
+/* TODO aggiungere regole per le immagine in versione mobile/tablet */
+@media screen and (min-width: 1024px) {
+  .pictures-wrapper-bottom,
+  .pictures-wrapper-top {
+    position: relative;
+    width: 25%;
+    height: 100%;
+  }
+  .pictures-wrapper-bottom > picture,
+  .pictures-wrapper-top > picture {
+    position: absolute !important;
+    top: 0;
+    transition: all ease-in-out 200ms;
+  }
+  /* TOP */
+  .pictures-wrapper-top > picture:nth-child(1) {
+    z-index: 10;
+    transform: rotate(-2deg);
+  }
+
+  .pictures-wrapper-top > picture:nth-child(2) {
+    z-index: 9;
+    display: inline-block;
+    transform: translate(150px, -80px) rotate(5deg);
+  }
+
+  /* .pictures-wrapper-top > picture:nth-child(1) {
+    transform: translate(calc(150px + 250px), 40px) rotate(10deg);
+  } */
+
+  /* BOTTOM */
+
+  .pictures-wrapper-bottom > picture:nth-child(1) {
+    z-index: 10;
+    transform: rotate(2deg);
+  }
+
+  .pictures-wrapper-bottom > picture:nth-child(2) {
+    z-index: 9;
+    display: inline-block;
+    transform: translate(-150px, -80px) rotate(5deg);
+  }
+
+  /* .pictures-wrapper-bottom > picture:nth-child(1) {
+    transform: translate(calc(-200px + -150px), 40px) rotate(-10deg);
+  } */
+}
+
+@media screen and (min-width: 1440px) {
+  .pictures-wrapper-bottom,
+  .pictures-wrapper-top {
+    position: relative;
+    width: 25%;
+    height: 100%;
+  }
+  .pictures-wrapper-bottom > picture,
+  .pictures-wrapper-top > picture {
+    position: absolute !important;
+    top: 0;
+  }
+  /* TOP */
+  .pictures-wrapper-top > picture:nth-child(1) {
+    transform: rotate(-2deg);
+  }
+
+  .pictures-wrapper-top > picture:nth-child(2) {
+    transform: translate(150px, -80px) rotate(5deg);
+  }
+
+  .pictures-wrapper-top > picture:nth-child(3) {
+    z-index: 8;
+    display: inline-block;
+    transform: translate(calc(150px + 150px), 40px) rotate(10deg);
+  }
+
+  /* BOTTOM */
+
+  .pictures-wrapper-bottom > picture:nth-child(1) {
+    transform: rotate(10deg);
+  }
+
+  .pictures-wrapper-bottom > picture:nth-child(2) {
+    transform: translate(-175px, -80px) rotate(5deg);
+  }
+
+  .pictures-wrapper-bottom > picture:nth-child(3) {
+    z-index: 8;
+    display: inline-block;
+    transform: translate(calc(-175px + -150px), 40px) rotate(-10deg);
+  }
+}

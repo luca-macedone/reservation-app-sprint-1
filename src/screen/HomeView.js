@@ -52,9 +52,10 @@ const HomeView = () => {
   return (
     <>
       <HeroComp />
-      <section className="container mx-auto px-3 py-10 mt-10">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-5">
-          <div className="flex flex-col items-center  gap-8">
+      {/* TOP */}
+      <section className="container mx-auto px-3 py-10 mt-32">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-24 lg:h-[400px]">
+          <div className="flex flex-col items-center gap-8">
             <div className="flex flex-col items-center gap-5">
               <FontAwesomeIcon
                 icon={faMap}
@@ -78,23 +79,53 @@ const HomeView = () => {
               </button>
             </div>
           </div>
-          <picture>
-            <img
-              sizes="(max-width: 500px) 100vw, 500px"
-              srcSet="
-            /images/food-example/food-example_z0l0l6_c_scale,w_200.webp 200w,
-            /images/food-example/food-example_z0l0l6_c_scale,w_492.webp 492w,
-            /images/food-example/food-example_z0l0l6_c_scale,w_500.webp 500w"
-              src="/images/food-example/food-example_z0l0l6_c_scale,w_500.webp"
-              alt="Your next favorite dish example"
-              className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
-            />
-          </picture>
+          <div className="pictures-wrapper-top">
+            <picture>
+              <img
+                sizes="(max-width: 500px) 100vw, 500px"
+                srcSet="
+                /images/food-example/food-example_z0l0l6_c_scale,w_200.webp 200w,
+                /images/food-example/food-example_z0l0l6_c_scale,w_492.webp 492w,
+                /images/food-example/food-example_z0l0l6_c_scale,w_500.webp 500w"
+                src="/images/food-example/food-example_z0l0l6_c_scale,w_500.webp"
+                alt="Your next favorite dish example"
+                className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+              />
+            </picture>
+            <picture>
+              <img
+                sizes="(max-width: 563px) 100vw, 563px"
+                srcSet="
+                /images/esotic-restaurant/esotic-restaurant_osasmv_c_scale,w_200.jpg 200w,
+                /images/esotic-restaurant/esotic-restaurant_osasmv_c_scale,w_341.jpg 341w,
+                /images/esotic-restaurant/esotic-restaurant_osasmv_c_scale,w_444.jpg 444w,
+                /images/esotic-restaurant/esotic-restaurant_osasmv_c_scale,w_518.jpg 518w,
+                /images/esotic-restaurant/esotic-restaurant_osasmv_c_scale,w_563.jpg 563w"
+                src="/images/esotic-restaurant/esotic-restaurant_osasmv_c_scale,w_563.jpg"
+                alt="Esotic restaurant"
+                className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+              />
+            </picture>
+            <picture>
+              <img
+                sizes="(max-width: 563px) 100vw, 563px"
+                srcSet="
+                /images/restaurant-table/restaurant-table_uvlhuu_c_scale,w_200.jpg 200w,
+                /images/restaurant-table/restaurant-table_uvlhuu_c_scale,w_345.jpg 345w,
+                /images/restaurant-table/restaurant-table_uvlhuu_c_scale,w_456.jpg 456w,
+                /images/restaurant-table/restaurant-table_uvlhuu_c_scale,w_531.jpg 531w,
+                /images/restaurant-table/restaurant-table_uvlhuu_c_scale,w_563.jpg 563w"
+                src="/images/restaurant-table/restaurant-table_uvlhuu_c_scale,w_563.jpg"
+                alt="Restaurant table"
+                className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+              />
+            </picture>
+          </div>
         </div>
       </section>
-      {/* TODO Aggiungere una selezione di ristoranti così da incuriosire il cliente */}
+      {/* BOTTOM */}
       <section className="container mx-auto px-3 py-10 mt-10">
-        <div className="flex flex-col md:flex-row-reverse items-center justify-center gap-10 md:gap-5">
+        <div className="flex flex-col md:flex-row-reverse items-center justify-center gap-24 lg:h-[400px]">
           <div className="flex flex-col items-center gap-8">
             <div className="flex flex-col items-center gap-5 w-full">
               <FontAwesomeIcon
@@ -110,43 +141,56 @@ const HomeView = () => {
               conversations happen around the table.
             </p>
           </div>
-          {/* <picture>
-            <img
-              sizes="(max-width: 1125px) 100vw, 1125px"
-              srcset="
-              /images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_200.webp 200w,
-              /images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_719.webp 719w,
-              /images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_1109.webp 1109w,
-              /images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_1125.webp 1125w"
-              src="/images/guys-at-the-table/guys-at-the-table_panj2g_c_scale,w_1125.webp"
-              alt="Conversation's around the table"
-              className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
-            />
-          </picture> */}
-          <picture>
-            <img
-              sizes="(max-width: 1400px) 100vw, 1400px"
-              srcSet="
-            /images/tables/tables_u77kfd_c_scale,w_200.jpg 200w,
-            /images/tables/tables_u77kfd_c_scale,w_352.jpg 352w,
-            /images/tables/tables_u77kfd_c_scale,w_470.jpg 470w,
-            /images/tables/tables_u77kfd_c_scale,w_658.jpg 658w,
-            /images/tables/tables_u77kfd_c_scale,w_773.jpg 773w,
-            /images/tables/tables_u77kfd_c_scale,w_849.jpg 849w,
-            /images/tables/tables_u77kfd_c_scale,w_927.jpg 927w,
-            /images/tables/tables_u77kfd_c_scale,w_998.jpg 998w,
-            /images/tables/tables_u77kfd_c_scale,w_1056.jpg 1056w,
-            /images/tables/tables_u77kfd_c_scale,w_1182.jpg 1182w,
-            /images/tables/tables_u77kfd_c_scale,w_1244.jpg 1244w,
-            /images/tables/tables_u77kfd_c_scale,w_1323.jpg 1323w,
-            /images/tables/tables_u77kfd_c_scale,w_1390.jpg 1390w,
-            /images/tables/tables_u77kfd_c_scale,w_1394.jpg 1394w,
-            /images/tables/tables_u77kfd_c_scale,w_1400.jpg 1400w"
-              src="/images/tables/tables_u77kfd_c_scale,w_1400.jpg"
-              alt="Restaurant's tables"
-              className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
-            />
-          </picture>
+          <div className="pictures-wrapper-bottom">
+            <picture>
+              <img
+                sizes="(max-width: 1400px) 100vw, 1400px"
+                srcSet="
+                /images/tables/tables_u77kfd_c_scale,w_200.jpg 200w,
+                /images/tables/tables_u77kfd_c_scale,w_352.jpg 352w,
+                /images/tables/tables_u77kfd_c_scale,w_470.jpg 470w,
+                /images/tables/tables_u77kfd_c_scale,w_658.jpg 658w,
+                /images/tables/tables_u77kfd_c_scale,w_773.jpg 773w,
+                /images/tables/tables_u77kfd_c_scale,w_849.jpg 849w,
+                /images/tables/tables_u77kfd_c_scale,w_927.jpg 927w,
+                /images/tables/tables_u77kfd_c_scale,w_998.jpg 998w,
+                /images/tables/tables_u77kfd_c_scale,w_1056.jpg 1056w,
+                /images/tables/tables_u77kfd_c_scale,w_1182.jpg 1182w,
+                /images/tables/tables_u77kfd_c_scale,w_1244.jpg 1244w,
+                /images/tables/tables_u77kfd_c_scale,w_1323.jpg 1323w,
+                /images/tables/tables_u77kfd_c_scale,w_1390.jpg 1390w,
+                /images/tables/tables_u77kfd_c_scale,w_1394.jpg 1394w,
+                /images/tables/tables_u77kfd_c_scale,w_1400.jpg 1400w"
+                src="/images/tables/tables_u77kfd_c_scale,w_1400.jpg"
+                alt="Restaurant's tables"
+                className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+              />
+            </picture>
+            <picture>
+              <img
+                sizes="(max-width: 600px) 100vw, 600px"
+                srcSet="
+                /images/asian-restaurant/asian-restaurant_u6pacg_c_scale,w_200.jpg 200w,
+                /images/asian-restaurant/asian-restaurant_u6pacg_c_scale,w_465.jpg 465w,
+                /images/asian-restaurant/asian-restaurant_u6pacg_c_scale,w_600.jpg 600w"
+                src="/images/asian-restaurant/asian-restaurant_u6pacg_c_scale,w_600.jpg"
+                alt="Asian restaurant"
+                className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+              />
+            </picture>
+            <picture>
+              <img
+                sizes="(max-width: 500px) 100vw, 500px"
+                srcSet="
+                /images/special-dish/special-dish_sudgeb_c_scale,w_200.jpg 200w,
+                /images/special-dish/special-dish_sudgeb_c_scale,w_364.jpg 364w,
+                /images/special-dish/special-dish_sudgeb_c_scale,w_500.jpg 500w"
+                src="/images/special-dish/special-dish_sudgeb_c_scale,w_500.jpg"
+                alt="Your next special dish"
+                className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+              />
+            </picture>
+          </div>
         </div>
       </section>
       <section className="container mx-auto px-3 py-10 mt-10">
@@ -165,7 +209,7 @@ const HomeView = () => {
               restaurants.map((res) => {
                 return (
                   <div
-                    className="md:odd:right-[100px] md:even:left-[100px] relative w-full md:max-w-[800px]"
+                    className="md:odd:right-[25px] md:even:left-[25px] lg:odd:right-[70px] lg:even:left-[70px] relative w-full md:max-w-[800px]"
                     key={res.id}
                   >
                     <RestaurantCardComp
