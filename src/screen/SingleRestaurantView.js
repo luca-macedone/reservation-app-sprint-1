@@ -260,7 +260,7 @@ const SingleRestaurantView = () => {
                 <h2 className="font-special font-light text-3xl mb-5">
                   Reserve your table
                 </h2>
-                <span className="bg-accent text-light px-8 py-2 rounded-lg flex items-center gap-2">
+                <span className="bg-accent text-light px-8 py-2 rounded-lg flex items-center gap-2 transition-all ease-in-out duration-200">
                   {checkIsFull() ? (
                     <FontAwesomeIcon
                       icon={faCircleExclamation}
@@ -282,7 +282,7 @@ const SingleRestaurantView = () => {
                     type="text"
                     id="guest_fullname"
                     name="name"
-                    className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                    className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
                     // value={reservation.name}
                     onChange={handleChange}
                   />
@@ -298,7 +298,7 @@ const SingleRestaurantView = () => {
                     // value={reservation.seats}
                     defaultValue={reservation.seats}
                     max={restaurant.data.max_seats}
-                    className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                    className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
                     onChange={handleChange}
                   />
                 </div>
@@ -312,7 +312,7 @@ const SingleRestaurantView = () => {
                       step={1800}
                       // value={reservation.when}
                       defaultValue={reservation.when}
-                      className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                      className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
                       onChange={handleChange}
                     />
                   </div>
@@ -322,7 +322,7 @@ const SingleRestaurantView = () => {
                   <textarea
                     name="notes"
                     id="notes"
-                    className="w-full rounded-lg text-dark bg-light py-2 px-5"
+                    className="w-full rounded-lg text-dark bg-light py-2 px-5 focus:outline-accent"
                     onChange={handleChange}
                     rows="1"
                     // value={reservation.notes}

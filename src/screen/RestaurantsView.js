@@ -225,7 +225,7 @@ const RestaurantsView = () => {
                 {!isLoadingTypes ? (
                   <select
                     id="food-type"
-                    className="bg-light px-5 py-2.5 rounded-lg text-dark w-full"
+                    className="bg-light px-5 py-2.5 rounded-lg text-dark w-full focus:outline-accent"
                     onChange={handleChange}
                     value={selectedTypeValue}
                     name="type"
@@ -247,7 +247,7 @@ const RestaurantsView = () => {
                     <input
                       type="text"
                       id="food-type"
-                      className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                      className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
                       disabled
                     />
                     {isLoading && (
@@ -267,7 +267,7 @@ const RestaurantsView = () => {
                   type="text"
                   id="where"
                   name="where"
-                  className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                  className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
                   onChange={handleChange}
                   list="cities"
                 />
@@ -293,7 +293,7 @@ const RestaurantsView = () => {
                 <input
                   type="datetime-local"
                   id="day-filter"
-                  className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                  className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
                   name="when"
                   onChange={handleChange}
                 />
@@ -303,7 +303,7 @@ const RestaurantsView = () => {
                 <input
                   type="number"
                   id="seats-filter"
-                  className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                  className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
                   name="seats"
                   min={1}
                   step={1}
