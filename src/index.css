@@ -26,7 +26,6 @@ body {
   display: none;
 }
 
-/* TODO aggiungere regole per le immagine in versione mobile/tablet */
 @media screen and (min-width: 1024px) {
   .pictures-wrapper-bottom,
   .pictures-wrapper-top {
@@ -52,10 +51,6 @@ body {
     transform: translate(150px, -80px) rotate(5deg);
   }
 
-  /* .pictures-wrapper-top > picture:nth-child(1) {
-    transform: translate(calc(150px + 250px), 40px) rotate(10deg);
-  } */
-
   /* BOTTOM */
 
   .pictures-wrapper-bottom > picture:nth-child(1) {
@@ -68,10 +63,6 @@ body {
     display: inline-block;
     transform: translate(-150px, -80px) rotate(5deg);
   }
-
-  /* .pictures-wrapper-bottom > picture:nth-child(1) {
-    transform: translate(calc(-200px + -150px), 40px) rotate(-10deg);
-  } */
 }
 
 @media screen and (min-width: 1440px) {
@@ -116,4 +107,8 @@ body {
     display: inline-block;
     transform: translate(calc(-175px + -150px), 40px) rotate(-10deg);
   }
+}
+
+:root {
+  scrollbar-color: theme("colors.accent") theme("colors.light");
 }

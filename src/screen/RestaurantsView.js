@@ -79,7 +79,7 @@ const RestaurantsView = () => {
   };
 
   const handleChange = (evt) => {
-    console.log(evt.target.name);
+    // console.log(evt.target.name);
     switch (evt.target.name) {
       case "where": {
         if (evt.target.value.length > 2) {

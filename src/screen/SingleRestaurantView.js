@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // import dummyRestaurant from "../data/dummy";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleExclamation,
+  faCircleInfo,
+  faQuoteLeft,
+  faQuoteRight,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import LoadingComp from "../components/LoadingComp";
 
 const SingleRestaurantView = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [reservation, setReservation] = useState({});
   const location = useLocation();
+  const formRef = useRef(null);
   const data = location.state;
 
-  // const [avgOpening, setAvgOpening] = useState({});
-  // const [isDinner, setIsDinner] = useState(false);
-  // const [maxDateTime, setMaxDateTime] = useState();
-  // const [now, setNow] = useState();
   const { id } = useParams();
 
   const [restaurant, setRestaurant] = useState({
@@ -25,11 +28,68 @@ const SingleRestaurantView = () => {
   });
   const navigator = useNavigate();
 
-  // const handleClick = (prev) => {
-  //   setIsDinner(!prev);
-  // };
+  const checkIsFull = () => {
+    // console.log(
+    //   parseInt(restaurant.data.free_seats, 10) - reservation.seats <= 0
+    // );
+
+    return parseInt(restaurant.data.free_seats, 10) - reservation.seats <= 0;
+  };
+
+  const handleReset = () => {
+    formRef.current.reset();
+    setReservation({});
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    // TODO aggiungere invio dei dati alla dashboard del gestore
+  };
+
+  const handleChange = (evt) => {
+    switch (evt.target.name) {
+      case "name": {
+        if (evt.target.value.length > 2) {
+          setReservation({ ...reservation, name: evt.target.value });
+        }
+        break;
+      }
+      case "seats": {
+        if (evt.target.value > 0) {
+          setReservation({ ...reservation, seats: evt.target.value });
+          checkIsFull();
+        }
+        break;
+      }
+      case "when": {
+        setReservation({ ...reservation, when: evt.target.value });
+        break;
+      }
+      case "notes": {
+        if (evt.target.value.length > 2) {
+          setReservation({ ...reservation, notes: evt.target.value });
+        }
+        break;
+      }
+
+      default:
+        throw new Error("Not a valid input change!");
+    }
+  };
 
   useEffect(() => {
+    setIsLoading(true);
+
+    if (data.seats) {
+      setReservation({ ...reservation, seats: data.seats });
+    }
+
+    if (data.when) {
+      setReservation({ ...reservation, when: data.when });
+    }
+
     window.scrollTo(0, 0);
     const fetchRestaurant = async () => {
       try {
@@ -44,28 +104,19 @@ const SingleRestaurantView = () => {
             `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${id}/Menu`
           ),
         ]);
-
-        // console.log(res1.data, res2.data, res3.data);
         setRestaurant({
           data: { ...res1.data },
           gallery: [...res2.data],
           menu: [...res3.data],
         });
-
-        // let res = res1.data.openings.filter(
-        //   (op) => op.lunch.start !== "-1" && op.dinner.start !== "-1"
-        // )[0];
-
-        // setAvgOpening(res);
       } catch (err) {
         console.error(err);
         navigator("/error");
       } finally {
         setIsLoading(false);
+        checkIsFull();
       }
     };
-    // console.log(id);
-    setIsLoading(true);
 
     fetchRestaurant();
   }, []);
@@ -199,16 +250,29 @@ const SingleRestaurantView = () => {
                 </tbody>
               </table>
             </div>
-            <form className="col-span-1 lg:col-span-2 bg-secondary text-light shadow-lg rounded-3xl p-5 md:p-10 h-max">
+            <form
+              className="col-span-1 lg:col-span-2 bg-secondary text-light shadow-lg rounded-3xl p-5 md:p-10 h-max"
+              onSubmit={handleSubmit}
+              ref={formRef}
+            >
               {/* TODO form per la prenotazione */}
               <div className="flex flex-col md:flex-row items-center md:items-start justify-between mb-5 md:mb-0">
                 <h2 className="font-special font-light text-3xl mb-5">
                   Reserve your table
                 </h2>
-                <span className="bg-accent text-light px-8 py-2 rounded-lg">
-                  {restaurant.data.free_seats === 0
-                    ? "Full"
-                    : "Reservation avaliable"}
+                <span className="bg-accent text-light px-8 py-2 rounded-lg flex items-center gap-2">
+                  {checkIsFull() ? (
+                    <FontAwesomeIcon
+                      icon={faCircleExclamation}
+                      className="text-xl"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faCircleInfo}
+                      className="text-xl"
+                    />
+                  )}
+                  {checkIsFull() ? "Full" : "Reservation avaliable"}
                 </span>
               </div>
               <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 justify-center items-center">
@@ -217,7 +281,10 @@ const SingleRestaurantView = () => {
                   <input
                     type="text"
                     id="guest_fullname"
+                    name="name"
                     className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                    // value={reservation.name}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-col items-start justify-start h-full gap-1">
@@ -227,9 +294,12 @@ const SingleRestaurantView = () => {
                     id="guest_number"
                     min={1}
                     step={1}
-                    defaultValue={data.seats}
+                    name="seats"
+                    // value={reservation.seats}
+                    defaultValue={reservation.seats}
                     max={restaurant.data.max_seats}
                     className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-col items-start justify-start h-full gap-1">
@@ -238,9 +308,12 @@ const SingleRestaurantView = () => {
                     <input
                       type="datetime-local"
                       id="reservation_date"
+                      name="when"
                       step={1800}
-                      defaultValue={data.when}
+                      // value={reservation.when}
+                      defaultValue={reservation.when}
                       className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -250,21 +323,25 @@ const SingleRestaurantView = () => {
                     name="notes"
                     id="notes"
                     className="w-full rounded-lg text-dark bg-light py-2 px-5"
+                    onChange={handleChange}
                     rows="1"
+                    // value={reservation.notes}
                   ></textarea>
                 </div>
                 <div className="flex items-end justify-end gap-5 col-span-1 md:col-span-2">
                   <button
-                    type="reset"
+                    type="button"
                     className="bg-light text-dark px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
+                    onClick={handleReset}
                   >
                     Reset
                   </button>
                   <button
                     type="submit"
-                    className="bg-accent px-8 py-2 rounded-lg flex items-center gap-3 col-span-1 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
+                    className="bg-accent px-8 py-2 rounded-lg flex items-center gap-3 col-span-1 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200 disabled:ring-2 disabled:ring-accent disabled:bg-light disabled:text-accent disabled:hover:scale-100"
+                    disabled={checkIsFull()}
                   >
-                    Reserve
+                    {checkIsFull() ? "Restaurant full" : "Reserve"}
                   </button>
                 </div>
               </div>
