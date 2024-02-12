@@ -20,6 +20,7 @@ const RestaurantsView = () => {
   const [cities, setCities] = useState([]);
   const [isLoadingCities, setIsLoadingCities] = useState(true);
   const [filterObj, setFilterObj] = useState({});
+  const [reservationData, setReservationData] = useState({});
   const [selectedTypeValue, setSelectedTypeValue] = useState("all");
   const formRef = useRef(null);
 
@@ -80,7 +81,7 @@ const RestaurantsView = () => {
   const handleChange = (evt) => {
     console.log(evt.target.name);
     switch (evt.target.name) {
-      case "where":
+      case "where": {
         if (evt.target.value.length > 2) {
           setFilterObj({
             ...filterObj,
@@ -93,7 +94,8 @@ const RestaurantsView = () => {
           });
         }
         break;
-      case "type":
+      }
+      case "type": {
         if (evt.target.value !== "all") {
           setFilterObj({
             ...filterObj,
@@ -107,6 +109,23 @@ const RestaurantsView = () => {
         }
         setSelectedTypeValue(evt.target.value);
         break;
+      }
+      case "seats": {
+        // console.log(evt.target.value);
+        setReservationData({
+          ...reservationData,
+          seats: parseInt(evt.target.value, 10),
+        });
+        break;
+      }
+      case "when": {
+        // console.log(evt.target.value);
+        setReservationData({
+          ...reservationData,
+          when: evt.target.value,
+        });
+        break;
+      }
       default:
         return;
     }
@@ -275,6 +294,8 @@ const RestaurantsView = () => {
                   type="datetime-local"
                   id="day-filter"
                   className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                  name="when"
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex flex-col items-start gap-1">
@@ -283,9 +304,11 @@ const RestaurantsView = () => {
                   type="number"
                   id="seats-filter"
                   className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                  name="seats"
                   min={1}
                   step={1}
                   defaultValue={1}
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex items-center justify-end gap-3 col-span-1 md:col-span-2">
@@ -332,6 +355,7 @@ const RestaurantsView = () => {
                       alt={res.profile_img.alt}
                       name={res.name}
                       type={res.type}
+                      data={{ ...reservationData }}
                     />
                   );
                 })

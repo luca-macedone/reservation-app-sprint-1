@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // import dummyRestaurant from "../data/dummy";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -9,6 +9,9 @@ import LoadingComp from "../components/LoadingComp";
 
 const SingleRestaurantView = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  const data = location.state;
+
   // const [avgOpening, setAvgOpening] = useState({});
   // const [isDinner, setIsDinner] = useState(false);
   // const [maxDateTime, setMaxDateTime] = useState();
@@ -224,7 +227,7 @@ const SingleRestaurantView = () => {
                     id="guest_number"
                     min={1}
                     step={1}
-                    defaultValue={1}
+                    defaultValue={data.seats}
                     max={restaurant.data.max_seats}
                     className="bg-light px-5 py-2 rounded-lg text-dark w-full"
                   />
@@ -232,32 +235,13 @@ const SingleRestaurantView = () => {
                 <div className="flex flex-col items-start justify-start h-full gap-1">
                   <label htmlFor="reservation_date">When</label>
                   <div className="flex item-end gap-2 w-full">
-                    {/* {!isDinner ? ( */}
                     <input
                       type="datetime-local"
                       id="reservation_date"
-                      // min={`T${avgOpening.lunch.start}`}
                       step={1800}
-                      // max={`T${restaurant.data.avgOpening.lunch.end}`}
+                      defaultValue={data.when}
                       className="bg-light px-5 py-2 rounded-lg text-dark w-full"
                     />
-                    {/* ) : ( */}
-                    {/* <input
-                        type="datetime-local"
-                        id="reservation_date"
-                        min={`T${avgOpening.dinner.start}`}
-                        step={1800}
-                        max={`T${avgOpening.dinner.end}`}
-                        className="bg-light px-5 py-2 rounded-lg text-dark w-full"
-                      /> */}
-                    {/* )}
-                    <button
-                      type="button"
-                      className="bg-accent px-5 rounded-lg"
-                      onClick={() => handleClick(isDinner)}
-                    >
-                      {!isDinner ? "Lunch" : "Dinner"}
-                    </button> */}
                   </div>
                 </div>
                 <div className="flex flex-col items-start justify-start h-full gap-1">
