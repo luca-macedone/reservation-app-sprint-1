@@ -192,7 +192,6 @@ const RestaurantsView = () => {
                 </span>
               </h1>
               <div className="flex flex-col items-start gap-1">
-                {/* TODO change the input to a select of options, maybe with multiple selection */}
                 <label htmlFor="food-type">Food type</label>
                 {!isLoadingTypes ? (
                   <select
@@ -251,14 +250,6 @@ const RestaurantsView = () => {
                   className="bg-light px-5 py-2 rounded-lg text-dark w-full"
                 />
               </div>
-              {/* <div className="flex flex-col items-start gap-1">
-                <label htmlFor="hour-filter">Hour</label>
-                <input
-                  type="time"
-                  id="hour-filter"
-                  className="bg-light px-5 py-2 rounded-lg text-dark w-full"
-                />
-              </div> */}
               <div className="flex flex-col items-start gap-1">
                 <label htmlFor="seats-filter">Seats</label>
                 <input
@@ -304,49 +295,7 @@ const RestaurantsView = () => {
           </h2>
           {!isLoading ? (
             <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-5">
-              {/* {selectedTypeValue !== "all" ? (
-                <small>NOT ALL</small>
-              ) : (
-                <small>ALL</small>
-              )} */}
-              {/* {selectedTypeValue !== "all" ? (
-                <>
-                  {filteredRestaurants.map((res) => {
-                    return (
-                      <RestaurantCardComp
-                        key={res.id}
-                        id={res.id}
-                        src={res.profile_img.src}
-                        alt={res.profile_img.alt}
-                        name={res.name}
-                        type={res.type}
-                      />
-                    );
-                  })}
-                </>
-              ) : (
-                <>
-                  {restaurants.length > 0 ? (
-                    restaurants.map((res) => {
-                      return (
-                        <RestaurantCardComp
-                          key={res.id}
-                          id={res.id}
-                          src={res.profile_img.src}
-                          alt={res.profile_img.alt}
-                          name={res.name}
-                          type={res.type}
-                        />
-                      );
-                    })
-                  ) : (
-                    <h2 className="text-dark font-semibold text-center col-span-1 md:col-span-2 lg:col-span-3 py-10">
-                      No restaurants here yet! <br /> Stay tuned..
-                    </h2>
-                  )}
-                </>
-              )} */}
-              {filteredRestaurants.length > 0 &&
+              {filteredRestaurants.length > 0 ? (
                 filteredRestaurants.map((res) => {
                   return (
                     <RestaurantCardComp
@@ -358,7 +307,18 @@ const RestaurantsView = () => {
                       type={res.type}
                     />
                   );
-                })}
+                })
+              ) : (
+                <>
+                  <h2 className="text-dark text-xl text-center col-span-1 md:col-span-2 lg:col-span-3 py-10 text-wrap">
+                    <strong className="font-special font-light text-3xl me-4">
+                      No results found,
+                    </strong>
+                    <br />
+                    try to expand the research
+                  </h2>
+                </>
+              )}
             </div>
           ) : (
             <LoadingComp />
