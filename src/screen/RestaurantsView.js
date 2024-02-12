@@ -4,7 +4,7 @@ import {
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import RestaurantCardComp from "../components/RestaurantCardComp";
 import axios from "axios";
 import restaurantReducer from "../utils/RestaurantReducer";
@@ -17,10 +17,9 @@ const RestaurantsView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const [types, setTypes] = useState([]);
+  const [filterObj, setFilterObj] = useState({});
   const [selectedTypeValue, setSelectedTypeValue] = useState("all");
-  const [state, dispatch] = useReducer(restaurantReducer, {
-    data: [],
-  });
+  const formRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,7 +36,6 @@ const RestaurantsView = () => {
           if (response.data) {
             setRestaurants(response.data);
             setFilteredRestaurants(response.data);
-            state.data = response.data;
             res = response.data;
           }
         })
@@ -68,21 +66,97 @@ const RestaurantsView = () => {
     });
   }, []);
 
-  const handleTypeFilter = (evt) => {
-    setSelectedTypeValue(evt.target.value);
+  const handleChange = (evt) => {
+    console.log(evt.target.name);
+    switch (evt.target.name) {
+      case "where":
+        if (evt.target.value.length > 2) {
+          setFilterObj({
+            ...filterObj,
+            city: evt.target.value,
+          });
+        } else {
+          setFilterObj({
+            ...filterObj,
+            city: null,
+          });
+        }
+        break;
+      case "type":
+        if (evt.target.value !== "all") {
+          setFilterObj({
+            ...filterObj,
+            type: evt.target.value,
+          });
+        } else {
+          setFilterObj({
+            ...filterObj,
+            type: null,
+          });
+        }
+        setSelectedTypeValue(evt.target.value);
+        break;
+      default:
+        return;
+    }
+  };
+
+  const handleReset = () => {
+    setFilterObj({});
+    setSelectedTypeValue("all");
+    setFilteredRestaurants(restaurants);
+    formRef.current.reset();
   };
 
   const filterResults = () => {
+    let isEmptyObj = false;
     setIsLoading(true);
+    // console.log(filterObj);
 
-    if (selectedTypeValue !== "all") {
-      const data = restaurants.filter((elem) =>
-        elem.type.includes(selectedTypeValue)
-      );
-      setFilteredRestaurants(data);
+    if (
+      Object.keys(filterObj).forEach((key) => {
+        if (filterObj[key] === null) {
+          delete filterObj[key];
+        }
+      })
+    );
+
+    // console.log(filterObj);
+
+    if (Object.keys(filterObj).length !== 0) {
+      // se è presente almeno un filtro, eseguo il filtro dei dati
+      let result;
+
+      if ("type" in filterObj) {
+        result = restaurants.filter((restaurant) =>
+          restaurant.type.includes(filterObj.type)
+        );
+        // console.log(result);
+        // delete filterObj["type"];
+
+        result = result.filter((restaurant) => {
+          return Object.keys(filterObj).every((key) => {
+            if (key === "type") return true;
+
+            return restaurant[key] === filterObj[key];
+          });
+        });
+        // console.log(result);
+        setFilteredRestaurants(result);
+      } else {
+        result = restaurants.filter((restaurant) => {
+          return Object.keys(filterObj).every(
+            (key) => restaurant[key] === filterObj[key]
+          );
+        });
+        console.log(result);
+        setFilteredRestaurants(result);
+      }
     } else {
+      // se i filtri sono vuoti allora stampo la lista completa
       setFilteredRestaurants(restaurants);
     }
+
     setIsLoading(false);
   };
 
@@ -107,6 +181,7 @@ const RestaurantsView = () => {
           </picture>
           <div className="z-10 relative w-full backdrop-blur-sm p-5">
             <form
+              ref={formRef}
               action=""
               className="bg-secondary text-light p-5 rounded-xl shadow-lg w-full grid grid-flow-row items-end gap-3 mt-[100px] grid-cols-1 md:grid-cols-3"
             >
@@ -123,8 +198,9 @@ const RestaurantsView = () => {
                   <select
                     id="food-type"
                     className="bg-light px-5 py-2.5 rounded-lg text-dark w-full"
-                    onChange={handleTypeFilter}
+                    onChange={handleChange}
                     value={selectedTypeValue}
+                    name="type"
                   >
                     <option value="all">All</option>
                     {types.map((t, i) => {
@@ -162,7 +238,9 @@ const RestaurantsView = () => {
                 <input
                   type="text"
                   id="where"
+                  name="where"
                   className="bg-light px-5 py-2 rounded-lg text-dark w-full"
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex flex-col items-start gap-1">
@@ -194,8 +272,9 @@ const RestaurantsView = () => {
               </div>
               <div className="flex items-center justify-end gap-3 col-span-1 md:col-span-2">
                 <button
-                  type="reset"
+                  type="button"
                   className="bg-light text-dark px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
+                  onClick={handleReset}
                 >
                   <FontAwesomeIcon icon={faArrowRotateLeft} />
                   Reset
