@@ -48,10 +48,10 @@ const NavbarComp = () => {
           </Link>
           {/* TODO aggiungere verifica se l'utente ha effettuato il login, mostare altrimenti il SignIn */}
           <Link
-            to="/me"
+            to="/dashboard"
             className="bg-transparent hover:bg-light text-light hover:text-primary px-5 py-2 text-lg rounded-lg transition-colors ease-in-out duration-200"
           >
-            User
+            Dashboard
           </Link>
         </div>
         <button
@@ -99,7 +99,7 @@ const NavbarComp = () => {
           </Link>
           {/* TODO aggiungere verifica se l'utente ha effettuato il login, mostare altrimenti il SignIn */}
           <Link
-            to="/me"
+            to="/dashboard"
             className="w-full text-center bg-light hover:bg-primary text-primary hover:text-light px-5 py-1 rounded-lg transition-colors ease-in-out duration-200"
             onClick={() => handleClick(isMenuOpen)}
           >
