@@ -96,6 +96,7 @@ const DashboardView = () => {
               name={dummyRestaurant.name}
               src={dummyRestaurant.profile_img.src}
               alt={dummyRestaurant.profile_img.alt}
+              fulladdress={dummyRestaurant.city}
             />
           </div>
         </section>

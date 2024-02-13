@@ -230,6 +230,7 @@ const HomeView = () => {
                       alt={res.profile_img.alt}
                       name={res.name}
                       type={res.type}
+                      fulladdress={res.city}
                     />
                   </div>
                 );

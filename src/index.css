@@ -14,9 +14,18 @@ body {
   overflow: hidden;
 }
 
+.restaurant-card {
+  scale: 100%;
+  transition: all ease-in-out 200ms !important;
+}
+
+.restaurant-card:hover {
+  scale: 105%;
+}
+
 .restaurant-card:hover .restaurant-card-icon {
   color: theme("colors.accent");
-  opacity: 50%;
+  opacity: 30% !important;
 }
 
 .pictures-wrapper-bottom > picture:nth-child(3),

@@ -354,6 +354,7 @@ const RestaurantsView = () => {
                       name={res.name}
                       type={res.type}
                       data={{ ...reservationData }}
+                      fulladdress={res.city}
                     />
                   );
                 })

@@ -1,15 +1,27 @@
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendar,
+  faLocationPin,
+  faMapPin,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const RestaurantCardComp = ({ id, src, alt, name, type, data }) => {
+const RestaurantCardComp = ({
+  id,
+  src,
+  alt,
+  name,
+  fulladdress,
+  type,
+  data,
+}) => {
   return (
     <Link
       data-aos="fade-up"
       to={`/restaurants/${id}`}
       state={{ when: data?.when, seats: data?.seats }}
-      className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary hover:scale-105 transition-transform ease-in-out duration-200 w-full restaurant-card relative"
+      className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary transition-all ease-in-out duration-200 w-full restaurant-card relative"
       key={id}
     >
       <div
@@ -31,24 +43,33 @@ const RestaurantCardComp = ({ id, src, alt, name, type, data }) => {
           <h3 className="font-semibold border-b-2 border-secondary w-max max-w-full text-wrap">
             {name}
           </h3>
-          <div className="text-xs flex items-start flex-wrap gap-2 py-2">
-            {type.map((t, index) => {
-              return (
-                <span
-                  key={index}
-                  className="bg-primary text-light px-2 py-1 rounded-md"
-                >
-                  {t}
-                </span>
-              );
-            })}
+          <div className="flex items-start flex-wrap justify-start gap-3 pt-2">
+            <small className="flex items-center gap-2 py-1">
+              <FontAwesomeIcon
+                icon={faLocationPin}
+                className="text-primary text-xl"
+              />
+              {fulladdress}
+            </small>
+            <div className="text-xs flex items-start flex-wrap gap-2 pb-2">
+              {type.map((t, index) => {
+                return (
+                  <span
+                    key={index}
+                    className="bg-primary text-light px-2 py-1 rounded-md"
+                  >
+                    {t}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
-      <div className="text-accent text-opacity-20 flex items-center justify-center h-full absolute z-0 right-4 top-0">
+      <div className="text-accent text-opacity-[10%] flex items-center justify-center h-full absolute z-0 right-4 top-0">
         <FontAwesomeIcon
-          icon={faPenToSquare}
-          className="text-5xl rotate-[-20deg] restaurant-card-icon transition-colors ease-in-out duration-200"
+          icon={faCalendar}
+          className="text-[70px] rotate-[-20deg] restaurant-card-icon transition-all ease-in-out duration-200"
         />
       </div>
     </Link>
