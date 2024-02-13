@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 const RestaurantCardComp = ({ id, src, alt, name, type, data }) => {
   return (
     <Link
+      data-aos="fade-up"
       to={`/restaurants/${id}`}
       state={{ when: data?.when, seats: data?.seats }}
       className="shadow-lg p-5 rounded-2xl flex items-center gap-3 bg-tertiary hover:scale-105 transition-transform ease-in-out duration-200 w-full restaurant-card relative"

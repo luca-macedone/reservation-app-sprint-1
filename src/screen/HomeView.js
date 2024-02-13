@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import RestaurantCardComp from "../components/RestaurantCardComp";
 import LoadingComp from "../components/LoadingComp";
+import AOS from "aos";
 
 const HomeView = () => {
   const navigator = useNavigate();
@@ -35,6 +36,7 @@ const HomeView = () => {
           setRestaurants(res);
         }
         setIsLoading(false);
+        AOS.refresh();
       });
 
     // console.log(res);
@@ -90,6 +92,7 @@ const HomeView = () => {
                 src="/images/food-example/food-example_z0l0l6_c_scale,w_500.webp"
                 alt="Your next favorite dish example"
                 className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+                data-aos="fade-left"
               />
             </picture>
             <picture>
@@ -104,6 +107,8 @@ const HomeView = () => {
                 src="/images/esotic-restaurant/esotic-restaurant_osasmv_c_scale,w_563.jpg"
                 alt="Esotic restaurant"
                 className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+                data-aos="fade-left"
+                data-aos-offset="200"
               />
             </picture>
             <picture>
@@ -118,6 +123,8 @@ const HomeView = () => {
                 src="/images/restaurant-table/restaurant-table_uvlhuu_c_scale,w_563.jpg"
                 alt="Restaurant table"
                 className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+                data-aos="fade-left"
+                data-aos-offset="400"
               />
             </picture>
           </div>
@@ -164,6 +171,7 @@ const HomeView = () => {
                 src="/images/tables/tables_u77kfd_c_scale,w_1400.jpg"
                 alt="Restaurant's tables"
                 className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+                data-aos="fade-right"
               />
             </picture>
             <picture>
@@ -176,6 +184,8 @@ const HomeView = () => {
                 src="/images/asian-restaurant/asian-restaurant_u6pacg_c_scale,w_600.jpg"
                 alt="Asian restaurant"
                 className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+                data-aos="fade-right"
+                data-aos-offset="200"
               />
             </picture>
             <picture>
@@ -188,6 +198,8 @@ const HomeView = () => {
                 src="/images/special-dish/special-dish_sudgeb_c_scale,w_500.jpg"
                 alt="Your next special dish"
                 className="max-h-96 max-w-96 object-contain rounded-xl shadow-lg"
+                data-aos="fade-right"
+                data-aos-offset="400"
               />
             </picture>
           </div>

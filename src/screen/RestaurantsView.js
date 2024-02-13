@@ -4,12 +4,10 @@ import {
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RestaurantCardComp from "../components/RestaurantCardComp";
 import axios from "axios";
-import restaurantReducer from "../utils/RestaurantReducer";
 import LoadingComp from "../components/LoadingComp";
-// import dummyRestaurant from "../data/dummy";
 
 const RestaurantsView = () => {
   const [restaurants, setRestaurants] = useState([]);
