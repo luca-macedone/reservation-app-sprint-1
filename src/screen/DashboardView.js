@@ -1,83 +1,24 @@
 import React, { useEffect } from "react";
-import dummyRestaurant from "../data/dummy";
+// import dummyRestaurant from "../data/dummy";
 import RestaurantCardComp from "../components/RestaurantCardComp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import {
-  faCircleExclamation,
-  faPenToSquare,
+  faGear,
+  faLifeRing,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-
-const dummyMsgs = [
-  {
-    guest_fullname: "Mario Rossi",
-    guest_number: 2,
-    reservation_hour: "19:00",
-    notes: "Allergico alle noccioline",
-  },
-  {
-    guest_fullname: "Luca Bianchi",
-    guest_number: 4,
-    reservation_hour: "20:00",
-    notes: "Preferenza per tavolo vicino alla finestra",
-  },
-  {
-    guest_fullname: "Sofia Verdi",
-    guest_number: 3,
-    reservation_hour: "21:00",
-    notes: null,
-  },
-  {
-    guest_fullname: "Anna Neri",
-    guest_number: 2,
-    reservation_hour: "19:30",
-    notes: "Vegetariana",
-  },
-  {
-    guest_fullname: "Giorgio Gialli",
-    guest_number: 5,
-    reservation_hour: "20:30",
-    notes: "Una sedia per bambino",
-  },
-  {
-    guest_fullname: "Claudia Marrone",
-    guest_number: 6,
-    reservation_hour: "21:30",
-    notes: null,
-  },
-  {
-    guest_fullname: "Federico Blu",
-    guest_number: 2,
-    reservation_hour: "19:45",
-    notes: "Allergico al glutine",
-  },
-  {
-    guest_fullname: "Elena Grigi",
-    guest_number: 4,
-    reservation_hour: "20:15",
-    notes: null,
-  },
-  {
-    guest_fullname: "Marco Viola",
-    guest_number: 3,
-    reservation_hour: "21:15",
-    notes: "Anniversario di matrimonio",
-  },
-  {
-    guest_fullname: "Serena Rossi",
-    guest_number: 2,
-    reservation_hour: "19:15",
-    notes: "Tavolo lontano dalla porta",
-  },
-];
+import Flag from "react-flagkit";
 
 const DashboardView = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="container mx-auto py-5 px-3 min-h-[90vh]">
-      <header>
+    <div className="dashboard-bg relative">
+      <div className="absolute z-[1] top-0 left-0 h-full w-full backdrop-blur-md"></div>
+      <div className="container mx-auto py-5 px-3 min-h-[90vh] relative top-0 z-[2]">
+        {/* <header>
         <h1 className="text-4xl font-special text-end">
           <span className="font-base font-bold text-accent">Luca</span>'s
           Dashboard
@@ -89,7 +30,6 @@ const DashboardView = () => {
             Your restaurants
           </h2>
           <div className="h-[100vh] lg:h-[50vh] overflow-y-auto px-1">
-            {/* TODO list of restaurants */}
             <RestaurantCardComp
               id={dummyRestaurant.id}
               type={dummyRestaurant.type}
@@ -155,13 +95,98 @@ const DashboardView = () => {
               <FontAwesomeIcon icon={faPenToSquare} />
               Edit Menu
             </button>
-            {/* <button className="bg-accent px-5 py-2 rounded-lg text-light shadow-md font-semibold uppercase flex items-center gap-3">
-              Edit
-            </button> */}
           </div>
         </div>
       </main>
-      <footer></footer>
+      <footer></footer> */}
+        <div className="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="bg-primary p-5 rounded-2xl min-h-[86vh] shadow-lg flex flex-col items-center justify-between">
+            <nav className="w-full">
+              <h1 className="text-4xl font-special text-end text-secondary pb-3 border-b-[3px] border-secondary">
+                <span className="font-base font-bold text-light">Luca</span>'s
+                Dashboard
+              </h1>
+              <ul className="flex flex-col items-center justify-start w-full gap-3 py-5">
+                <li className="w-full">
+                  <Link
+                    to={"/"}
+                    className="bg-primary text-light px-5 py-2 text-center inline-block w-full rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                  >
+                    Menu's
+                  </Link>
+                </li>
+                <li className="w-full">
+                  <Link
+                    to={"/"}
+                    className="bg-primary text-light px-5 py-2 text-center inline-block w-full rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                  >
+                    Bookings
+                  </Link>
+                </li>
+                <li className="w-full">
+                  <Link
+                    to={"/"}
+                    className="bg-primary text-light px-5 py-2 text-center inline-block w-full rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                  >
+                    Reviews
+                  </Link>
+                </li>
+                <li className="w-full">
+                  <Link
+                    to={"/"}
+                    className="bg-primary text-light px-5 py-2 text-center inline-block w-full rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                  >
+                    Orders
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+            <footer className="w-full">
+              <ul className="flex items-start justify-center flex-wrap gap-2 w-full">
+                <li className="w-max">
+                  <button
+                    type="button"
+                    className="bg-primary px-5 py-2 rounded-lg text-light hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200 flex items-center gap-2 uppercase"
+                  >
+                    <FontAwesomeIcon icon={faLifeRing} />
+                    <span className="pb-0">Help</span>
+                  </button>
+                </li>
+                <li className="w-max">
+                  <button
+                    type="button"
+                    className="bg-primary px-5 py-2 rounded-lg text-light hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200 flex items-center gap-2 uppercase"
+                  >
+                    <FontAwesomeIcon icon={faGear} />
+                    <span className="pb-0">User Settings</span>
+                  </button>
+                </li>
+                <li className="w-max">
+                  <button
+                    type="button"
+                    className="bg-tertiary px-5 py-2 rounded-lg text-dark hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200 flex items-center gap-2 uppercase"
+                  >
+                    <Flag country="GB" />
+                    <span className="pb-0">English</span>
+                  </button>
+                </li>
+                <li className="w-max">
+                  <button
+                    type="button"
+                    className="bg-tertiary px-5 py-2 rounded-lg text-dark hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200 flex items-center gap-2 uppercase"
+                  >
+                    <span className="pb-0">Logout</span>
+                    <FontAwesomeIcon
+                      icon={faRightFromBracket}
+                      className="text-secondary"
+                    />
+                  </button>
+                </li>
+              </ul>
+            </footer>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

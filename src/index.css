@@ -28,6 +28,23 @@ body {
   opacity: 30% !important;
 }
 
+.dashboard-bg {
+  background-image: url("./../public/images/hero-bg/hero-background_vpvx2l_c_scale,w_1260.webp");
+  background-image: image-set(
+    url("./../public/images/hero-bg/hero-background_vpvx2l_c_scale,w_200.webp")
+      200w,
+    url("./../public/images/hero-bg/hero-background_vpvx2l_c_scale,w_677.webp")
+      677w,
+    url("./../public/images/hero-bg/hero-background_vpvx2l_c_scale,w_944.webp")
+      944w,
+    url("./../public/images/hero-bg/hero-background_vpvx2l_c_scale,w_1260.webp")
+      1260w
+  );
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .pictures-wrapper-bottom > picture:nth-child(3),
 .pictures-wrapper-top > picture:nth-child(3),
 .pictures-wrapper-bottom > picture:nth-child(2),
