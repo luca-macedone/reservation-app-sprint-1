@@ -12,6 +12,17 @@ const DashboardCondensedView = () => {
     orders: [],
   });
 
+  const checkOrderStatus = () => {
+    let counter = 0;
+    data.orders.forEach((order) => {
+      if (!order.done) {
+        counter++;
+      }
+    });
+
+    return counter;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const url = new URL("https://65c3642539055e7482c0c4ba.mockapi.io/api/v1");
@@ -34,8 +45,6 @@ const DashboardCondensedView = () => {
         });
       } catch (err) {
         console.log(err);
-      } finally {
-        // setData({ ...data, isLoading: false });
       }
     };
 
@@ -50,7 +59,7 @@ const DashboardCondensedView = () => {
         </div>
         <section className="lg:col-span-2 grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-5 px-3 py-5 overflow-y-auto">
           <article className="h-[100%] max-h-[100%] bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
-            <h2 className="font-special text-3xl text-secondary mb-3">
+            <h2 className="font-special text-3xl text-secondary mb-3 px-2">
               Bookings
             </h2>
 
@@ -65,7 +74,7 @@ const DashboardCondensedView = () => {
             </div>
           </article>
           <article className="h-[100%] max-h-[100%] bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
-            <h2 className="font-special text-3xl text-secondary mb-3">
+            <h2 className="font-special text-3xl text-secondary mb-3 px-2">
               Reviews
             </h2>
 
@@ -80,9 +89,17 @@ const DashboardCondensedView = () => {
             </div>
           </article>
           <article className="h-[100%] max-h-[100%] col-span-1 lg:col-span-2 bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
-            <h2 className="font-special text-3xl text-secondary mb-3">
-              Orders
-            </h2>
+            <div className="mb-3 w-full flex items-end justify-between px-2">
+              <h2 className="font-special text-3xl text-secondary w-max">
+                Orders
+              </h2>
+              <div>
+                <strong>To be delivered:</strong>
+                <span className="text-3xl font-bold ms-4">
+                  {checkOrderStatus()}
+                </span>
+              </div>
+            </div>
 
             <div className="flex flex-col items-start justify-start gap-3 w-full h-48 overflow-y-auto px-2 py-1">
               {!data.isLoading ? (
