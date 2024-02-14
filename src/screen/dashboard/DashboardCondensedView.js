@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import MessagePreviewComp from "../../components/MessagePreviewComp";
+import ReviewPreviewComp from "../../components/ReviewPreviewComp";
+import OrderPreviewComp from "../../components/OrderPreviewComp";
 
 const DashboardCondensedView = () => {
   const [data, setData] = useState({
@@ -41,48 +44,56 @@ const DashboardCondensedView = () => {
 
   return (
     <>
-      <div className="w-full text-end border-b-[3px] pb-4 border-secondary">
-        <h2 className="font-special text-3xl text-secondary">Summary</h2>
-      </div>
-      <main className="grid grid-flow-row-dense grid-cols-1 lg:grid-cols-2 gap-5 max-h-full py-5">
-        <section className="h-full bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
-          <h2>Messages</h2>
+      <main className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 lg:pb-5 lg:h-full">
+        <div className="w-full text-end border-secondary col-span-2 lg:col-span-2 px-8 pt-5">
+          <h2 className="font-special text-3xl text-secondary">Summary</h2>
+        </div>
+        <section className="lg:col-span-2 grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-5 px-3 py-5 overflow-y-auto">
+          <article className="h-[100%] max-h-[100%] bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
+            <h2 className="font-special text-3xl text-secondary mb-3">
+              Bookings
+            </h2>
 
-          <div className="overflow-y-auto h-full">
-            {!data.isLoading ? (
-              data.messages.map((msg) => {
-                return <div key={msg.id}>{msg.name}</div>;
-              })
-            ) : (
-              <>Loading</>
-            )}
-          </div>
-        </section>
-        <section className="h-full bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
-          <h2>Reviews</h2>
+            <div className="flex flex-col items-start justify-start gap-3 w-full h-96 overflow-y-auto px-2 py-1">
+              {!data.isLoading ? (
+                data.messages.map((msg) => {
+                  return <MessagePreviewComp data={msg} />;
+                })
+              ) : (
+                <>Loading</>
+              )}
+            </div>
+          </article>
+          <article className="h-[100%] max-h-[100%] bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
+            <h2 className="font-special text-3xl text-secondary mb-3">
+              Reviews
+            </h2>
 
-          <div className="overflow-y-auto h-full">
-            {!data.isLoading ? (
-              data.reviews.map((rev) => {
-                return <div key={rev.id}>{rev.name}</div>;
-              })
-            ) : (
-              <>Loading</>
-            )}
-          </div>
-        </section>
-        <section className="col-span-1 lg:col-span-2 h-full bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
-          <h2>Orders</h2>
+            <div className="flex flex-col items-start justify-start gap-3 w-full h-96 overflow-y-auto px-2 py-1">
+              {!data.isLoading ? (
+                data.reviews.map((rev) => {
+                  return <ReviewPreviewComp data={rev} />;
+                })
+              ) : (
+                <>Loading</>
+              )}
+            </div>
+          </article>
+          <article className="h-[100%] max-h-[100%] col-span-1 lg:col-span-2 bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
+            <h2 className="font-special text-3xl text-secondary mb-3">
+              Orders
+            </h2>
 
-          <div className="overflow-y-auto h-full">
-            {!data.isLoading ? (
-              data.orders.map((ord) => {
-                return <div key={ord.id}>{ord.name}</div>;
-              })
-            ) : (
-              <>Loading</>
-            )}
-          </div>
+            <div className="flex flex-col items-start justify-start gap-3 w-full h-48 overflow-y-auto px-2 py-1">
+              {!data.isLoading ? (
+                data.orders.map((ord) => {
+                  return <OrderPreviewComp data={ord} />;
+                })
+              ) : (
+                <>Loading</>
+              )}
+            </div>
+          </article>
         </section>
       </main>
     </>

@@ -169,7 +169,7 @@ const DashboardView = () => {
               </ul>
             </footer>
           </div>
-          <div className="col-span-3 md:col-span-4 lg:col-span-4 min-h-screen lg:min-h-full w-full bg-light lg:rounded-2xl lg:shadow-lg p-5 lg:p-10">
+          <div className="col-span-3 md:col-span-4 lg:col-span-4 lg:h-[96vh] w-full bg-light lg:rounded-2xl lg:shadow-lg p-5 lg:p-10">
             <nav className="w-full flex lg:hidden items-center justify-between bg-primary px-3 py-2 rounded-xl shadow-lg">
               <h1 className="text-2xl font-special text-end text-secondary">
                 <span className="font-base font-bold text-light">Luca</span>'s
@@ -196,6 +196,7 @@ const DashboardView = () => {
                 )}
               </button>
             </nav>
+            <Outlet />
             <div
               className={
                 isMenuOpen
@@ -327,7 +328,6 @@ const DashboardView = () => {
                 </ul>
               </div>
             </div>
-            <Outlet />
           </div>
         </div>
       </div>
