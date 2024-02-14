@@ -11,7 +11,7 @@ const ReviewPreviewComp = (data) => {
 
   const formattedRatingMobile = (_rating) => {
     const res = Math.floor(_rating / 10);
-    console.log(res);
+    // console.log(res);
     return (
       <div className="flex items-start gap-1">
         <FontAwesomeIcon
