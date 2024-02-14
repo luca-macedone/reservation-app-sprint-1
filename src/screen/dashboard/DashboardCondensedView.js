@@ -3,6 +3,8 @@ import axios from "axios";
 import MessagePreviewComp from "../../components/MessagePreviewComp";
 import ReviewPreviewComp from "../../components/ReviewPreviewComp";
 import OrderPreviewComp from "../../components/OrderPreviewComp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHourglassHalf } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardCondensedView = () => {
   const [data, setData] = useState({
@@ -93,8 +95,12 @@ const DashboardCondensedView = () => {
               <h2 className="font-special text-3xl text-secondary w-max">
                 Orders
               </h2>
-              <div>
-                <strong>To be delivered:</strong>
+              <div className="flex items-center">
+                <strong className="hidden lg:inline-block">Delivering:</strong>
+                <FontAwesomeIcon
+                  icon={faHourglassHalf}
+                  className="text-2xl text-secondary lg:hidden"
+                />
                 <span className="text-3xl font-bold ms-4">
                   {checkOrderStatus()}
                 </span>

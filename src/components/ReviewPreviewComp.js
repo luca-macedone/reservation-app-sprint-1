@@ -8,7 +8,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ReviewPreviewComp = (data) => {
   const { name, rating, id } = data.data;
-  const formattedRating = (_rating) => {
+
+  const formattedRatingMobile = (_rating) => {
+    const res = Math.floor(_rating / 10);
+    console.log(res);
+    return (
+      <div className="flex items-start gap-1">
+        <FontAwesomeIcon
+          icon={faStarSolid}
+          className="text-accent"
+        />
+        x{res}
+      </div>
+    );
+  };
+
+  const formattedRatingDesktop = (_rating) => {
     // const maxStars = 10;
     let stars = [];
 
@@ -51,7 +66,10 @@ const ReviewPreviewComp = (data) => {
       key={id}
     >
       <h5 className="font-bold capitalize text-lg">@{name}</h5>
-      <div>{formattedRating(rating)}</div>
+      <div className="hidden lg:inline-flex">
+        {formattedRatingDesktop(rating)}
+      </div>
+      <div className="lg:hidden">{formattedRatingMobile(rating)}</div>
     </div>
   );
 };
