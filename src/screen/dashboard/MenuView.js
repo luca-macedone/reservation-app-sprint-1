@@ -13,7 +13,7 @@ const MenuView = () => {
       await axios
         .get(baseUrl)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setRestaurants(response.data);
         })
         .catch((err) => console.error(err))
