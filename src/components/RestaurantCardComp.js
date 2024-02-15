@@ -66,10 +66,10 @@ const RestaurantCardComp = ({
           </div>
         </div>
       </div>
-      <div className="text-accent text-opacity-[10%] flex items-center justify-center h-full absolute z-0 right-4 top-0">
+      <div className="text-accent text-opacity-[10%] flex items-center justify-center h-full absolute z-0 right-8 top-0">
         <FontAwesomeIcon
           icon={faCalendar}
-          className="text-[70px] rotate-[-20deg] restaurant-card-icon transition-all ease-in-out duration-200"
+          className="text-[50px] rotate-[-20deg] restaurant-card-icon transition-all ease-in-out duration-200"
         />
       </div>
     </Link>
