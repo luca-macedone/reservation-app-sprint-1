@@ -50,10 +50,10 @@ const routes = [
         path: "reviews",
         element: <ReviewView />,
       },
-      {
-        path: "orders",
-        element: <OrdersView />,
-      },
+      // {
+      //   path: "orders",
+      //   element: <OrdersView />,
+      // },
       {
         path: "help",
         element: <HelpView />,
