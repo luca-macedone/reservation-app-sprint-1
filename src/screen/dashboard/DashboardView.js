@@ -107,7 +107,7 @@ const DashboardView = () => {
                     <span className="hidden lg:inline-flex">Reviews</span>
                   </Link>
                 </li>
-                <li className="w-full flex items-center justify-center">
+                {/* <li className="w-full flex items-center justify-center">
                   <Link
                     to={"/dashboard/orders"}
                     className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
@@ -118,7 +118,7 @@ const DashboardView = () => {
                     />
                     <span className="hidden lg:inline-flex">Orders</span>
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </nav>
             <footer className="w-full">
