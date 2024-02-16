@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MessagePreviewComp from "../../components/MessagePreviewComp";
 import ReviewPreviewComp from "../../components/ReviewPreviewComp";
-import OrderPreviewComp from "../../components/OrderPreviewComp";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHourglassHalf } from "@fortawesome/free-solid-svg-icons";
+// import OrderPreviewComp from "../../components/OrderPreviewComp";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faHourglassHalf } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardCondensedView = () => {
   const [data, setData] = useState({
@@ -14,16 +14,16 @@ const DashboardCondensedView = () => {
     orders: [],
   });
 
-  const checkOrderStatus = () => {
-    let counter = 0;
-    data.orders.forEach((order) => {
-      if (!order.done) {
-        counter++;
-      }
-    });
+  // const checkOrderStatus = () => {
+  //   let counter = 0;
+  //   data.orders.forEach((order) => {
+  //     if (!order.done) {
+  //       counter++;
+  //     }
+  //   });
 
-    return counter;
-  };
+  //   return counter;
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +60,7 @@ const DashboardCondensedView = () => {
           <h2 className="font-special text-3xl text-secondary">Summary</h2>
         </div>
         <section className="lg:col-span-2 grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-5 px-3 py-5 overflow-hidden h-full">
-          <article className="h-full overflow-hidden bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
+          <article className="h-full overflow-hidden flex flex-col bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
             <h2 className="font-special text-3xl text-secondary mb-3 px-2">
               Bookings
             </h2>
@@ -76,7 +76,7 @@ const DashboardCondensedView = () => {
               </div>
             </div>
           </article>
-          <article className="h-full overflow-hidden bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
+          <article className="h-full overflow-hidden flex flex-col bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
             <h2 className="font-special text-3xl text-secondary mb-3 px-2 h-max">
               Reviews
             </h2>
