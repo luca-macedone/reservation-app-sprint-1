@@ -16,6 +16,7 @@ import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import LoadingComp from "../components/LoadingComp";
 import { DateTime } from "luxon";
+import AOS from "aos";
 
 const SingleRestaurantView = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -234,6 +235,7 @@ const SingleRestaurantView = () => {
   };
 
   useEffect(() => {
+    AOS.refresh();
     setIsLoading(true);
     setReservationStatus({
       isReserved: false,
@@ -564,12 +566,15 @@ const SingleRestaurantView = () => {
                         : "flex flex-col xl:flex-row-reverse items-center md:justify-center gap-10 my-10 xl:my-0"
                     }
                     data-aos={index % 2 === 0 ? "fade-left" : "fade-right"}
+                    data-aos-offset={100 * index}
                   >
-                    <img
-                      src={pic.src}
-                      alt={pic.alt}
-                      className="my-5"
-                    />
+                    <div className="my-5 h-[500px] rounded-3xl overflow-hidden shadow-lg">
+                      <img
+                        src={pic.src}
+                        alt={pic.alt}
+                        className="object-cover h-full"
+                      />
+                    </div>
                     <div className="flex items-center justify-center">
                       <p className="text-center font-bold text-xl leading-10 italic max-w-[600px]">
                         <FontAwesomeIcon

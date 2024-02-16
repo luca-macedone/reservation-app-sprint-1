@@ -1,4 +1,4 @@
-import { faBars, faUser, faX } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBuilding, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -52,10 +52,10 @@ const NavbarComp = () => {
             className="bg-transparent hover:bg-light text-light hover:text-primary px-5 py-2 text-lg rounded-lg transition-colors ease-in-out duration-200"
           >
             <FontAwesomeIcon
-              icon={faUser}
+              icon={faBuilding}
               className="me-2"
             />
-            User
+            Owners
           </Link>
         </div>
         <button
@@ -107,7 +107,11 @@ const NavbarComp = () => {
             className="w-full text-center bg-light hover:bg-primary text-primary hover:text-light px-5 py-1 rounded-lg transition-colors ease-in-out duration-200"
             onClick={() => handleClick(isMenuOpen)}
           >
-            User
+            <FontAwesomeIcon
+              icon={faBuilding}
+              className="me-2"
+            />
+            Owners
           </Link>
         </div>
       </div>
