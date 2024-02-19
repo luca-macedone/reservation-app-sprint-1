@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MessagePreviewComp from "../../components/MessagePreviewComp";
 import ReviewPreviewComp from "../../components/ReviewPreviewComp";
-// import OrderPreviewComp from "../../components/OrderPreviewComp";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faHourglassHalf } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardCondensedView = () => {
   const [data, setData] = useState({
@@ -13,17 +10,6 @@ const DashboardCondensedView = () => {
     reviews: [],
     orders: [],
   });
-
-  // const checkOrderStatus = () => {
-  //   let counter = 0;
-  //   data.orders.forEach((order) => {
-  //     if (!order.done) {
-  //       counter++;
-  //     }
-  //   });
-
-  //   return counter;
-  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,33 +78,6 @@ const DashboardCondensedView = () => {
               </div>
             </div>
           </article>
-          {/* <article className="h-[100%] max-h-[100%] col-span-1 lg:col-span-2 bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
-            <div className="mb-3 w-full flex items-end justify-between px-2">
-              <h2 className="font-special text-3xl text-secondary w-max">
-                Orders
-              </h2>
-              <div className="flex items-center">
-                <strong className="hidden lg:inline-block">Delivering:</strong>
-                <FontAwesomeIcon
-                  icon={faHourglassHalf}
-                  className="text-2xl text-secondary lg:hidden"
-                />
-                <span className="text-3xl font-bold ms-4">
-                  {checkOrderStatus()}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-start justify-start gap-3 w-full h-48 overflow-y-auto px-2 py-1">
-              {!data.isLoading ? (
-                data.orders.map((ord) => {
-                  return <OrderPreviewComp data={ord} />;
-                })
-              ) : (
-                <>Loading</>
-              )}
-            </div>
-          </article> */}
         </section>
       </main>
     </>

@@ -9,7 +9,6 @@ import MeView from "./screen/dashboard/MeView";
 import MenuView from "./screen/dashboard/MenuView";
 import BookingsView from "./screen/dashboard/BookingsView";
 import ReviewView from "./screen/dashboard/ReviewView";
-import OrdersView from "./screen/dashboard/OrdersView";
 import HelpView from "./screen/dashboard/HelpView";
 import DashboardCondensedView from "./screen/dashboard/DashboardCondensedView";
 
@@ -50,10 +49,6 @@ const routes = [
         path: "reviews",
         element: <ReviewView />,
       },
-      // {
-      //   path: "orders",
-      //   element: <OrdersView />,
-      // },
       {
         path: "help",
         element: <HelpView />,
