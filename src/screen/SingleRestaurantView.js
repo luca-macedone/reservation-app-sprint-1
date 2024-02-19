@@ -269,7 +269,7 @@ const SingleRestaurantView = () => {
         ]);
         // console.log(await fetchReviews());
         let reviewsData = await fetchReviews();
-        console.log(reviewsData);
+        // console.log(reviewsData);
         setRestaurant({
           data: { ...res1.data },
           gallery: [...res2.data],
