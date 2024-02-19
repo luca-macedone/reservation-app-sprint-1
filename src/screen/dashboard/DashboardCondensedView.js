@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MessagePreviewComp from "../../components/MessagePreviewComp";
 import ReviewPreviewComp from "../../components/ReviewPreviewComp";
+import { Link } from "react-router-dom";
 
 const DashboardCondensedView = () => {
   const [data, setData] = useState({
@@ -61,6 +62,7 @@ const DashboardCondensedView = () => {
                 )}
               </div>
             </div>
+            <Link to="/dashboard/bookings" className="px-3 py-2 text-accent underline underline-offset-2 hover:text-secondary transition-colors ease-in-out duration-200 w-max">See more</Link>
           </article>
           <article className="h-full overflow-hidden flex flex-col bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
             <h2 className="font-special text-3xl text-secondary mb-3 px-2 h-max">
@@ -77,6 +79,7 @@ const DashboardCondensedView = () => {
                 )}
               </div>
             </div>
+            <Link to="/dashboard/reviews" className="px-3 py-2 text-accent underline underline-offset-2 hover:text-secondary transition-colors ease-in-out duration-200 w-max">See more</Link>
           </article>
         </section>
       </main>

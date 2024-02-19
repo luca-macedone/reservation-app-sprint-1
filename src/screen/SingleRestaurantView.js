@@ -142,6 +142,7 @@ const SingleRestaurantView = () => {
   useEffect(() => {
     AOS.refresh();
     setIsLoading(true);
+    console.log(id);
 
     window.scrollTo(0, 0);
     const fetchRestaurant = async () => {
@@ -334,7 +335,7 @@ const SingleRestaurantView = () => {
             </div>
             <ReservationComponent
               restaurant={restaurant}
-              id={id}
+              id={{ ...id }}
             />
           </section>
           {restaurant.gallery.length > 0 && (

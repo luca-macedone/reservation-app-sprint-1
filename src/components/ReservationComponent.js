@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import { DateTime } from "luxon";
 
-const ReservationComponent = (restaurant, id) => {
+const ReservationComponent = (restaurant) => {
   const [reservationStatus, setReservationStatus] = useState({
     isReserved: false,
     message: "",
@@ -33,7 +33,7 @@ const ReservationComponent = (restaurant, id) => {
   const addReservation = async () => {
     axios
       .post(
-        `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${id}/message`,
+        `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${restaurant.restaurant.data.id}/message`,
         reservation
       )
       .then((response) => {
@@ -108,6 +108,7 @@ const ReservationComponent = (restaurant, id) => {
       message: "",
     });
     // console.log(restaurant.restaurant.data.free_seats);
+    // console.log(id);
   }, []);
   return (
     <form
