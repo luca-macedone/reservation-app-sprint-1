@@ -333,7 +333,7 @@ const SingleRestaurantView = () => {
               </table>
             </div>
             <ReservationComponent
-              restaurant={restaurant.data}
+              restaurant={restaurant}
               id={id}
             />
           </section>

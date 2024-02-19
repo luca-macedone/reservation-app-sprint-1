@@ -69,7 +69,7 @@ const ReservationComponent = (restaurant, id) => {
   };
 
   const checkIsFull = () => {
-    return parseInt(restaurant.free_seats, 10) - reservation.seats <= 0;
+    return parseInt(restaurant.restaurant.data.free_seats, 10) - reservation.seats <= 0;
   };
 
   const handleChange = (evt) => {
@@ -107,6 +107,7 @@ const ReservationComponent = (restaurant, id) => {
       isReserved: false,
       message: "",
     });
+    // console.log(restaurant.restaurant.data.free_seats);
   }, []);
   return (
     <form
@@ -130,7 +131,9 @@ const ReservationComponent = (restaurant, id) => {
               className="text-xl"
             />
           )}
-          {parseInt(restaurant.free_seats, 10) <= 0 ? "Full" : "Reservation avaliable"}
+          {parseInt(restaurant.restaurant.data.free_seats, 10) <= 0
+            ? "Full"
+            : "Reservation avaliable"}
         </span>
       </div>
       <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 justify-center items-center">
@@ -155,7 +158,7 @@ const ReservationComponent = (restaurant, id) => {
             name="seats"
             // value={reservation.seats}
             // defaultValue={reservation.seats}
-            max={restaurant.free_seats}
+            max={restaurant.restaurant.data.free_seats}
             className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
             onChange={handleChange}
           />
@@ -197,9 +200,11 @@ const ReservationComponent = (restaurant, id) => {
           <button
             type="submit"
             className="bg-accent px-8 py-2 rounded-lg flex items-center gap-3 col-span-1 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200 disabled:ring-2 disabled:ring-accent disabled:bg-light disabled:text-accent disabled:hover:scale-100"
-            disabled={parseInt(restaurant.free_seats, 10) <= 0}
+            disabled={parseInt(restaurant.restaurant.data.free_seats, 10) <= 0}
           >
-            {parseInt(restaurant.free_seats, 10) <= 0 ? "Restaurant full" : "Reserve"}
+            {parseInt(restaurant.restaurant.data.free_seats, 10) <= 0
+              ? "Restaurant full"
+              : "Reserve"}
           </button>
         </div>
       </div>
