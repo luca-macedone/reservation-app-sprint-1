@@ -210,7 +210,7 @@ const RestaurantsView = () => {
             <form
               ref={formRef}
               action=""
-              className="bg-secondary text-light p-5 rounded-xl shadow-lg w-full grid grid-flow-row items-end gap-3 mt-[100px] grid-cols-1 md:grid-cols-3"
+              className="bg-secondary text-light p-5 rounded-xl shadow-lg w-full lg:w-max mx-auto grid grid-flow-row items-end gap-3 mt-[100px] grid-cols-1 md:grid-cols-3"
             >
               <h1 className="text-2xl font-bold text-light drop-shadow-lg col-span-1 md:col-span-3">
                 Seach your next
@@ -259,7 +259,7 @@ const RestaurantsView = () => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col items-start gap-1">
+              <div className="flex flex-col items-start gap-1 mb-5 lg:mb-0">
                 <label htmlFor="where">Where</label>
                 <input
                   type="text"
@@ -286,7 +286,7 @@ const RestaurantsView = () => {
                   <option>Loading...</option>
                 )}
               </datalist>
-              <div className="flex flex-col items-start gap-1">
+              {/* <div className="flex flex-col items-start gap-1">
                 <label htmlFor="day-filter">When</label>
                 <input
                   type="datetime-local"
@@ -308,8 +308,8 @@ const RestaurantsView = () => {
                   defaultValue={1}
                   onChange={handleChange}
                 />
-              </div>
-              <div className="flex items-center justify-end gap-3 col-span-1 md:col-span-2">
+              </div> */}
+              <div className="flex items-center justify-end gap-3">
                 <button
                   type="button"
                   className="bg-light text-dark px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary hover:scale-105 transition-all ease-in-out duration-200"
