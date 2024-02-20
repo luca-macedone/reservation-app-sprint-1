@@ -5,7 +5,12 @@ import BookingMessage from "../../components/dashboard/booking/BookingMessage";
 import BookingDetails from "../../components/dashboard/booking/BookingDetails";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInbox } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleCheck,
+  faClock,
+  faInbox,
+  faXmarkCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const BookingContext = createContext();
 
@@ -83,7 +88,7 @@ const BookingsView = () => {
       <h2 className="font-special text-secondary text-3xl text-end mb-3 mt-5 lg:mt-0">
         Bookings
       </h2>
-      <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-3 h-full overflow-hidden gap-3">
+      <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-3 h-full overflow-hidden gap-0">
         <div className="h-full row-span-1 lg:row-span-2 overflow-y-auto p-2 flex flex-col gap-3 bg-tertiary rounded-2xl">
           <h4 className="font-special text-secondary text-3xl px-5 py-2 bg-light rounded-tl-lg border-b-2 border-secondary">
             <FontAwesomeIcon
@@ -113,10 +118,43 @@ const BookingsView = () => {
         <BookingContext.Provider value={activeMessage}>
           <BookingDetails />
         </BookingContext.Provider>
-        <div className="col-span-1 lg:col-span-2 bg-tertiary p-5 lg:p-10 rounded-xl flex items-center justify-start gap-5 h-[200px]">
-          <span>On Hold: {bookingAnalytics.hold}</span>
-          <span>Accepted: {bookingAnalytics.accepted}</span>
-          <span>Refused: {bookingAnalytics.refused}</span>
+        <div className="col-span-1 lg:col-span-2 bg-tertiary p-5 rounded-br-xl flex items-center justify-start gap-5 h-full">
+          <div className="flex items-center flex-col bg-light px-5 py-2.5 rounded-2xl gap-4">
+            <div className="flex items-center gap-2">
+              <FontAwesomeIcon
+                icon={faClock}
+                className="text-3xl text-primary"
+              />
+              <span className="font-special text-primary">On Hold</span>
+            </div>
+            <span className="text-3xl font-semibold">
+              {bookingAnalytics.hold}
+            </span>
+          </div>
+          <div className="flex items-center flex-col bg-light px-5 py-2.5 rounded-2xl gap-4">
+            <div className="flex items-center gap-2">
+              <FontAwesomeIcon
+                icon={faCircleCheck}
+                className="text-3xl text-primary"
+              />
+              <span className="font-special text-primary">Accepted</span>
+            </div>
+            <span className="text-3xl font-semibold">
+              {bookingAnalytics.accepted}
+            </span>
+          </div>
+          <div className="flex items-center flex-col bg-light px-5 py-2.5 rounded-2xl gap-4">
+            <div className="flex items-center gap-2">
+              <FontAwesomeIcon
+                icon={faXmarkCircle}
+                className="text-3xl text-primary"
+              />
+              <span className="font-special text-primary">Refused</span>
+            </div>
+            <span className="text-3xl font-semibold">
+              {bookingAnalytics.refused}
+            </span>
+          </div>
         </div>
       </div>
     </div>
