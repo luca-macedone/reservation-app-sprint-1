@@ -29,12 +29,17 @@ const BookingsView = () => {
       .get(`${url}/message`)
       .then((response) => {
         // console.log(response.data);
+        // console.log(location.state);
         setBookingList(response.data);
         if (!location.state) {
-          setActiveMessage({ loading: false, data: response.data[0] });
+          // console.log(response.data);
+          let res = response.data[0];
+          // setActiveMessage({ ...activeMessage, data: res });
+          setActiveMessage((prevState) => ({ loading: false, data: res }));
         } else {
           let res = response.data.find((item) => item.id === location.state.id);
-          setActiveMessage({ loading: false, data: res });
+          // setActiveMessage({ ...activeMessage, data: res });
+          setActiveMessage((prevState) => ({ loading: false, data: res }));
         }
         fetchStatus(response.data);
       })
@@ -66,7 +71,10 @@ const BookingsView = () => {
   useEffect(() => {
     setIsLoading(true);
     fetchList().finally(() => {
+      // console.log(activeMessage);
       setIsLoading(false);
+      // setActiveMessage({ ...activeMessage, loading: false });
+      // setActiveMessage(prevState => ({loading: false, data: res}))
     });
   }, []);
 
@@ -88,6 +96,7 @@ const BookingsView = () => {
             bookingList.map((message) => {
               return (
                 <BookingMessage
+                  key={message.id}
                   {...message}
                   handleChildClick={(_id) => {
                     // console.log("test", _id);
