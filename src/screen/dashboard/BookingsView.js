@@ -3,7 +3,7 @@ import axios from "axios";
 import LoadingComp from "../../components/LoadingComp";
 import BookingMessage from "../../components/dashboard/booking/BookingMessage";
 import BookingDetails from "../../components/dashboard/booking/BookingDetails";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleCheck,
@@ -29,35 +29,27 @@ const BookingsView = () => {
     accepted: 0,
     refused: 0,
   });
-  const location = useLocation();
+  // const location = useLocation();
 
   const fetchList = async () => {
     const url = new URL("https://65c3642539055e7482c0c4ba.mockapi.io/api/v1");
-    await axios
-      .get(`${url}/message`)
-      .then((response) => {
-        // console.log(response.data);
-        // console.log(location.state);
-        setBookingList(response.data);
-        // setFilteredBookingList(response.data);
-        if (!location.state) {
-          // console.log(response.data);
-          let res = response.data[0];
-          // setActiveMessage({ ...activeMessage, data: res });
-          setActiveMessage((prevState) => ({ loading: false, data: res }));
-        } else {
-          let res = response.data.find((item) => item.id === location.state.id);
-          // setActiveMessage({ ...activeMessage, data: res });
-          setActiveMessage((prevState) => ({ loading: false, data: res }));
-        }
-        fetchStatus(response.data);
-        return response.data;
-      })
-      .catch((err) => console.error(err));
+    try {
+      const response = await axios.get(`${url}/message`);
+      setBookingList(response.data);
+      setActiveMessage((prevState) => ({
+        ...prevState,
+        loading: false,
+        data: response.data[0] || null,
+      }));
+      fetchStatus(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
   };
 
   const handleInboxFilter = (evt) => {
-    // console.log(evt.target.value);
     setInboxFilter(evt.target.value);
   };
 
@@ -83,27 +75,18 @@ const BookingsView = () => {
     setBookingAnalytics(result);
   };
 
-  const filterInboxMessages = async (data) => {
-    const res = await data.filter((msg) => msg.status === inboxFilter);
-    console.log(res);
+  const filterInboxMessages = (data) => {
+    const res = data.filter((msg) => msg.status === inboxFilter);
+    // console.log(res);
     setFilteredBookingList(res);
   };
 
   useEffect(() => {
-    if (bookingList.length <= 0) {
-      setIsLoading(true);
-      fetchList().finally((response) => {
-        // console.log(activeMessage);
-        // setActiveMessage({ ...activeMessage, loading: false });
-        // setActiveMessage(prevState => ({loading: false, data: res}))
-        filterInboxMessages(response).finally(() => {
-          setIsLoading(false);
-        });
-      });
-    } else {
-      filterInboxMessages(bookingList);
-    }
-    // setIsLoading(false);
+    setIsLoading(true);
+    fetchList().then((data) => {
+      filterInboxMessages(data);
+      setIsLoading(false);
+    });
   }, [inboxFilter]);
 
   return (
@@ -127,7 +110,6 @@ const BookingsView = () => {
                   key={message.id}
                   {...message}
                   handleChildClick={(_id) => {
-                    // console.log("test", _id);
                     let result = bookingList.find((msg) => msg.id === _id);
                     setActiveMessage({ loading: false, data: result });
                   }}
