@@ -51,12 +51,13 @@ const BookingsView = () => {
           setActiveMessage((prevState) => ({ loading: false, data: res }));
         }
         fetchStatus(response.data);
+        return response.data;
       })
       .catch((err) => console.error(err));
   };
 
   const handleInboxFilter = (evt) => {
-    console.log(evt.target.value);
+    // console.log(evt.target.value);
     setInboxFilter(evt.target.value);
   };
 
@@ -82,21 +83,27 @@ const BookingsView = () => {
     setBookingAnalytics(result);
   };
 
-  const filterInboxMessages = async () => {
-    const res = await bookingList.filter((msg) => msg.status === inboxFilter);
+  const filterInboxMessages = async (data) => {
+    const res = await data.filter((msg) => msg.status === inboxFilter);
     console.log(res);
     setFilteredBookingList(res);
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    fetchList().finally(() => {
-      // console.log(activeMessage);
-      setIsLoading(false);
-      filterInboxMessages();
-      // setActiveMessage({ ...activeMessage, loading: false });
-      // setActiveMessage(prevState => ({loading: false, data: res}))
-    });
+    if (bookingList.length <= 0) {
+      setIsLoading(true);
+      fetchList().finally((response) => {
+        // console.log(activeMessage);
+        // setActiveMessage({ ...activeMessage, loading: false });
+        // setActiveMessage(prevState => ({loading: false, data: res}))
+        filterInboxMessages(response).finally(() => {
+          setIsLoading(false);
+        });
+      });
+    } else {
+      filterInboxMessages(bookingList);
+    }
+    // setIsLoading(false);
   }, [inboxFilter]);
 
   return (

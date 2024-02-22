@@ -1,19 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  faCheckCircle,
+  // faCheckCircle,
   faCircleExclamation,
   faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 
 import axios from "axios";
-import { DateTime } from "luxon";
 
 const ReservationComponent = (restaurant) => {
-  const [reservationStatus, setReservationStatus] = useState({
-    isReserved: false,
-    message: "",
-  });
+  const [reservationStatus, setReservationStatus] = useState(null);
   const [reservation, setReservation] = useState({
     name: "",
     seats: 1,
@@ -22,14 +18,6 @@ const ReservationComponent = (restaurant) => {
   });
   const formRef = useRef(null);
 
-  const formattedDate = (time) => {
-    // console.log(time);
-    const parsedTime = DateTime.fromISO(time);
-    // console.log(parsedTime);
-    return parsedTime.toLocaleString(DateTime.DATETIME_MED);
-    // return parsedTime.toString();
-  };
-
   const addReservation = async () => {
     axios
       .post(
@@ -37,19 +25,11 @@ const ReservationComponent = (restaurant) => {
         reservation
       )
       .then((response) => {
-        console.log(response);
+        // console.log(response.data);
+        setReservationStatus(response.data.status);
       })
       .catch((err) => console.error(err))
       .finally(() => {
-        setReservationStatus({
-          isReserved: true,
-          message: `You table is reserved for ${formattedDate(
-            reservation.when
-          )} x ${reservation.seats} ${
-            reservation.seats > 1 ? "guests" : "guest"
-          }. Enjoy the experience`,
-        });
-
         formRef.current.reset();
       });
   };
@@ -62,14 +42,31 @@ const ReservationComponent = (restaurant) => {
   const handleBookingSubmit = (evt) => {
     evt.preventDefault();
     evt.stopPropagation();
+    console.log(evt);
 
-    if ((reservation.name.length !== 0, !checkIsFull())) {
+    if (reservation.name.length !== 0 && checkIsFull()) {
       addReservation();
+      console.log("sending");
     }
   };
 
+  const checkReservationStatus = async () => {
+    await axios
+      .get(
+        `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${
+          restaurant.restaurant.data.id
+        }/message/${parseInt(reservationStatus.id, 10)}`
+      )
+      .then((response) => {
+        setReservationStatus(response.data);
+      });
+  };
+
   const checkIsFull = () => {
-    return parseInt(restaurant.restaurant.data.free_seats, 10) - reservation.seats <= 0;
+    return (
+      parseInt(restaurant.restaurant.data.free_seats, 10) - reservation.seats <=
+      0
+    );
   };
 
   const handleChange = (evt) => {
@@ -83,7 +80,6 @@ const ReservationComponent = (restaurant) => {
       case "seats": {
         if (evt.target.value > 0) {
           setReservation({ ...reservation, seats: evt.target.value });
-          // checkIsFull();
         }
         break;
       }
@@ -103,12 +99,7 @@ const ReservationComponent = (restaurant) => {
   };
 
   useEffect(() => {
-    setReservationStatus({
-      isReserved: false,
-      message: "",
-    });
-    // console.log(restaurant.restaurant.data.free_seats);
-    // console.log(id);
+    // TODO aggiungere check dei messaggi
   }, []);
   return (
     <form
@@ -120,7 +111,7 @@ const ReservationComponent = (restaurant) => {
         <h2 className="font-special font-light text-3xl mb-5">
           Reserve your table
         </h2>
-        <span className="bg-accent text-light px-8 py-2 rounded-lg flex items-center gap-2 transition-all ease-in-out duration-200">
+        {/* <span className="bg-accent text-light px-8 py-2 rounded-lg flex items-center gap-2 transition-all ease-in-out duration-200">
           {checkIsFull() ? (
             <FontAwesomeIcon
               icon={faCircleExclamation}
@@ -135,7 +126,7 @@ const ReservationComponent = (restaurant) => {
           {parseInt(restaurant.restaurant.data.free_seats, 10) <= 0
             ? "Full"
             : "Reservation avaliable"}
-        </span>
+        </span> */}
       </div>
       <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 justify-center items-center">
         <div className="flex flex-col items-start justify-start h-full gap-1">
@@ -145,7 +136,6 @@ const ReservationComponent = (restaurant) => {
             id="guest_fullname"
             name="name"
             className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
-            // value={reservation.name}
             onChange={handleChange}
           />
         </div>
@@ -157,8 +147,6 @@ const ReservationComponent = (restaurant) => {
             min={1}
             step={1}
             name="seats"
-            // value={reservation.seats}
-            // defaultValue={reservation.seats}
             max={restaurant.restaurant.data.free_seats}
             className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
             onChange={handleChange}
@@ -172,7 +160,6 @@ const ReservationComponent = (restaurant) => {
             className="w-full rounded-lg text-dark bg-light py-2 px-5 focus:outline-accent"
             onChange={handleChange}
             rows="3"
-            // value={reservation.notes}
           ></textarea>
         </div>
         <div className="flex flex-col items-start justify-start h-full gap-1">
@@ -183,8 +170,6 @@ const ReservationComponent = (restaurant) => {
               id="reservation_date"
               name="when"
               step={1800}
-              // value={reservation.when}
-              // defaultValue={reservation.when}
               className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
               onChange={handleChange}
             />
@@ -209,16 +194,6 @@ const ReservationComponent = (restaurant) => {
           </button>
         </div>
       </div>
-
-      {reservationStatus.isReserved && (
-        <div className="bg-light text-accent px-5 ring-2 ring-accent py-2 mt-4 rounded-xl">
-          <FontAwesomeIcon
-            icon={faCheckCircle}
-            className="text-green-500 me-2 text-xl"
-          />
-          {reservationStatus.message}
-        </div>
-      )}
     </form>
   );
 };

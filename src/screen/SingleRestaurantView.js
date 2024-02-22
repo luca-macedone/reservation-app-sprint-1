@@ -142,7 +142,7 @@ const SingleRestaurantView = () => {
   useEffect(() => {
     AOS.refresh();
     setIsLoading(true);
-    console.log(id);
+    // console.log(id);
 
     window.scrollTo(0, 0);
     const fetchRestaurant = async () => {
