@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
-import LoadingComp from "../../components/LoadingComp";
+// import LoadingComp from "../../components/LoadingComp";
 import BookingMessage from "../../components/dashboard/booking/BookingMessage";
 import BookingDetails from "../../components/dashboard/booking/BookingDetails";
 // import { useLocation } from "react-router-dom";
@@ -9,7 +9,9 @@ import {
   faCircleCheck,
   faClock,
   faEye,
+  faEyeSlash,
   faInbox,
+  faSpinner,
   faXmarkCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -95,7 +97,7 @@ const BookingsView = () => {
         Bookings
       </h2>
       <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-3 h-full overflow-hidden gap-0">
-        <div className="h-full row-span-1 lg:row-span-2 overflow-y-auto p-2 flex flex-col gap-3 bg-tertiary rounded-l-2xl">
+        <div className="h-full row-span-1 lg:row-span-2 overflow-y-scroll p-2 flex flex-col gap-3 bg-tertiary rounded-l-2xl">
           <h4 className="font-special text-secondary text-3xl px-5 py-2 bg-light rounded-tl-lg border-b-2 border-secondary">
             <FontAwesomeIcon
               icon={faInbox}
@@ -121,22 +123,30 @@ const BookingsView = () => {
               <h6 className="text-center px-5 py-2">No messages here.</h6>
             )
           ) : (
-            <LoadingComp />
+            <div className="h-max lg:h-[600px] min-w-full bg-tertiary rounded-tr-xl font-special flex flex-col items-center text-primary justify-center col-span-1 lg:col-span-2">
+              <h3 className="text-2xl">Loading</h3>
+              <FontAwesomeIcon
+                icon={faSpinner}
+                className="text-xl animate-spin"
+              />
+            </div>
           )}
         </div>
         <BookingContext.Provider value={activeMessage}>
           <BookingDetails />
         </BookingContext.Provider>
-        <div className="col-span-1 lg:col-span-2 bg-tertiary p-5 rounded-br-xl h-full flex items-center justify-between">
-          <div className="flex items-center justify-start gap-5">
-            <div className="flex flex-col gap-2">
+        <div className="col-span-1 lg:col-span-2 bg-tertiary p-5 rounded-br-xl h-full flex items-center justify-between border-t-2 border-secondary">
+          <div className="flex items-start justify-start gap-5 w-full">
+            <div className="flex flex-col gap-2 w-max h-full">
               <div className="flex items-center flex-col bg-light px-5 py-2.5 rounded-2xl gap-4">
                 <div className="flex items-center gap-2">
                   <FontAwesomeIcon
                     icon={faClock}
                     className="text-3xl text-primary"
                   />
-                  <span className="font-special text-primary">On Hold</span>
+                  <span className="font-special text-primary text-nowrap">
+                    On Hold
+                  </span>
                 </div>
                 <span className="text-3xl font-semibold">
                   {bookingAnalytics.hold}
@@ -145,17 +155,29 @@ const BookingsView = () => {
               <div className="w-full flex">
                 <label
                   htmlFor="hold-filter"
-                  className="px-5 py-2 bg-light rounded-lg border-2 border-transparent transition-all ease-in-out duration-200 w-full text-center"
+                  className="px-5 py-2 bg-light rounded-lg border-2 border-transparent transition-all ease-in-out duration-200 w-full flex items-center justify-center gap-2"
                   style={{
                     borderColor: inboxFilter === "HOLD" && "#FF4C31",
                     color: inboxFilter === "HOLD" && "#FF4C31",
                   }}
                 >
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className="me-2"
-                  />
-                  Show
+                  {inboxFilter === "HOLD" ? (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faEyeSlash}
+                        className="text-xl"
+                      />
+                      Showing
+                    </>
+                  ) : (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className="text-xl"
+                      />
+                      Show
+                    </>
+                  )}
                   <input
                     className="hidden"
                     type="radio"
@@ -167,14 +189,16 @@ const BookingsView = () => {
                 </label>
               </div>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 w-max h-full">
               <div className="flex items-center flex-col bg-light px-5 py-2.5 rounded-2xl gap-4">
                 <div className="flex items-center gap-2">
                   <FontAwesomeIcon
                     icon={faCircleCheck}
                     className="text-3xl text-primary"
                   />
-                  <span className="font-special text-primary">Accepted</span>
+                  <span className="font-special text-primary text-nowrap">
+                    Accepted
+                  </span>
                 </div>
                 <span className="text-3xl font-semibold">
                   {bookingAnalytics.accepted}
@@ -183,17 +207,29 @@ const BookingsView = () => {
               <div className="w-full flex">
                 <label
                   htmlFor="accept-filter"
-                  className="px-5 py-2 bg-light rounded-lg border-2 border-transparent transition-all ease-in-out duration-200 w-full text-center"
+                  className="px-5 py-2 bg-light rounded-lg border-2 border-transparent transition-all ease-in-out duration-200 w-full flex items-center justify-center gap-2"
                   style={{
                     borderColor: inboxFilter === "ACCEPTED" && "#FF4C31",
                     color: inboxFilter === "ACCEPTED" && "#FF4C31",
                   }}
                 >
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className="me-2"
-                  />
-                  Show
+                  {inboxFilter === "ACCEPTED" ? (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faEyeSlash}
+                        className="text-xl"
+                      />
+                      Showing
+                    </>
+                  ) : (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className="text-xl"
+                      />
+                      Show
+                    </>
+                  )}
                   <input
                     className="hidden"
                     type="radio"
@@ -221,17 +257,29 @@ const BookingsView = () => {
               <div className="w-full flex">
                 <label
                   htmlFor="refuse-filter"
-                  className="px-5 py-2 bg-light rounded-lg border-2 border-transparent transition-all ease-in-out duration-200 w-full text-center"
+                  className="px-5 py-2 bg-light rounded-lg border-2 border-transparent transition-all ease-in-out duration-200 w-full flex items-center justify-center gap-2"
                   style={{
                     borderColor: inboxFilter === "REFUSED" && "#FF4C31",
                     color: inboxFilter === "REFUSED" && "#FF4C31",
                   }}
                 >
-                  <FontAwesomeIcon
-                    icon={faEye}
-                    className="me-2"
-                  />
-                  Show
+                  {inboxFilter === "REFUSED" ? (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faEyeSlash}
+                        className="text-xl"
+                      />
+                      Showing
+                    </>
+                  ) : (
+                    <>
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className="text-xl"
+                      />
+                      Show
+                    </>
+                  )}
                   <input
                     className="hidden"
                     type="radio"
@@ -242,6 +290,13 @@ const BookingsView = () => {
                   />
                 </label>
               </div>
+            </div>
+            <div className="bg-light rounded-2xl px-5 py-3 w-full text-sm h-[150px] overflow-y-auto">
+              Small description about what you can do on this page <br />
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
+              fugit quae quaerat minima vero non, vel iste cupiditate nesciunt!
+              Explicabo magni nihil labore facere nostrum, architecto neque
+              sapiente dolorum adipisci!
             </div>
           </div>
         </div>
