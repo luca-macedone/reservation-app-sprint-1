@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   faCircleCheck,
   // faCheckCircle,
@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import axios from "axios";
-import { getMinDate } from "../utils/DateHandling";
+import { getMinDate, validDate } from "../utils/DateHandling";
 
 const ReservationComponent = (restaurant) => {
   const [reservationMessage, setReservationMessage] = useState({
@@ -23,25 +23,33 @@ const ReservationComponent = (restaurant) => {
     when: "",
     notes: "",
   });
+  const [invalidInput, setInvalidInput] = useState({
+    name: false,
+    seats: false,
+    when: false,
+    notes: false,
+  });
   const formRef = useRef(null);
 
   const addReservation = async () => {
-    // TODO aggiungere la validazione dei dati
-    const existingReservation = await checkExistingReservation();
-    if (!existingReservation) {
-      axios
-        .post(
-          `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${restaurant.restaurant.data.id}/message`,
-          reservation
-        )
-        .then((response) => {
-          // console.log(response.data);
-          setReservationMessage({ status: "", message: "" });
-        })
-        .catch((err) => console.error(err))
-        .finally(() => {
-          formRef.current.reset();
-        });
+    console.log(validateData());
+    if (!validateData()) {
+      const existingReservation = await checkExistingReservation();
+      if (!existingReservation) {
+        axios
+          .post(
+            `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${restaurant.restaurant.data.id}/message`,
+            reservation
+          )
+          .then((response) => {
+            // console.log(response.data);
+            setReservationMessage({ status: "", message: "" });
+          })
+          .catch((err) => console.error(err))
+          .finally(() => {
+            formRef.current.reset();
+          });
+      }
     }
   };
 
@@ -104,23 +112,50 @@ const ReservationComponent = (restaurant) => {
     }
   };
 
-  // const checkReservationStatus = async () => {
-  //   await axios
-  //     .get(
-  //       `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${
-  //         restaurant.restaurant.data.id
-  //       }/message/${parseInt(reservationStatus.id, 10)}`
-  //     )
-  //     .then((response) => {
-  //       setReservationStatus(response.data);
-  //     });
-  // };
-
   const checkIsFull = () => {
     return (
       parseInt(restaurant.restaurant.data.free_seats, 10) - reservation.seats <=
       0
     );
+  };
+
+  const validateData = () => {
+    if (reservation) {
+      let result = false;
+
+      Object.keys(reservation).forEach((key) => {
+        switch (key) {
+          case "name": {
+            if (reservation.name.length <= 2) {
+              setInvalidInput({ ...invalidInput, name: true });
+              result = true;
+            }
+            break;
+          }
+          case "seats": {
+            if (reservation.seats >= restaurant.free_seats) {
+              setInvalidInput({ ...invalidInput, seats: true });
+              result = true;
+            }
+            break;
+          }
+          case "when": {
+            if (validDate(reservation.when)) {
+              setInvalidInput({ ...invalidInput, when: true });
+              result = true;
+            }
+            break;
+          }
+          case "notes": {
+            break;
+          }
+          default:
+            throw new Error("Invalid key in the object.");
+        }
+      });
+
+      return result;
+    } else return true;
   };
 
   const handleChange = (evt) => {
@@ -129,39 +164,28 @@ const ReservationComponent = (restaurant) => {
         if (evt.target.value.length > 2) {
           setReservation({ ...reservation, name: evt.target.value });
         }
-        // TODO aggiungere invalid data error nel form
         break;
       }
       case "seats": {
         if (evt.target.value > 0) {
           setReservation({ ...reservation, seats: evt.target.value });
         }
-        // TODO aggiungere invalid data error nel form
         break;
       }
       case "when": {
-        if (evt.target.value >= getMinDate()) {
-          setReservation({ ...reservation, when: evt.target.value });
-        }
-        // TODO aggiungere invalid data error nel form
+        setReservation({ ...reservation, when: evt.target.value });
         break;
       }
       case "notes": {
         if (evt.target.value.length > 2) {
           setReservation({ ...reservation, notes: evt.target.value });
         }
-        // TODO aggiungere invalid data error nel form
         break;
       }
       default:
         throw new Error("Action not permitted!");
     }
   };
-
-  useEffect(() => {
-    // TODO aggiungere check dei messaggi
-    // console.log(getMinDate());
-  }, []);
 
   return (
     <form
@@ -173,22 +197,6 @@ const ReservationComponent = (restaurant) => {
         <h2 className="font-special font-light text-3xl mb-5">
           Reserve your table
         </h2>
-        {/* <span className="bg-accent text-light px-8 py-2 rounded-lg flex items-center gap-2 transition-all ease-in-out duration-200">
-          {checkIsFull() ? (
-            <FontAwesomeIcon
-              icon={faCircleExclamation}
-              className="text-xl"
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faCircleInfo}
-              className="text-xl"
-            />
-          )}
-          {parseInt(restaurant.restaurant.data.free_seats, 10) <= 0
-            ? "Full"
-            : "Reservation avaliable"}
-        </span> */}
       </div>
       <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 justify-center items-center">
         <div className="flex flex-col items-start justify-start h-full gap-1">
@@ -197,7 +205,9 @@ const ReservationComponent = (restaurant) => {
             type="text"
             id="guest_fullname"
             name="name"
-            className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
+            className={`bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent ${
+              invalidInput.name ? "border-2 border-red-500 text-red-500" : ""
+            }`}
             onChange={handleChange}
           />
         </div>
@@ -210,7 +220,9 @@ const ReservationComponent = (restaurant) => {
             step={1}
             name="seats"
             max={restaurant.restaurant.data.free_seats}
-            className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
+            className={`bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent ${
+              invalidInput.seats ? "border-2 border-red-500 text-red-500" : ""
+            }`}
             onChange={handleChange}
           />
         </div>
@@ -219,7 +231,9 @@ const ReservationComponent = (restaurant) => {
           <textarea
             name="notes"
             id="notes"
-            className="w-full rounded-lg text-dark bg-light py-2 px-5 focus:outline-accent"
+            className={`w-full rounded-lg text-dark bg-light py-2 px-5 focus:outline-accent ${
+              invalidInput.notes ? "border-2 border-red-500 text-red-500" : ""
+            }`}
             onChange={handleChange}
             rows="3"
           ></textarea>
@@ -231,9 +245,11 @@ const ReservationComponent = (restaurant) => {
               type="datetime-local"
               id="reservation_date"
               name="when"
-              min={getMinDate}
+              min={getMinDate()}
               step={1800}
-              className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
+              className={`bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent ${
+                invalidInput.when ? "border-2 border-red-500 text-red-500" : ""
+              }`}
               onChange={handleChange}
             />
           </div>
