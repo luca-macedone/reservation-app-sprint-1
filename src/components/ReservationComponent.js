@@ -1,15 +1,16 @@
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
-// import {
-//   // faCheckCircle,
-//   faCircleExclamation,
-//   faCircleInfo,
-// } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleCheck,
+  // faCheckCircle,
+  faCircleExclamation,
+  faCircleInfo,
+  faXmarkCircle,
+  faX,
+} from "@fortawesome/free-solid-svg-icons";
 
 import axios from "axios";
 import { getMinDate } from "../utils/DateHandling";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 
 const ReservationComponent = (restaurant) => {
   const [reservationMessage, setReservationMessage] = useState({
@@ -60,20 +61,20 @@ const ReservationComponent = (restaurant) => {
           setReservationMessage({
             status: "hold",
             message:
-              "you have already made a reservation, currently is in HOLD status, await the restaurant confirmation.",
+              "You have already made a reservation, currently is in HOLD status, await the restaurant confirmation.",
           });
         } else if (response.data[0].status === "REJECTED") {
           setReservationMessage({
             status: "rejected",
             message:
-              "you have already made a reservation, the reservation have been rejected from the restaurant.",
+              "You have already made a reservation, the reservation have been rejected from the restaurant.",
           });
           // TODO rimuovere il messaggio da mockapi
         } else if (response.data[0].status === "ACCEPTED") {
           setReservationMessage({
             status: "accepted",
             message:
-              "you have already made a reservation, the reservation have been accepted from the restaurant, have a nice experience.",
+              "You have already made a reservation, the reservation have been accepted from the restaurant, have a nice experience.",
           });
         }
         return true;
@@ -281,15 +282,39 @@ const ReservationComponent = (restaurant) => {
                 : "",
           }}
         >
-          <p>
+          <p className="flex items-start">
             {reservationMessage.status === "error" ? (
-              <strong className="font-bold text-xl">ERROR: </strong>
+              <strong className="font-bold text-xl items-center gap-2 me-2 inline-flex">
+                <FontAwesomeIcon
+                  icon={faCircleExclamation}
+                  className="text-2xl"
+                />
+                ERROR:
+              </strong>
             ) : reservationMessage.status === "hold" ? (
-              <strong className="font-bold text-xl">INFO: </strong>
+              <strong className="font-bold text-xl items-center gap-2 me-2 inline-flex">
+                <FontAwesomeIcon
+                  icon={faCircleInfo}
+                  className="text-2xl"
+                />
+                INFO:
+              </strong>
             ) : reservationMessage.status === "refused" ? (
-              <strong className="font-bold text-xl">CANCELED: </strong>
+              <strong className="font-bold text-xl items-center gap-2 me-2 inline-flex">
+                <FontAwesomeIcon
+                  icon={faXmarkCircle}
+                  className="text-2xl"
+                />
+                CANCELED:
+              </strong>
             ) : reservationMessage.status === "accepted" ? (
-              <strong className="font-bold text-xl">DONE: </strong>
+              <strong className="font-bold text-xl items-center gap-2 me-2 inline-flex">
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  className="text-2xl"
+                />
+                DONE:
+              </strong>
             ) : (
               ""
             )}

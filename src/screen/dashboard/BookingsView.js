@@ -104,18 +104,22 @@ const BookingsView = () => {
             Inbox
           </h4>
           {!isLoading ? (
-            filteredBookingList.map((message) => {
-              return (
-                <BookingMessage
-                  key={message.id}
-                  {...message}
-                  handleChildClick={(_id) => {
-                    let result = bookingList.find((msg) => msg.id === _id);
-                    setActiveMessage({ loading: false, data: result });
-                  }}
-                />
-              );
-            })
+            filteredBookingList.length > 0 ? (
+              filteredBookingList.map((message) => {
+                return (
+                  <BookingMessage
+                    key={message.id}
+                    {...message}
+                    handleChildClick={(_id) => {
+                      let result = bookingList.find((msg) => msg.id === _id);
+                      setActiveMessage({ loading: false, data: result });
+                    }}
+                  />
+                );
+              })
+            ) : (
+              <h6 className="text-center px-5 py-2">No messages here.</h6>
+            )
           ) : (
             <LoadingComp />
           )}
