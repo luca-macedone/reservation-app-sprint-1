@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
 const ReservationComponent = (restaurant) => {
-  const [reservationStatus, setReservationStatus] = useState(null);
   const [reservationMessage, setReservationMessage] = useState({
     status: "",
     message: "",
@@ -36,7 +35,6 @@ const ReservationComponent = (restaurant) => {
         )
         .then((response) => {
           // console.log(response.data);
-          setReservationStatus(response.data.status);
           setReservationMessage({ status: "", message: "" });
         })
         .catch((err) => console.error(err))
