@@ -10,7 +10,7 @@ import { formattedDate } from "../../../utils/DateHandling";
 
 const BookingMessage = ({
   id,
-  name,
+  email,
   seats,
   when,
   status,
@@ -31,7 +31,7 @@ const BookingMessage = ({
     >
       <div className="flex items-center justify-between">
         <h5 className="font-bold capitalize text-lg flex items-end gap-1 italic w-full lg:w-max justify-between lg:justify-start">
-          {name}
+          {email}
           <span className="font-light lowercase flex items-end gap-1 not-italic">
             x<strong className="text-2xl font-bold">{seats}</strong>
           </span>

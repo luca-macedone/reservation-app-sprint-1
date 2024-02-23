@@ -18,13 +18,13 @@ const ReservationComponent = (restaurant) => {
     message: "",
   });
   const [reservation, setReservation] = useState({
-    name: "",
-    seats: 1,
+    email: "",
+    seats: 0,
     when: "",
     notes: "",
   });
   const [invalidInput, setInvalidInput] = useState({
-    name: false,
+    email: false,
     seats: false,
     when: false,
     notes: false,
@@ -32,7 +32,7 @@ const ReservationComponent = (restaurant) => {
   const formRef = useRef(null);
 
   const addReservation = async () => {
-    console.log(validateData());
+    // console.log(validateData());
     if (!validateData()) {
       const existingReservation = await checkExistingReservation();
       if (!existingReservation) {
@@ -47,6 +47,13 @@ const ReservationComponent = (restaurant) => {
           })
           .catch((err) => console.error(err))
           .finally(() => {
+            setReservation({ email: "", seats: 0, when: "", notes: "" }); // after the submit of the form it will reset the reservation to avoid
+            setInvalidInput({
+              email: false,
+              seats: false,
+              when: false,
+              notes: false,
+            });
             formRef.current.reset();
           });
       }
@@ -61,7 +68,9 @@ const ReservationComponent = (restaurant) => {
       if (
         response.data.some(
           (res) =>
-            res.name === reservation.name && res.when === reservation.when
+            res.name === reservation.name &&
+            res.when === reservation.when &&
+            res.status !== "REFUSED"
         )
       ) {
         console.log(response.data[0].status);
@@ -106,42 +115,60 @@ const ReservationComponent = (restaurant) => {
     evt.stopPropagation();
     // console.log(evt);
 
-    if (reservation.name.length !== 0 && checkIsFull()) {
-      addReservation();
-      // console.log("sending");
-    }
+    // if (reservation.email.length > 5) {
+    addReservation();
+    // console.log("sending");
+    // }
   };
 
-  const checkIsFull = () => {
-    return (
-      parseInt(restaurant.restaurant.data.free_seats, 10) - reservation.seats <=
-      0
-    );
-  };
+  // const checkIsFull = () => {
+  //   return (
+  //     parseInt(restaurant.restaurant.data.free_seats, 10) - reservation.seats <=
+  //     0
+  //   );
+  // };
 
   const validateData = () => {
     if (reservation) {
       let result = false;
 
+      let errors = {
+        email: false,
+        seats: false,
+        when: false,
+        notes: false,
+      };
+
+      errors = { email: false, seats: false, when: false, notes: false };
+
       Object.keys(reservation).forEach((key) => {
         switch (key) {
-          case "name": {
-            if (reservation.name.length <= 2) {
-              setInvalidInput({ ...invalidInput, name: true });
+          case "email": {
+            if (
+              reservation.email.length <= 5 ||
+              reservation.email.indexOf("@") === -1 ||
+              reservation.email.indexOf(".") === -1
+            ) {
+              errors = { ...errors, email: true };
               result = true;
             }
             break;
           }
           case "seats": {
-            if (reservation.seats >= restaurant.free_seats) {
-              setInvalidInput({ ...invalidInput, seats: true });
+            if (
+              reservation.seats >= restaurant.free_seats ||
+              reservation.seats === 0 ||
+              !reservation.seats
+            ) {
+              errors = { ...errors, seats: true };
               result = true;
             }
             break;
           }
           case "when": {
-            if (validDate(reservation.when)) {
-              setInvalidInput({ ...invalidInput, when: true });
+            console.log(validDate(reservation.when));
+            if (!validDate(reservation.when)) {
+              errors = { ...errors, when: true };
               result = true;
             }
             break;
@@ -153,6 +180,15 @@ const ReservationComponent = (restaurant) => {
             throw new Error("Invalid key in the object.");
         }
       });
+      if (result) {
+        setInvalidInput({
+          email: errors.email,
+          seats: errors.seats,
+          when: errors.when,
+          notes: errors.notes,
+        });
+      }
+      console.log(invalidInput, errors);
 
       return result;
     } else return true;
@@ -160,9 +196,9 @@ const ReservationComponent = (restaurant) => {
 
   const handleChange = (evt) => {
     switch (evt.target.name) {
-      case "name": {
+      case "email": {
         if (evt.target.value.length > 2) {
-          setReservation({ ...reservation, name: evt.target.value });
+          setReservation({ ...reservation, email: evt.target.value });
         }
         break;
       }
@@ -200,13 +236,13 @@ const ReservationComponent = (restaurant) => {
       </div>
       <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 justify-center items-center">
         <div className="flex flex-col items-start justify-start h-full gap-1">
-          <label htmlFor="guest_fullname">Full Name</label>
+          <label htmlFor="guest_email">Email</label>
           <input
-            type="text"
-            id="guest_fullname"
-            name="name"
+            type="email"
+            id="guest_email"
+            name="email"
             className={`bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent ${
-              invalidInput.name ? "border-2 border-red-500 text-red-500" : ""
+              invalidInput.email ? "border-2 border-red-500 text-red-500" : ""
             }`}
             onChange={handleChange}
           />

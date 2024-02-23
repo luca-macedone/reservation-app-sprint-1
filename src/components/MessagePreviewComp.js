@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const MessagePreviewComp = (data) => {
   // console.log(data.data);
-  const { name, seats, when, id } = data.data;
+  const { email, seats, when, id } = data.data;
   const navigator = useNavigate();
 
   const handleClick = () => {
@@ -17,7 +17,7 @@ const MessagePreviewComp = (data) => {
       onClick={handleClick}
     >
       <h5 className="font-bold capitalize text-lg flex items-end gap-1 italic w-full lg:w-max justify-between lg:justify-start">
-        {name}
+        {email}
         <span className="font-light lowercase flex items-end gap-1 not-italic">
           x<strong className="text-2xl font-bold">{seats}</strong>
         </span>
