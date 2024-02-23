@@ -86,7 +86,6 @@ const ReservationComponent = (restaurant) => {
             message:
               "You have already made a reservation, the reservation have been rejected from the restaurant.",
           });
-          // TODO rimuovere il messaggio da mockapi
         } else if (response.data[0].status === "ACCEPTED") {
           setReservationMessage({
             status: "accepted",

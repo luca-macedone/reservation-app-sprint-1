@@ -60,13 +60,13 @@ const BookingDetails = () => {
     <>
       {!isLoading ? (
         messageData ? (
-          <div className="col-span-1 lg:col-span-2 bg-tertiary p-2 rounded-tr-xl h-max lg:h-[550px] flex flex-col">
+          <div className="col-span-1 lg:col-span-2 bg-tertiary p-2 rounded-tr-xl h-full lg:h-[550px] rounded-xl lg:rounded-none flex flex-col">
             <div className="h-full flex flex-col gap-5">
-              <h5 className="font-special text-secondary text-2xl px-5 py-2.5 bg-light rounded-tr-lg border-b-2 border-secondary">
+              <h5 className=" text-secondary text-xl px-5 py-2.5 bg-light rounded-t-lg lg:rounded-none lg:rounded-tr-lg border-b-2 border-secondary">
                 {messageData.email}
               </h5>
               <div className="flex flex-col justify-between gap-5 px-5 pb-5 lg:px-10 lg:pb-10 pt-5 h-full">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-0 justify-between">
                   <div className="flex items-center gap-4">
                     <span className="flex items-center gap-2">
                       <FontAwesomeIcon

@@ -30,10 +30,10 @@ const BookingMessage = ({
       key={id}
     >
       <div className="flex items-center justify-between">
-        <h5 className="font-bold capitalize text-lg flex items-end gap-1 italic w-full lg:w-max justify-between lg:justify-start">
+        <h5 className="font-bold  flex items-end gap-1 italic w-full lg:w-max justify-between lg:justify-start">
           {email}
           <span className="font-light lowercase flex items-end gap-1 not-italic">
-            x<strong className="text-2xl font-bold">{seats}</strong>
+            x<strong className="text-lg font-bold">{seats}</strong>
           </span>
         </h5>
         <div className="hidden lg:inline-flex">{formattedDate(when)}</div>
