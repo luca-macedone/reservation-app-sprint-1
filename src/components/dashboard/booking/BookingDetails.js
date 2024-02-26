@@ -123,11 +123,11 @@ const BookingDetails = () => {
             </div>
           </div>
         ) : (
-          <div className="col-span-1 lg:col-span-2 bg-tertiary p-2 rounded-tr-xl h-max lg:h-[550px] flex flex-col justify-start">
+          <div className="col-span-1 lg:col-span-2 bg-tertiary p-2 lg:rounded-tr-xl h-full lg:h-[550px] flex flex-col justify-start rounded-xl lg:rounded-b-none">
             <h5 className="font-special text-secondary text-2xl px-5 py-2.5 bg-light rounded-tr-lg border-b-2 border-secondary">
               Details
             </h5>
-            <h6 className="text-center px-5 py-2 mt-3">
+            <h6 className="text-center h-[200px] px-5 py-2 mt-3">
               No message to be load.
             </h6>
           </div>

@@ -103,7 +103,7 @@ const BookingsView = () => {
       <h2 className="font-special text-secondary text-3xl text-end mb-3 mt-5 lg:mt-0">
         Bookings
       </h2>
-      <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-3 h-full overflow-hidden gap-2.5 lg:gap-0 relative">
+      <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-3 lg:h-full overflow-hidden gap-2.5 lg:gap-0 relative">
         {/* MODALE FILTRI MOBILE */}
         {isFilterMenuOpen && (
           <div className="absolute top-0 left-0 p-2 bg-tertiary rounded-xl w-full h-[300px]">
@@ -477,10 +477,6 @@ const BookingsView = () => {
                   />
                 </label>
               </div>
-            </div>
-            <div className="bg-light rounded-2xl px-5 py-3 w-full text-sm h-[150px] overflow-y-auto">
-              Small description about what you can do on this page <br />
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
             </div>
           </div>
         </div>

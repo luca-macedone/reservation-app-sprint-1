@@ -222,7 +222,7 @@ const SingleRestaurantView = () => {
             />
           </section>
           {restaurant.gallery.length > 0 && (
-            <section className="py-10">
+            <section className="py-10 overflow-x-hidden">
               <div className="flex items-center justify-center w-full mb-10">
                 <h2 className="text-3xl font-bold border-b-2 border-secondary px-10 py-3 font-special text-primary w-max">
                   Gallery
