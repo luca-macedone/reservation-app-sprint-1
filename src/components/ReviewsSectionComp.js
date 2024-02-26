@@ -1,10 +1,13 @@
 import {
+  faArrowDownWideShort,
+  faArrowUpShortWide,
   faCheckCircle,
+  faFilterCircleXmark,
   faQuoteLeft,
   faQuoteRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { formattedRatingDesktop } from "../utils/ReviewsHandling";
 import axios from "axios";
 import { ReviewsContext } from "../screen/SingleRestaurantView";
@@ -16,7 +19,8 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
     rating: 0,
   });
   // const navigator = useNavigate();
-
+  const [filteredReviews, setFilteredReviews] = useState([]);
+  const [reviewFIlter, setReviewFIlter] = useState("no-filter");
   const reviews = useContext(ReviewsContext);
   const reviewRef = useRef(null);
   const [isReviewSended, setIsReviewSended] = useState(false);
@@ -52,6 +56,44 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
       });
   };
 
+  const handleFilter = (evt) => {
+    // console.log(evt.target.value);
+    let result = [];
+    switch (evt.currentTarget.value) {
+      case "no-filter":
+        result = [...reviews];
+        setReviewFIlter("no-filter");
+        break;
+      case "best-first-filter":
+        result = [...reviews].sort((rev1, rev2) => {
+          if (rev1.rating > rev2.rating) return -1;
+          else if (rev1.rating < rev2.rating) return 1;
+
+          return 0;
+        });
+        setFilteredReviews(result);
+        setReviewFIlter("best-first-filter");
+        // console.log(result);
+        break;
+      case "worst-first-filter":
+        result = [...reviews].sort((rev1, rev2) => {
+          if (rev1.rating > rev2.rating) return 1;
+          else if (rev1.rating < rev2.rating) return -1;
+
+          return 0;
+        });
+        setFilteredReviews(result);
+        setReviewFIlter("worst-first-filter");
+        // console.log(result);
+        break;
+      default:
+        // throw new Error("action unmatched");
+        // TODO default rimuovere i filtri
+        console.log("missed action");
+    }
+    setFilteredReviews(result);
+  };
+
   const handleChange = (evt) => {
     switch (evt.target.name) {
       case "review_name": {
@@ -77,6 +119,10 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
         throw new Error("Not a valid input change!");
     }
   };
+
+  useEffect(() => {
+    setFilteredReviews(reviews);
+  }, []);
 
   return (
     <section
@@ -162,8 +208,48 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
           )}
         </form>
         <div className="w-full bg-tertiary p-5 rounded-3xl shadow-lg">
+          <div className="w-full flex items-center justify-end">
+            <div className="bg-accent rounded-xl p-1 flex items-center gap-1">
+              <button
+                className={`px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
+                  reviewFIlter === "no-filter"
+                    ? "bg-tertiary text-accent"
+                    : "bg-accent text-light"
+                }`}
+                title="Default Sort"
+                value="no-filter"
+                onClick={handleFilter}
+              >
+                <FontAwesomeIcon icon={faFilterCircleXmark} />
+              </button>
+              <button
+                className={` px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
+                  reviewFIlter === "best-first-filter"
+                    ? "bg-tertiary text-accent"
+                    : "bg-accent text-light"
+                }`}
+                title="Best-first Sort"
+                value="best-first-filter"
+                onClick={handleFilter}
+              >
+                <FontAwesomeIcon icon={faArrowDownWideShort} />
+              </button>
+              <button
+                className={`px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
+                  reviewFIlter === "worst-first-filter"
+                    ? "bg-tertiary text-accent"
+                    : "bg-accent text-light"
+                }`}
+                title="Worst-first Sort"
+                value="worst-first-filter"
+                onClick={handleFilter}
+              >
+                <FontAwesomeIcon icon={faArrowUpShortWide} />
+              </button>
+            </div>
+          </div>
           {reviews.length > 0 ? (
-            reviews.map((rev) => {
+            filteredReviews.map((rev) => {
               return (
                 <div
                   key={rev.id}
