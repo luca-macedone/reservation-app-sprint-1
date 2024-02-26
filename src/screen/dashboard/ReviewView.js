@@ -75,10 +75,17 @@ const ReviewView = () => {
         break;
       default:
         // throw new Error("action unmatched");
-        // TODO default rimuovere i filtri
         console.log("missed action");
     }
     setFilteredReviews(result);
+  };
+
+  const setActiveRestaurant = (evt) => {
+    if (!isLoadingRestaurants) {
+      showSelectedReview(evt.currentTarget.value);
+      // console.log(evt.currentTarget.value);
+    }
+    // console.log(evt.currentTarget.value);
   };
 
   useEffect(() => {
@@ -90,6 +97,7 @@ const ReviewView = () => {
         .then((response) => {
           // console.log(response.data);
           setRestaurants(response.data);
+          showSelectedReview(response.data[0].id);
         })
         .catch((err) => console.error(err))
         .finally(() => {
@@ -104,8 +112,8 @@ const ReviewView = () => {
   }, []);
 
   return (
-    <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 h-full overflow-hidden">
-      <section className="h-full overflow-hidden flex flex-col">
+    <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 h-max lg:h-full overflow-hidden">
+      <section className="h-max lg:h-full overflow-hidden flex flex-col">
         <h2 className="font-special text-secondary text-3xl mb-3 mt-5 lg:mt-0">
           Your Reviews
         </h2>
@@ -113,21 +121,29 @@ const ReviewView = () => {
           {isLoadingRestaurants ? (
             <h2>Loading</h2>
           ) : (
-            <select
-              id="restaurants-mobile-selector"
-              className="bg-light px-3 py-2 w-full rounded-md text-dark"
-            >
-              {restaurants.map((rest) => {
-                return (
-                  <option
-                    key={rest.id}
-                    value={rest.id}
-                  >
-                    {rest.name}
-                  </option>
-                );
-              })}
-            </select>
+            <>
+              <select
+                id="restaurants-mobile-selector"
+                className="bg-light px-3 py-2 w-full rounded-lg text-dark ring-2 ring-secondary focus:outline-none focus:ring-accent"
+                defaultValue={restaurants[0]?.id}
+                onChange={setActiveRestaurant}
+              >
+                {restaurants.map((rest) => {
+                  return (
+                    <option
+                      key={rest.id}
+                      value={rest.id}
+                      className=""
+                    >
+                      {rest.name}
+                    </option>
+                  );
+                })}
+              </select>
+              <small className="py-3 font-semibold text-secondary">
+                Choose the restaurant here
+              </small>
+            </>
           )}
         </div>
         <div className="hidden lg:inline-flex bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
@@ -177,7 +193,7 @@ const ReviewView = () => {
           </div>
         </div>
       </section>
-      <section className="h-full overflow-hidden flex flex-col">
+      <section className="h-max lg:h-full overflow-hidden flex flex-col">
         <h2 className="font-special text-secondary text-3xl mb-3 flex flex-col">
           Reviews
         </h2>
