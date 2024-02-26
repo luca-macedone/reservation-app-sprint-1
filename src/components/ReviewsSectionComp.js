@@ -2,6 +2,10 @@ import {
   faArrowDownWideShort,
   faArrowUpShortWide,
   faCheckCircle,
+  faChevronCircleDown,
+  faChevronCircleUp,
+  faChevronDown,
+  faChevronUp,
   faFilterCircleXmark,
   faQuoteLeft,
   faQuoteRight,
@@ -24,6 +28,7 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
   const reviews = useContext(ReviewsContext);
   const reviewRef = useRef(null);
   const [isReviewSended, setIsReviewSended] = useState(false);
+  const [isAccordionActive, setIsAccordionActive] = useState(true);
   const handleReviewReset = () => {
     reviewRef.current.reset();
   };
@@ -92,6 +97,10 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
         console.log("missed action");
     }
     setFilteredReviews(result);
+  };
+
+  const toggleAccordion = (prev) => {
+    setIsAccordionActive(!prev);
   };
 
   const handleChange = (evt) => {
@@ -208,85 +217,121 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
           )}
         </form>
         <div className="w-full bg-tertiary p-5 rounded-3xl shadow-lg">
-          <div className="w-full flex items-center justify-end">
-            <div className="bg-accent rounded-xl p-1 flex items-center gap-1">
-              <button
-                className={`px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
-                  reviewFIlter === "no-filter"
-                    ? "bg-tertiary text-accent"
-                    : "bg-accent text-light"
-                }`}
-                title="Default Sort"
-                value="no-filter"
-                onClick={handleFilter}
-              >
-                <FontAwesomeIcon icon={faFilterCircleXmark} />
-              </button>
-              <button
-                className={` px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
-                  reviewFIlter === "best-first-filter"
-                    ? "bg-tertiary text-accent"
-                    : "bg-accent text-light"
-                }`}
-                title="Best-first Sort"
-                value="best-first-filter"
-                onClick={handleFilter}
-              >
-                <FontAwesomeIcon icon={faArrowDownWideShort} />
-              </button>
-              <button
-                className={`px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
-                  reviewFIlter === "worst-first-filter"
-                    ? "bg-tertiary text-accent"
-                    : "bg-accent text-light"
-                }`}
-                title="Worst-first Sort"
-                value="worst-first-filter"
-                onClick={handleFilter}
-              >
-                <FontAwesomeIcon icon={faArrowUpShortWide} />
-              </button>
-            </div>
-          </div>
-          {reviews.length > 0 ? (
-            filteredReviews.map((rev) => {
-              return (
-                <div
-                  key={rev.id}
-                  className="flex flex-col items-center md:justify-center my-10 w-full"
-                  data-aos="fade-up"
+          <div
+            className={`${
+              isAccordionActive ? "h-[350px] overflow-hidden relative" : ""
+            }`}
+          >
+            <div className="w-full flex items-center justify-end">
+              <div className="bg-accent rounded-xl p-1 flex items-center gap-1">
+                <button
+                  className={`px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
+                    reviewFIlter === "no-filter"
+                      ? "bg-tertiary text-accent"
+                      : "bg-accent text-light"
+                  }`}
+                  title="Default Sort"
+                  value="no-filter"
+                  onClick={handleFilter}
                 >
-                  <div className="flex flex-col items-center justify-center w-full">
-                    <div className="py-3">
-                      {formattedRatingDesktop(rev.rating)}
+                  <FontAwesomeIcon icon={faFilterCircleXmark} />
+                </button>
+                <button
+                  className={` px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
+                    reviewFIlter === "best-first-filter"
+                      ? "bg-tertiary text-accent"
+                      : "bg-accent text-light"
+                  }`}
+                  title="Best-first Sort"
+                  value="best-first-filter"
+                  onClick={handleFilter}
+                >
+                  <FontAwesomeIcon icon={faArrowDownWideShort} />
+                </button>
+                <button
+                  className={`px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
+                    reviewFIlter === "worst-first-filter"
+                      ? "bg-tertiary text-accent"
+                      : "bg-accent text-light"
+                  }`}
+                  title="Worst-first Sort"
+                  value="worst-first-filter"
+                  onClick={handleFilter}
+                >
+                  <FontAwesomeIcon icon={faArrowUpShortWide} />
+                </button>
+              </div>
+            </div>
+            {reviews.length > 0 ? (
+              filteredReviews.map((rev) => {
+                return (
+                  <div
+                    key={rev.id}
+                    className="flex flex-col items-center md:justify-center my-10 w-full"
+                    data-aos="fade-up"
+                  >
+                    <div className="flex flex-col items-center justify-center w-full">
+                      <div className="py-3">
+                        {formattedRatingDesktop(rev.rating)}
+                      </div>
+                      {rev.description.length > 0 && (
+                        <p className="text-center font-bold text-xl leading-10 italic max-w-[800px]">
+                          <FontAwesomeIcon
+                            icon={faQuoteLeft}
+                            className="text-accent text-3xl px-3"
+                          />
+                          {rev.description}
+                          <FontAwesomeIcon
+                            icon={faQuoteRight}
+                            className="text-accent text-3xl px-3"
+                          />
+                        </p>
+                      )}
+                      <small className="font-semibold italic">
+                        @{rev.name}
+                      </small>
                     </div>
-                    {rev.description.length > 0 && (
-                      <p className="text-center font-bold text-xl leading-10 italic max-w-[800px]">
-                        <FontAwesomeIcon
-                          icon={faQuoteLeft}
-                          className="text-accent text-3xl px-3"
-                        />
-                        {rev.description}
-                        <FontAwesomeIcon
-                          icon={faQuoteRight}
-                          className="text-accent text-3xl px-3"
-                        />
-                      </p>
-                    )}
-                    <small className="font-semibold italic">@{rev.name}</small>
                   </div>
+                );
+              })
+            ) : (
+              <h2 className="text-dark text-xl text-center col-span-1 md:col-span-2 lg:col-span-3 py-10 text-wrap">
+                No reviews yet,
+                <br />
+                <strong className="font-special font-light text-3xl">
+                  be the first!
+                </strong>
+              </h2>
+            )}
+            <button
+              className={`w-full text-secondary text-4xl hover:text-accent backdrop-blur-sm ${
+                isAccordionActive
+                  ? "absolute bottom-0 right-0  py-12 bg-gradient-to-t from-tertiary to-transparent"
+                  : "mt-[-40px]"
+              }`}
+              onClick={() => {
+                toggleAccordion(isAccordionActive);
+              }}
+            >
+              {!isAccordionActive ? (
+                <div className="flex items-center w-max mx-auto gap-3">
+                  <strong className="text-lg">Reduce</strong>
+                  <FontAwesomeIcon
+                    icon={faChevronCircleDown}
+                    className=" drop-shadow-lg"
+                  />
                 </div>
-              );
-            })
-          ) : (
-            <h2 className="text-dark text-xl text-center col-span-1 md:col-span-2 lg:col-span-3 py-10 text-wrap">
-              No reviews yet,
-              <br />
-              <strong className="font-special font-light text-3xl">
-                be the first!
-              </strong>
-            </h2>
-          )}
+              ) : (
+                <div className="flex items-center w-max mx-auto gap-3">
+                  <strong className="text-lg">Expand</strong>
+                  <FontAwesomeIcon
+                    icon={faChevronCircleUp}
+                    className=" drop-shadow-lg"
+                  />
+                </div>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </section>
