@@ -90,7 +90,7 @@ const MenuView = () => {
           )}
         </div>
         <div className="hidden lg:inline-flex bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
-          <div className="h-full overflow-y-auto flex flex-col items-start justify-start gap-4 px-5 py-4">
+          <div className="h-full w-full overflow-y-auto flex flex-col items-start justify-start gap-4 px-5 py-4">
             {isLoadingRestaurants ? (
               <LoadingComp />
             ) : (

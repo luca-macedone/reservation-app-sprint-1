@@ -5,14 +5,12 @@ import {
   faCheckCircle,
   faQuoteLeft,
   faQuoteRight,
-  faStarHalfStroke,
-  faStar as faStarSolid,
 } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import LoadingComp from "../components/LoadingComp";
 import AOS from "aos";
 import ReservationComponent from "../components/ReservationComponent";
+import { avg_rating, formattedRatingDesktop } from "../utils/ReviewsHandling";
 
 const SingleRestaurantView = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,55 +30,6 @@ const SingleRestaurantView = () => {
     menu: [],
   });
   const navigator = useNavigate();
-  const avg_rating = () => {
-    let result = 0;
-    if (restaurant.reviews.length > 0) {
-      restaurant.reviews.forEach((rev) => {
-        result += rev.rating;
-      });
-
-      return result / restaurant.reviews.length;
-    }
-    return 0;
-  };
-
-  const formattedRatingDesktop = (_rating) => {
-    // const maxStars = 10;
-    let stars = [];
-
-    for (let i = 1; i <= 100; i += 10) {
-      if (i < _rating && i + 1 > _rating) {
-        // console.log(i, " v ", _rating, "half");
-        stars.push(
-          <FontAwesomeIcon
-            key={i}
-            icon={faStarHalfStroke}
-            className="me-1 text-accent"
-          />
-        );
-      } else if (i <= _rating) {
-        // console.log(i, " v ", _rating, "full");
-        stars.push(
-          <FontAwesomeIcon
-            key={i}
-            icon={faStarSolid}
-            className="me-1 text-accent"
-          />
-        );
-      } else {
-        // console.log(i, " v ", _rating, "empty");
-        stars.push(
-          <FontAwesomeIcon
-            key={i}
-            icon={faStarRegular}
-            className="me-1 text-accent"
-          />
-        );
-      }
-    }
-
-    return stars;
-  };
 
   const handleReviewReset = () => {
     reviewRef.current.reset();
@@ -233,7 +182,7 @@ const SingleRestaurantView = () => {
                       })}
                     </div>
                     <div className="bg-tertiary rounded-xl px-5 py-2 shadow-lg">
-                      {formattedRatingDesktop(avg_rating())}
+                      {formattedRatingDesktop(avg_rating(restaurant.reviews))}
                     </div>
                   </div>
                 </div>
