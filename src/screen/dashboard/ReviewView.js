@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import LoadingComp from "../../components/LoadingComp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowAltCircleLeft,
-  faEye,
-  faPenToSquare,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowAltCircleLeft, faEye } from "@fortawesome/free-solid-svg-icons";
 import {
   avg_rating,
   formattedRatingDesktop,
@@ -21,7 +16,6 @@ const ReviewView = () => {
 
   const [review, setReview] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
-  const [types, setTypes] = useState([]);
 
   const showSelectedReview = async (_id) => {
     await axios
@@ -39,14 +33,6 @@ const ReviewView = () => {
   };
 
   useEffect(() => {
-    const fetchTypes = (fetchedRestaurants) => {
-      let result = [];
-      result = fetchedRestaurants.flatMap((res) => res.type);
-
-      const filteredResult = [...new Set(result)];
-      setTypes(filteredResult);
-    };
-
     const fetchData = async () => {
       const baseUrl =
         "https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant";
@@ -55,7 +41,6 @@ const ReviewView = () => {
         .then((response) => {
           // console.log(response.data);
           setRestaurants(response.data);
-          fetchTypes(response.data);
         })
         .catch((err) => console.error(err))
         .finally(() => {
