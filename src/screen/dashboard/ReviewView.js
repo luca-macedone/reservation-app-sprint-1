@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import LoadingComp from "../../components/LoadingComp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowAltCircleLeft, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowAltCircleLeft,
+  faArrowDownWideShort,
+  faArrowUpShortWide,
+  faEye,
+  faFilterCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   avg_rating,
   formattedRatingDesktop,
@@ -13,11 +19,14 @@ const ReviewView = () => {
   const [isLoadingRestaurants, setIsLoadingRestaurants] = useState(true);
   const [isLoadingReview, setIsLoadingReview] = useState(true);
   const [isVisibleReview, setIsVisibleReview] = useState(false);
-
+  const [filteredReviews, setFilteredReviews] = useState([]);
+  const [reviewFIlter, setReviewFIlter] = useState("no-filter");
   const [review, setReview] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
 
   const showSelectedReview = async (_id) => {
+    setIsVisibleReview(false);
+    setIsLoadingReview(true);
     await axios
       .get(
         `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${_id}/review`
@@ -25,11 +34,51 @@ const ReviewView = () => {
       .then((response) => {
         // console.log(response.data);
         setReview(response.data);
+        setFilteredReviews(response.data);
+        setReviewFIlter("no-filter");
       })
       .finally(() => {
         setIsVisibleReview(true);
         setIsLoadingReview(false);
       });
+  };
+
+  const handleFilter = (evt) => {
+    // console.log(evt.target.value);
+    let result = [];
+    switch (evt.currentTarget.value) {
+      case "no-filter":
+        result = [...review];
+        setReviewFIlter("no-filter");
+        break;
+      case "best-first-filter":
+        result = [...review].sort((rev1, rev2) => {
+          if (rev1.rating > rev2.rating) return -1;
+          else if (rev1.rating < rev2.rating) return 1;
+
+          return 0;
+        });
+        setFilteredReviews(result);
+        setReviewFIlter("best-first-filter");
+        // console.log(result);
+        break;
+      case "worst-first-filter":
+        result = [...review].sort((rev1, rev2) => {
+          if (rev1.rating > rev2.rating) return 1;
+          else if (rev1.rating < rev2.rating) return -1;
+
+          return 0;
+        });
+        setFilteredReviews(result);
+        setReviewFIlter("worst-first-filter");
+        // console.log(result);
+        break;
+      default:
+        // throw new Error("action unmatched");
+        // TODO default rimuovere i filtri
+        console.log("missed action");
+    }
+    setFilteredReviews(result);
   };
 
   useEffect(() => {
@@ -48,6 +97,7 @@ const ReviewView = () => {
         });
     };
 
+    setFilteredReviews([...review]);
     setIsVisibleReview(false);
     setIsLoadingRestaurants(true);
     fetchData();
@@ -133,8 +183,48 @@ const ReviewView = () => {
         </h2>
         <div className="bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
           {isVisibleReview && (
-            <div className="bg-light border-2 border-secondary px-5 py-3 rounded-xl mx-5 my-2 font-special text-xl flex items-center justify-between">
-              Score <span>{formattedRatingDesktop(avg_rating(review))}</span>
+            <div className="w-full flex flex-col items-end justify-start gap-2 px-5 py-3">
+              <div className="bg-light border-2 border-secondary px-5 py-3 rounded-xl font-special text-xl flex items-center justify-between w-full">
+                Score <span>{formattedRatingDesktop(avg_rating(review))}</span>
+              </div>
+              <div className="bg-accent rounded-xl p-1 flex items-center gap-1 w-max">
+                <button
+                  className={`px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
+                    reviewFIlter === "no-filter"
+                      ? "bg-tertiary text-accent"
+                      : "bg-accent text-light"
+                  }`}
+                  title="Default Sort"
+                  value="no-filter"
+                  onClick={handleFilter}
+                >
+                  <FontAwesomeIcon icon={faFilterCircleXmark} />
+                </button>
+                <button
+                  className={` px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
+                    reviewFIlter === "best-first-filter"
+                      ? "bg-tertiary text-accent"
+                      : "bg-accent text-light"
+                  }`}
+                  title="Best-first Sort"
+                  value="best-first-filter"
+                  onClick={handleFilter}
+                >
+                  <FontAwesomeIcon icon={faArrowDownWideShort} />
+                </button>
+                <button
+                  className={`px-5 py-2 rounded-lg hover:bg-light hover:text-accent transition-all ease-in-out duration-200 ${
+                    reviewFIlter === "worst-first-filter"
+                      ? "bg-tertiary text-accent"
+                      : "bg-accent text-light"
+                  }`}
+                  title="Worst-first Sort"
+                  value="worst-first-filter"
+                  onClick={handleFilter}
+                >
+                  <FontAwesomeIcon icon={faArrowUpShortWide} />
+                </button>
+              </div>
             </div>
           )}
           <div className="px-5 py-3 rounded-3xl w-full flex flex-col items-start justify-start gap-3 h-full overflow-y-auto">
@@ -145,7 +235,7 @@ const ReviewView = () => {
               </h2>
             ) : !isLoadingReview ? (
               <>
-                {review.map((rev) => {
+                {filteredReviews.map((rev) => {
                   return (
                     <div
                       key={rev.id}
