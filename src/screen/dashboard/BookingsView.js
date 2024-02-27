@@ -3,7 +3,7 @@ import axios from "axios";
 // import LoadingComp from "../../components/LoadingComp";
 import BookingMessage from "../../components/dashboard/booking/BookingMessage";
 import BookingDetails from "../../components/dashboard/booking/BookingDetails";
-// import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleCheck,
@@ -20,6 +20,8 @@ import {
 export const BookingContext = createContext();
 
 const BookingsView = () => {
+  const location = useLocation();
+  const id = location.state?.id;
   const [bookingList, setBookingList] = useState([]);
   const [filteredBookingList, setFilteredBookingList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +36,6 @@ const BookingsView = () => {
     accepted: 0,
     refused: 0,
   });
-  // const location = useLocation();
 
   const fetchList = async () => {
     const url = new URL("https://65c3642539055e7482c0c4ba.mockapi.io/api/v1");
@@ -91,10 +92,15 @@ const BookingsView = () => {
   };
 
   useEffect(() => {
+    // console.log(id);
     setIsLoading(true);
     fetchList().then((data) => {
       filterInboxMessages(data);
       setIsLoading(false);
+      if (id) {
+        let res = data[data.findIndex((item) => item.id === id)];
+        setActiveMessage({ loading: false, data: res });
+      }
     });
   }, [inboxFilter]);
 

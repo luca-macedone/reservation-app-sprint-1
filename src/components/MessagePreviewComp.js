@@ -6,6 +6,7 @@ const MessagePreviewComp = (data) => {
   // console.log(data.data);
   const { email, seats, when, id } = data.data;
   const navigator = useNavigate();
+  // console.log(when);
 
   const handleClick = () => {
     navigator("/dashboard/bookings", { state: { id: id } });

@@ -14,6 +14,7 @@ import {
   formattedRatingDesktop,
   formattedRatingMobile,
 } from "../../utils/ReviewsHandling";
+import { useLocation } from "react-router-dom";
 
 const ReviewView = () => {
   const [isLoadingRestaurants, setIsLoadingRestaurants] = useState(true);
@@ -23,6 +24,8 @@ const ReviewView = () => {
   const [reviewFIlter, setReviewFIlter] = useState("no-filter");
   const [review, setReview] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
+  const location = useLocation();
+  const id = location.state?.id;
 
   const showSelectedReview = async (_id) => {
     setIsVisibleReview(false);
@@ -97,7 +100,11 @@ const ReviewView = () => {
         .then((response) => {
           // console.log(response.data);
           setRestaurants(response.data);
-          showSelectedReview(response.data[0].id);
+          if (id) {
+            showSelectedReview(id);
+          } else {
+            showSelectedReview(response.data[0].id);
+          }
         })
         .catch((err) => console.error(err))
         .finally(() => {

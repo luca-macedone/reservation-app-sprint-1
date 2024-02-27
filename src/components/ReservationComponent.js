@@ -23,7 +23,7 @@ const ReservationComponent = (restaurant) => {
   const formRef = useRef(null);
 
   const addReservation = async () => {
-    console.log(validateData());
+    // console.log(validateData());
     if (!validateData()) {
       const existingReservation = await checkExistingReservation();
       if (!existingReservation) {
@@ -111,18 +111,8 @@ const ReservationComponent = (restaurant) => {
     evt.stopPropagation();
     // console.log(evt);
     console.log(reservation);
-    // if (reservation.email.length > 5) {
     addReservation();
-    // console.log("sending");
-    // }
   };
-
-  // const checkIsFull = () => {
-  //   return (
-  //     parseInt(restaurant.restaurant.data.free_seats, 10) - reservation.seats <=
-  //     0
-  //   );
-  // };
 
   const validateData = () => {
     if (reservation) {
@@ -173,6 +163,7 @@ const ReservationComponent = (restaurant) => {
           }
           case "when": {
             console.log(!validDate(reservation.when));
+            console.log(reservation.when);
             if (!validDate(reservation.when)) {
               errors = { ...errors, when: true };
               result = true;

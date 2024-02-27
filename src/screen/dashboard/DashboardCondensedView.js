@@ -47,7 +47,7 @@ const DashboardCondensedView = () => {
           <h2 className="font-special text-3xl text-secondary">Summary</h2>
         </div>
         <section className="lg:col-span-2 grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-5 px-3 py-5 overflow-hidden h-full">
-          <article className="h-full overflow-hidden flex flex-col bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
+          <article className="h-full overflow-hidden flex flex-col bg-tertiary rounded-2xl p-3 lg:p-5">
             <h2 className="font-special text-3xl text-secondary mb-3 px-2">
               Bookings
             </h2>
@@ -64,7 +64,9 @@ const DashboardCondensedView = () => {
                       );
                     })
                   ) : (
-                    <h6 className="text-center px-5 py-2">No messages here.</h6>
+                    <h6 className="text-center px-5 py-2 bg-light w-full rounded-lg text-secondary ring-1 ring-secondary">
+                      No messages here yet.
+                    </h6>
                   )
                 ) : (
                   <>Loading</>
@@ -78,21 +80,27 @@ const DashboardCondensedView = () => {
               See more
             </Link>
           </article>
-          <article className="h-full overflow-hidden flex flex-col bg-tertiary shadow-lg rounded-2xl p-3 lg:p-5">
+          <article className="h-full overflow-hidden flex flex-col bg-tertiary rounded-2xl p-3 lg:p-5">
             <h2 className="font-special text-3xl text-secondary mb-3 px-2 h-max">
               Reviews
             </h2>
             <div className="h-full overflow-hidden">
               <div className="flex flex-col items-start justify-start gap-3 w-full h-full overflow-y-auto px-2 py-1">
                 {!data.isLoading ? (
-                  data.reviews.map((rev) => {
-                    return (
-                      <ReviewPreviewComp
-                        key={rev.id}
-                        data={rev}
-                      />
-                    );
-                  })
+                  data.reviews.length > 0 ? (
+                    data.reviews.map((rev) => {
+                      return (
+                        <ReviewPreviewComp
+                          key={rev.id}
+                          data={rev}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h6 className="text-center px-5 py-2 bg-light w-full rounded-lg text-secondary ring-1 ring-secondary">
+                      No reviews here yet.
+                    </h6>
+                  )
                 ) : (
                   <>Loading</>
                 )}
