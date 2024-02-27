@@ -258,34 +258,40 @@ const ReviewView = () => {
               </h2>
             ) : !isLoadingReview ? (
               <>
-                {filteredReviews.map((rev) => {
-                  return (
-                    <div
-                      key={rev.id}
-                      className="p-5 bg-light rounded-3xl w-full flex flex-col items-start gap-2"
-                    >
-                      <div className="flex items-start flex-col-reverse justify-between w-full">
-                        <div className="flex items-start justify-between w-full">
-                          <div>
-                            <h6 className="font-semibold border-b-2 mb-2 border-secondary w-max px-3">
-                              {rev.name}
-                            </h6>
-                            <p className="text-sm px-3">{rev.description}</p>
-                          </div>
-                          <div className="text-nowrap pe-3">
-                            {/* {rev.rating} */}
-                            <div className="hidden lg:block">
-                              {formattedRatingDesktop(rev.rating)}
+                {filteredReviews.length > 0 ? (
+                  filteredReviews.map((rev) => {
+                    return (
+                      <div
+                        key={rev.id}
+                        className="p-5 bg-light rounded-3xl w-full flex flex-col items-start gap-2"
+                      >
+                        <div className="flex items-start flex-col-reverse justify-between w-full">
+                          <div className="flex items-start justify-between w-full">
+                            <div>
+                              <h6 className="font-semibold border-b-2 mb-2 border-secondary w-max px-3">
+                                {rev.name}
+                              </h6>
+                              <p className="text-sm px-3">{rev.description}</p>
                             </div>
-                            <div className="lg:hidden block">
-                              {formattedRatingMobile(rev.rating)}
+                            <div className="text-nowrap pe-3">
+                              {/* {rev.rating} */}
+                              <div className="hidden lg:block">
+                                {formattedRatingDesktop(rev.rating)}
+                              </div>
+                              <div className="lg:hidden block">
+                                {formattedRatingMobile(rev.rating)}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                ) : (
+                  <h6 className="text-center px-5 py-2 bg-light w-full rounded-lg text-secondary ring-1 ring-secondary">
+                    No reviews here yet.
+                  </h6>
+                )}
               </>
             ) : (
               <LoadingComp />
