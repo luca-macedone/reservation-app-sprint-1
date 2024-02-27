@@ -14,6 +14,10 @@ module.exports = {
         accent: "#F27001",
         light: "#FFFBED",
         dark: "#001E2A",
+        danger: "#c1121f",
+        success: "#2a9d8f",
+        info: "#a2d2ff",
+        error: "#780000",
       },
       backgroundImage: {
         "logo-gradient": [

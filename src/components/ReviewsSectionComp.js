@@ -131,7 +131,7 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
 
   useEffect(() => {
     setFilteredReviews(reviews);
-  }, []);
+  }, [reviews]);
 
   return (
     <section
@@ -263,10 +263,10 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
               </div>
             </div>
             {reviews.length > 0 ? (
-              filteredReviews.map((rev) => {
+              filteredReviews.map((rev, index) => {
                 return (
                   <div
-                    key={rev.id}
+                    key={index}
                     className="flex flex-col items-center md:justify-center my-10 w-full"
                     data-aos="fade-up"
                   >
@@ -317,7 +317,7 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
                 <div className="flex items-center w-max mx-auto gap-3">
                   <strong className="text-lg">Reduce</strong>
                   <FontAwesomeIcon
-                    icon={faChevronCircleDown}
+                    icon={faChevronCircleUp}
                     className=" drop-shadow-lg"
                   />
                 </div>
@@ -325,7 +325,7 @@ const ReviewsSectionComp = ({ id, pushReviewClbk }) => {
                 <div className="flex items-center w-max mx-auto gap-3">
                   <strong className="text-lg">Expand</strong>
                   <FontAwesomeIcon
-                    icon={faChevronCircleUp}
+                    icon={faChevronCircleDown}
                     className=" drop-shadow-lg"
                   />
                 </div>

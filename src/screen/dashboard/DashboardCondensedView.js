@@ -56,7 +56,12 @@ const DashboardCondensedView = () => {
                 {!data.isLoading ? (
                   data.messages.length > 0 ? (
                     data.messages.map((msg) => {
-                      return <MessagePreviewComp data={msg} />;
+                      return (
+                        <MessagePreviewComp
+                          key={msg.id}
+                          data={msg}
+                        />
+                      );
                     })
                   ) : (
                     <h6 className="text-center px-5 py-2">No messages here.</h6>
@@ -81,7 +86,12 @@ const DashboardCondensedView = () => {
               <div className="flex flex-col items-start justify-start gap-3 w-full h-full overflow-y-auto px-2 py-1">
                 {!data.isLoading ? (
                   data.reviews.map((rev) => {
-                    return <ReviewPreviewComp data={rev} />;
+                    return (
+                      <ReviewPreviewComp
+                        key={rev.id}
+                        data={rev}
+                      />
+                    );
                   })
                 ) : (
                   <>Loading</>

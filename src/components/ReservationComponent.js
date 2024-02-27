@@ -1,16 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
-import {
-  faCircleCheck,
-  // faCheckCircle,
-  faCircleExclamation,
-  faCircleInfo,
-  faXmarkCircle,
-  faX,
-} from "@fortawesome/free-solid-svg-icons";
-
 import axios from "axios";
 import { getMinDate, validDate } from "../utils/DateHandling";
+import ReservationAlertMessageComp from "./ReservationAlertMessageComp";
 
 const ReservationComponent = (restaurant) => {
   const [reservationMessage, setReservationMessage] = useState({
@@ -32,7 +23,7 @@ const ReservationComponent = (restaurant) => {
   const formRef = useRef(null);
 
   const addReservation = async () => {
-    // console.log(validateData());
+    console.log(validateData());
     if (!validateData()) {
       const existingReservation = await checkExistingReservation();
       if (!existingReservation) {
@@ -65,33 +56,39 @@ const ReservationComponent = (restaurant) => {
       const response = await axios.get(
         `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${restaurant.restaurant.data.id}/message`
       );
-      if (
-        response.data.some(
-          (res) =>
-            res.name === reservation.name &&
-            res.when === reservation.when &&
-            res.status !== "REFUSED"
-        )
-      ) {
-        console.log(response.data[0].status);
-        if (response.data[0].status === "HOLD") {
-          setReservationMessage({
-            status: "hold",
-            message:
-              "You have already made a reservation, currently is in HOLD status, await the restaurant confirmation.",
-          });
-        } else if (response.data[0].status === "REJECTED") {
-          setReservationMessage({
-            status: "rejected",
-            message:
-              "You have already made a reservation, the reservation have been rejected from the restaurant.",
-          });
-        } else if (response.data[0].status === "ACCEPTED") {
-          setReservationMessage({
-            status: "accepted",
-            message:
-              "You have already made a reservation, the reservation have been accepted from the restaurant, have a nice experience.",
-          });
+      let index = response.data.findIndex(
+        (res) =>
+          res.name === reservation.name &&
+          res.when === reservation.when &&
+          res.status !== "REFUSED"
+      );
+      if (index !== -1) {
+        let responseStatus = response.data[index].status;
+        switch (responseStatus) {
+          case "HOLD":
+            setReservationMessage({
+              status: "hold",
+              message:
+                "You have already made a reservation, currently is in HOLD status, await the restaurant confirmation.",
+            });
+            break;
+          case "REFUSED":
+            setReservationMessage({
+              status: "refused",
+              message:
+                "You have already made a reservation, the reservation have been rejected from the restaurant.",
+            });
+            break;
+          case "ACCEPTED":
+            setReservationMessage({
+              status: "accepted",
+              message:
+                "You have already made a reservation, the reservation have been accepted from the restaurant, have a nice experience.",
+            });
+            break;
+          default:
+            console.log("no status match");
+            return true;
         }
         return true;
       } else {
@@ -113,7 +110,7 @@ const ReservationComponent = (restaurant) => {
     evt.preventDefault();
     evt.stopPropagation();
     // console.log(evt);
-
+    console.log(reservation);
     // if (reservation.email.length > 5) {
     addReservation();
     // console.log("sending");
@@ -148,6 +145,11 @@ const ReservationComponent = (restaurant) => {
               reservation.email.indexOf("@") === -1 ||
               reservation.email.indexOf(".") === -1
             ) {
+              console.log(
+                reservation.email.length <= 5,
+                reservation.email.indexOf("@") === -1,
+                reservation.email.indexOf(".") === -1
+              );
               errors = { ...errors, email: true };
               result = true;
             }
@@ -155,17 +157,22 @@ const ReservationComponent = (restaurant) => {
           }
           case "seats": {
             if (
-              reservation.seats >= restaurant.free_seats ||
+              reservation.seats > restaurant.free_seats ||
               reservation.seats === 0 ||
               !reservation.seats
             ) {
+              console.log(
+                reservation.seats > restaurant.free_seats,
+                reservation.seats === 0,
+                !reservation.seats
+              );
               errors = { ...errors, seats: true };
               result = true;
             }
             break;
           }
           case "when": {
-            console.log(validDate(reservation.when));
+            console.log(!validDate(reservation.when));
             if (!validDate(reservation.when)) {
               errors = { ...errors, when: true };
               result = true;
@@ -309,88 +316,12 @@ const ReservationComponent = (restaurant) => {
           </button>
         </div>
       </div>
-      {reservationMessage.status !== "" && (
-        <div
-          className="bg-light p-5 mt-5 rounded-xl border-2 shadow-lg font-semibold flex items-start justify-between"
-          style={{
-            color:
-              reservationMessage.status === "error"
-                ? "red"
-                : reservationMessage.status === "hold"
-                ? "#F27001"
-                : reservationMessage.status === "refused"
-                ? "orange"
-                : reservationMessage.status === "accepted"
-                ? "green"
-                : "",
-            borderColor:
-              reservationMessage.status === "error"
-                ? "red"
-                : reservationMessage.status === "hold"
-                ? "#F27001"
-                : reservationMessage.status === "accepted"
-                ? "green"
-                : "",
-          }}
-        >
-          <p className="flex items-start">
-            {reservationMessage.status === "error" ? (
-              <strong className="font-bold text-xl items-center gap-2 me-2 inline-flex">
-                <FontAwesomeIcon
-                  icon={faCircleExclamation}
-                  className="text-2xl"
-                />
-                ERROR:
-              </strong>
-            ) : reservationMessage.status === "hold" ? (
-              <strong className="font-bold text-xl items-center gap-2 me-2 inline-flex">
-                <FontAwesomeIcon
-                  icon={faCircleInfo}
-                  className="text-2xl"
-                />
-                INFO:
-              </strong>
-            ) : reservationMessage.status === "refused" ? (
-              <strong className="font-bold text-xl items-center gap-2 me-2 inline-flex">
-                <FontAwesomeIcon
-                  icon={faXmarkCircle}
-                  className="text-2xl"
-                />
-                CANCELED:
-              </strong>
-            ) : reservationMessage.status === "accepted" ? (
-              <strong className="font-bold text-xl items-center gap-2 me-2 inline-flex">
-                <FontAwesomeIcon
-                  icon={faCircleCheck}
-                  className="text-2xl"
-                />
-                DONE:
-              </strong>
-            ) : (
-              ""
-            )}
-            {reservationMessage.message}
-          </p>
-          <button
-            className="border-2 px-5 py-2 rounded-xl hover:text-secondary hover:bg-tertiary transition-all ease-in-out duration-200"
-            style={{
-              borderColor:
-                reservationMessage.status === "error"
-                  ? "red"
-                  : reservationMessage.status === "hold"
-                  ? "#F27001"
-                  : reservationMessage.status === "accepted"
-                  ? "green"
-                  : "",
-            }}
-            onClick={() => {
-              setReservationMessage({ status: "", message: "" });
-            }}
-          >
-            <FontAwesomeIcon icon={faX} />
-          </button>
-        </div>
-      )}
+      <ReservationAlertMessageComp
+        reservationMessageObj={reservationMessage}
+        setReservationMessageClbk={(data) => {
+          setReservationMessage(data);
+        }}
+      />
     </form>
   );
 };

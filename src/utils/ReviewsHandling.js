@@ -64,15 +64,15 @@ export const formattedRatingDesktop = (_rating) => {
 };
 
 export const formattedRatingMobile = (_rating) => {
-  const res = Math.floor(_rating / 10);
+  const res = Math.floor(_rating / 10) / 2;
   // console.log(res);
   return (
-    <div className="flex items-start gap-1">
+    <div className="flex items-center gap-1">
+      <span className="">{res}x</span>
       <FontAwesomeIcon
         icon={faStarSolid}
         className="text-accent"
       />
-      x{res}
     </div>
   );
 };
