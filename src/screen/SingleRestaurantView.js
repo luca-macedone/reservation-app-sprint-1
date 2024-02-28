@@ -148,35 +148,37 @@ const SingleRestaurantView = () => {
               />
             </div>
           </div>
-          <section
-            className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 bg-tertiary px-5 pt-5 pb-10 md:py-10 md:pb-20 md:px-10 rounded-3xl my-10 shadow-lg"
-            data-aos="fade-up"
-          >
-            <div className="col-span-1 md:col-span-2 flex justify-center items-center pb-2 mb-5">
-              <h2 className="text-3xl font-bold border-b-2 border-secondary px-10 py-3 font-special text-primary">
-                Menu
-              </h2>
-            </div>
-            {restaurant.menu.map((dish, index) => {
-              return (
-                <div
-                  key={index}
-                  className="border-b-2 border-secondary p-3 flex items-start justify-between"
-                >
-                  <div className="flex flex-col items-start justify-start gap-2">
-                    <h4 className="text-xl font-bold capitalize">
-                      {dish.name}
-                    </h4>
-                    <div className="w-max bg-accent text-light px-3 py-1 rounded-lg capitalize">
-                      {dish.category}
+          {restaurant.menu.length > 0 && (
+            <section
+              className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 bg-tertiary px-5 pt-5 pb-10 md:py-10 md:pb-20 md:px-10 rounded-3xl my-10 shadow-lg"
+              data-aos="fade-up"
+            >
+              <div className="col-span-1 md:col-span-2 flex justify-center items-center pb-2 mb-5">
+                <h2 className="text-3xl font-bold border-b-2 border-secondary px-10 py-3 font-special text-primary">
+                  Menu
+                </h2>
+              </div>
+              {restaurant.menu.map((dish, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="border-b-2 border-secondary p-3 flex items-start justify-between"
+                  >
+                    <div className="flex flex-col items-start justify-start gap-2">
+                      <h4 className="text-xl font-bold capitalize">
+                        {dish.name}
+                      </h4>
+                      <div className="w-max bg-accent text-light px-3 py-1 rounded-lg capitalize">
+                        {dish.category}
+                      </div>
+                      <small>{dish.description}</small>
                     </div>
-                    <small>{dish.description}</small>
+                    <div className="text-2xl font-bold">{dish.price}€</div>
                   </div>
-                  <div className="text-2xl font-bold">{dish.price}€</div>
-                </div>
-              );
-            })}
-          </section>
+                );
+              })}
+            </section>
+          )}
           <section
             className="grid grid-flow-row grid-cols-1 lg:grid-cols-3 items-center justify-center gap-10 py-10"
             data-aos="fade-up"
