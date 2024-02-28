@@ -44,7 +44,9 @@ const DashboardCondensedView = () => {
     <>
       <main className="lg:pb-5 lg:h-full">
         <div className="w-full text-end border-secondary px-8">
-          <h2 className="font-special text-3xl text-secondary">Summary</h2>
+          <h2 className="font-special text-3xl text-secondary mt-8 lg:mt-0">
+            Summary
+          </h2>
         </div>
         <section className="lg:col-span-2 grid grid-flow-row grid-cols-1 lg:grid-cols-2 gap-5 px-3 py-5 overflow-hidden h-full">
           <article className="h-full overflow-hidden flex flex-col bg-tertiary rounded-2xl p-3 lg:p-5">

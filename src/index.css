@@ -11,7 +11,7 @@ body {
 
 .no-scroll {
   height: 100% !important;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .restaurant-card {

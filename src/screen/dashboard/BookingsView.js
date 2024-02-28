@@ -105,8 +105,8 @@ const BookingsView = () => {
   }, [inboxFilter]);
 
   return (
-    <div className="h-full flex flex-col overflow-hidden pb-10 lg:pb-0">
-      <h2 className="font-special text-secondary text-3xl text-end mb-3 mt-5 lg:mt-0">
+    <div className="h-full flex flex-col overflow-hidden pb-10 lg:pb-0 mt-8 lg:mt-0">
+      <h2 className="font-special text-secondary text-3xl text-end mb-3">
         Bookings
       </h2>
       <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-3 lg:h-full overflow-hidden gap-2.5 lg:gap-0 relative">

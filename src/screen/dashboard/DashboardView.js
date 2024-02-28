@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate, Outlet } from "react-router-dom";
 import {
   faBars,
-  faBox,
   faCompass,
   faFile,
   faInbox,
@@ -30,9 +29,11 @@ const DashboardView = () => {
 
   const handleClick = (prev) => {
     setIsMenuOpen(!prev);
+    document.body.classList.toggle("no-scroll");
   };
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.body.classList.remove("no-scroll");
   }, []);
   return (
     <div className="dashboard-bg relative">
@@ -170,51 +171,56 @@ const DashboardView = () => {
             </footer>
           </div>
           <div className="col-span-3 md:col-span-4 lg:col-span-4 lg:h-[96vh] w-full bg-light lg:rounded-2xl lg:shadow-lg p-5 lg:p-10">
-            <nav className="w-full flex lg:hidden items-center justify-between bg-primary px-3 py-2 rounded-xl shadow-lg">
+            <nav className="w-full flex lg:hidden items-center justify-between bg-primary px-3 py-1.5 rounded-xl shadow-lg">
               <h1 className="text-2xl font-special text-end text-secondary">
                 <span className="font-base font-bold text-light">Luca</span>'s
                 Dashboard
               </h1>
               <button
-                className={
-                  isMenuOpen
-                    ? "bg-tertiary rounded-lg shadow-lg text-xl flex lg:hidden items-center justify-center py-1.5 px-3"
-                    : "bg-transparent text-2xl flex lg:hidden items-center justify-center py-1 px-3"
-                }
+                className="bg-transparent text-light ring-2 ring-transparent hover:text-accent hover:ring-primary hover:bg-light rounded-lg text-2xl flex lg:hidden items-center justify-center py-2 px-3"
                 onClick={() => handleClick(isMenuOpen)}
               >
-                {!isMenuOpen ? (
-                  <FontAwesomeIcon
-                    icon={faBars}
-                    className="text-light"
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faX}
-                    className="text-red-800"
-                  />
-                )}
+                <FontAwesomeIcon
+                  icon={faBars}
+                  className="text-2xl lg:text-lg"
+                />
               </button>
             </nav>
             <Outlet />
             <div
               className={
                 isMenuOpen
-                  ? "absolute top-[70px] right-0 left-0 mx-auto p-5 w-[90%] bg-light rounded-b-3xl shadow-xl"
+                  ? "absolute top-0 right-0 left-0 mx-auto p-5 w-full h-full bg-light lg:hidden"
                   : "hidden"
               }
             >
-              <div className="">
+              <div className="flex flex-col gap-5">
+                <nav className="w-full flex lg:hidden items-center justify-between bg-primary px-3 py-2 rounded-xl shadow-lg">
+                  <h1 className="text-2xl font-special text-end text-secondary">
+                    <span className="font-base font-bold text-light">Luca</span>
+                    's Dashboard
+                  </h1>
+                  <button
+                    className="bg-tertiary text-accent ring-2 ring-transparent hover:ring-light hover:bg-transparent hover:text-light transition-all ease-in-out duration-200 rounded-lg text-xl flex lg:hidden items-center justify-center py-1.5 px-3"
+                    onClick={() => handleClick(isMenuOpen)}
+                  >
+                    <FontAwesomeIcon
+                      icon={faX}
+                      className="text-2xl lg:text-lg"
+                    />
+                  </button>
+                </nav>
+
                 <ul className="flex flex-col items-center justify-start gap-4">
                   <li className="w-full flex items-center justify-center">
                     <Link
                       to={"/"}
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                      className="bg-light text-primary px-5 py-1 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-primary hover:text-light transition-colors duration-200 ease-in-out"
                       onClick={() => handleClick(isMenuOpen)}
                     >
                       <FontAwesomeIcon
                         icon={faCompass}
-                        className="text-3xl"
+                        className="text-2xl lg:text-lg"
                       />
                       <span className="">Home</span>
                     </Link>
@@ -222,12 +228,12 @@ const DashboardView = () => {
                   <li className="w-full flex items-center justify-center">
                     <Link
                       to={"/dashboard"}
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                      className="bg-light text-primary px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-primary hover:text-light transition-colors duration-200 ease-in-out"
                       onClick={() => handleClick(isMenuOpen)}
                     >
                       <FontAwesomeIcon
                         icon={faTableColumns}
-                        className="text-3xl"
+                        className="text-2xl lg:text-lg"
                       />
                       <span className="">Dashboard</span>
                     </Link>
@@ -235,12 +241,12 @@ const DashboardView = () => {
                   <li className="w-full flex items-center justify-center">
                     <Link
                       to={"/dashboard/menu"}
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                      className="bg-light text-primary px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-primary hover:text-light transition-colors duration-200 ease-in-out"
                       onClick={() => handleClick(isMenuOpen)}
                     >
                       <FontAwesomeIcon
                         icon={faFile}
-                        className="text-3xl"
+                        className="text-2xl lg:text-lg"
                       />
                       <span className="">Menu's</span>
                     </Link>
@@ -248,12 +254,12 @@ const DashboardView = () => {
                   <li className="w-full flex items-center justify-center">
                     <Link
                       to={"/dashboard/bookings"}
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                      className="bg-light text-primary px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-primary hover:text-light transition-colors duration-200 ease-in-out"
                       onClick={() => handleClick(isMenuOpen)}
                     >
                       <FontAwesomeIcon
                         icon={faInbox}
-                        className="text-3xl"
+                        className="text-2xl lg:text-lg"
                       />
                       <span className="">Bookings</span>
                     </Link>
@@ -261,53 +267,45 @@ const DashboardView = () => {
                   <li className="w-full flex items-center justify-center">
                     <Link
                       to={"/dashboard/reviews"}
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                      className="bg-light text-primary px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-primary hover:text-light transition-colors duration-200 ease-in-out"
                       onClick={() => handleClick(isMenuOpen)}
                     >
                       <FontAwesomeIcon
                         icon={faStar}
-                        className="text-3xl"
+                        className="text-2xl lg:text-lg"
                       />
                       <span className="">Reviews</span>
-                    </Link>
-                  </li>
-                  <li className="w-full flex items-center justify-center">
-                    <Link
-                      to={"/dashboard/orders"}
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
-                      onClick={() => handleClick(isMenuOpen)}
-                    >
-                      <FontAwesomeIcon
-                        icon={faBox}
-                        className="text-3xl"
-                      />
-                      <span className="">Orders</span>
                     </Link>
                   </li>
                   <li className="w-full">
                     <button
                       type="button"
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                      className="bg-light text-primary px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-primary hover:text-light transition-colors duration-200 ease-in-out"
                       onClick={navigateToHelp}
                     >
-                      <FontAwesomeIcon icon={faCircleQuestion} />
+                      <FontAwesomeIcon
+                        icon={faCircleQuestion}
+                        className="text-2xl lg:text-lg"
+                      />
                       <span className="pb-0">Help</span>
                     </button>
                   </li>
                   <li className="w-full">
                     <button
                       type="button"
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                      className="bg-light text-primary px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-primary hover:text-light transition-colors duration-200 ease-in-out"
                       onClick={navigateToUser}
                     >
                       <FontAwesomeIcon icon={faUser} />
-                      <span className="pb-0">User Settings</span>
+                      <span className="lg:pb-0text-2xl lg:text-lg">
+                        User Settings
+                      </span>
                     </button>
                   </li>
                   <li className="w-full">
                     <button
                       type="button"
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                      className="bg-light text-primary px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-primary hover:text-light transition-colors duration-200 ease-in-out"
                     >
                       <Flag country="GB" />
                       <span className="pb-0">English</span>
@@ -316,12 +314,12 @@ const DashboardView = () => {
                   <li className="w-full">
                     <button
                       type="button"
-                      className="bg-primary text-light px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-tertiary hover:text-primary transition-colors duration-200 ease-in-out"
+                      className="bg-light text-primary px-5 py-2 w-full flex items-center justify-center lg:justify-between gap-3 rounded-xl hover:bg-primary hover:text-light transition-colors duration-200 ease-in-out"
                     >
                       <span className="pb-0">Logout</span>
                       <FontAwesomeIcon
                         icon={faRightFromBracket}
-                        className="text-secondary"
+                        className="text-2xl lg:text-lg"
                       />
                     </button>
                   </li>

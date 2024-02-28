@@ -119,7 +119,7 @@ const ReviewView = () => {
   }, []);
 
   return (
-    <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 h-max lg:h-full overflow-hidden">
+    <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 h-max lg:h-full overflow-hidden mt-8 lg:mt-0">
       <section className="h-max lg:h-full overflow-hidden flex flex-col">
         <h2 className="font-special text-secondary text-3xl mb-3 mt-5 lg:mt-0 text-end">
           Your Reviews
