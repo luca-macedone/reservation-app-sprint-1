@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -15,7 +15,7 @@ const SingleRestaurantView = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams();
-
+  const navigator = useNavigate();
   const [restaurant, setRestaurant] = useState({
     data: {},
     gallery: [],

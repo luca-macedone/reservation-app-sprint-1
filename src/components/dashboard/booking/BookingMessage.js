@@ -29,7 +29,7 @@ const BookingMessage = ({
       className="bg-light rounded-xl px-5 py-3 w-full flex flex-col text-dark"
       key={id}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap">
         <h5 className="font-bold  flex items-end gap-1 italic w-full lg:w-max justify-between lg:justify-start">
           {email}
           <span className="font-light lowercase flex items-end gap-1 not-italic">

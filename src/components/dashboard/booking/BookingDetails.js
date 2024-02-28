@@ -60,7 +60,7 @@ const BookingDetails = () => {
     <>
       {!isLoading ? (
         messageData ? (
-          <div className="col-span-1 lg:col-span-2 bg-tertiary p-2 rounded-tr-xl h-full lg:h-[550px] rounded-xl lg:rounded-none flex flex-col">
+          <div className="col-span-1 lg:col-span-2 bg-tertiary p-2 h-full lg:h-[550px] rounded-xl lg:rounded-none lg:rounded-tr-xl flex flex-col">
             <div className="h-full flex flex-col gap-5">
               <h5 className=" text-secondary text-xl px-5 py-2.5 bg-light rounded-t-lg lg:rounded-none lg:rounded-tr-lg border-b-2 border-secondary">
                 {messageData.email}

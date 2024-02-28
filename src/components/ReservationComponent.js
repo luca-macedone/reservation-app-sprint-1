@@ -34,11 +34,19 @@ const ReservationComponent = (restaurant) => {
           )
           .then((response) => {
             // console.log(response.data);
-            setReservationMessage({ status: "", message: "" });
+            if (response.status === 201) {
+              setReservationMessage({
+                status: "hold",
+                message:
+                  "You're reservation is sended correctly! currently is in HOLD status, await the restaurant confirmation.",
+              });
+            } else {
+              setReservationMessage({ status: "", message: "" });
+            }
           })
           .catch((err) => console.error(err))
           .finally(() => {
-            setReservation({ email: "", seats: 0, when: "", notes: "" }); // after the submit of the form it will reset the reservation to avoid
+            setReservation({ email: "", seats: 0, when: "", notes: "" }); // after the submit of the form it will reset the reservation to avoid sending old data with the empty form
             setInvalidInput({
               email: false,
               seats: false,

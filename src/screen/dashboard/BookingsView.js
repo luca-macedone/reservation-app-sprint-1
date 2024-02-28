@@ -284,7 +284,7 @@ const BookingsView = () => {
             </div>
           </div>
         )}
-        <div className="h-[300px] lg:h-full row-span-1 lg:row-span-2 overflow-y-scroll p-2 flex flex-col gap-3 bg-tertiary rounded-xl lg:rounded-l-2xl">
+        <div className="h-[300px] lg:h-full row-span-1 lg:row-span-2 overflow-y-scroll p-2 flex flex-col gap-3 bg-tertiary rounded-lg lg:rounded-none lg:rounded-l-xl">
           <h4 className="font-special text-secondary text-3xl px-5 py-2 bg-light rounded-t-lg lg:rounded-none lg:rounded-tl-lg border-b-2 border-secondary flex items-center justify-between">
             <div>
               <FontAwesomeIcon
@@ -330,7 +330,7 @@ const BookingsView = () => {
         <BookingContext.Provider value={activeMessage}>
           <BookingDetails />
         </BookingContext.Provider>
-        <div className="col-span-1 lg:col-span-2 bg-tertiary p-5 rounded-xl rounded-t-none lg:rounded-br-xl h-full hidden lg:flex items-center justify-between border-t-2 border-secondary">
+        <div className="col-span-1 lg:col-span-2 bg-tertiary p-5 rounded-lg rounded-t-none lg:rounded-none lg:rounded-br-xl h-full hidden lg:flex items-center justify-between border-t-2 border-secondary">
           <div className="items-start justify-start gap-5 w-full flex">
             <div className="flex flex-col gap-2 w-max h-full">
               <div className="flex items-center flex-col bg-light px-5 py-2.5 rounded-2xl gap-4">
@@ -348,7 +348,7 @@ const BookingsView = () => {
               <div className="w-full flex">
                 <label
                   htmlFor="hold-filter"
-                  className="px-5 py-2 bg-light rounded-lg border-2 border-transparent transition-all ease-in-out duration-200 w-full flex items-center justify-center gap-2"
+                  className="px-5 py-2 bg-light rounded-xl border-2 border-transparent transition-all ease-in-out duration-200 hover:border-primary hover:text-primary hover:cursor-pointer w-full flex items-center justify-center gap-2"
                   style={{
                     borderColor: inboxFilter === "HOLD" && "#FF4C31",
                     color: inboxFilter === "HOLD" && "#FF4C31",
@@ -400,7 +400,7 @@ const BookingsView = () => {
               <div className="w-full flex">
                 <label
                   htmlFor="accept-filter"
-                  className="px-5 py-2 bg-light rounded-lg border-2 border-transparent transition-all ease-in-out duration-200 w-full flex items-center justify-center gap-2"
+                  className="px-5 py-2 bg-light rounded-xl border-2 border-transparent transition-all ease-in-out duration-200 hover:border-primary hover:text-primary hover:cursor-pointer w-full flex items-center justify-center gap-2"
                   style={{
                     borderColor: inboxFilter === "ACCEPTED" && "#FF4C31",
                     color: inboxFilter === "ACCEPTED" && "#FF4C31",
@@ -450,7 +450,7 @@ const BookingsView = () => {
               <div className="w-full flex">
                 <label
                   htmlFor="refuse-filter"
-                  className="px-5 py-2 bg-light rounded-lg border-2 border-transparent transition-all ease-in-out duration-200 w-full flex items-center justify-center gap-2"
+                  className="px-5 py-2 bg-light rounded-xl border-2 border-transparent transition-all ease-in-out duration-200 hover:border-primary hover:text-primary hover:cursor-pointer w-full flex items-center justify-center gap-2"
                   style={{
                     borderColor: inboxFilter === "REFUSED" && "#FF4C31",
                     color: inboxFilter === "REFUSED" && "#FF4C31",

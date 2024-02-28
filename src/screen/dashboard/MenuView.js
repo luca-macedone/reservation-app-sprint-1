@@ -65,7 +65,7 @@ const MenuView = () => {
   return (
     <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 h-full overflow-hidden">
       <section className="h-full overflow-hidden flex flex-col">
-        <h2 className="font-special text-secondary text-3xl mb-3 mt-5 lg:mt-0">
+        <h2 className="font-special text-secondary text-3xl mb-3 mt-5 lg:mt-0 text-end">
           Your Restaurants
         </h2>
         <div className="lg:hidden bg-tertiary rounded-3xl p-5 h-full mb-5">
@@ -136,7 +136,7 @@ const MenuView = () => {
         </div>
       </section>
       <section className="h-full overflow-hidden flex flex-col">
-        <h2 className="font-special text-secondary text-3xl mb-3 flex flex-col">
+        <h2 className="font-special text-secondary text-3xl mb-3 text-end">
           Menu
         </h2>
         <div className="bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
