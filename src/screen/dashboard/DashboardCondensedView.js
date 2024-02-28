@@ -66,7 +66,7 @@ const DashboardCondensedView = () => {
                       );
                     })
                   ) : (
-                    <h6 className="text-center px-5 py-2 bg-light w-full rounded-lg text-secondary ring-1 ring-secondary">
+                    <h6 className="text-center px-5 py-3.5 text-lg font-bold bg-light w-full rounded-xl text-danger">
                       No messages here yet.
                     </h6>
                   )
@@ -99,7 +99,7 @@ const DashboardCondensedView = () => {
                       );
                     })
                   ) : (
-                    <h6 className="text-center px-5 py-2 bg-light w-full rounded-lg text-secondary ring-1 ring-secondary">
+                    <h6 className="text-center px-5 py-3.5 text-lg font-bold bg-light w-full rounded-xl text-danger">
                       No reviews here yet.
                     </h6>
                   )

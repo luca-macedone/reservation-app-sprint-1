@@ -206,9 +206,10 @@ const ReviewView = () => {
         </h2>
         <div className="bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
           {isVisibleReview && (
-            <div className="w-full flex flex-col items-end justify-start gap-2 px-5 py-3">
-              <div className="bg-light border-2 border-secondary px-5 py-3 rounded-xl font-special text-xl flex items-center justify-between w-full">
-                Score <span>{formattedRatingDesktop(avg_rating(review))}</span>
+            <div className="w-full flex flex-col items-end justify-start gap-5 px-5 py-4">
+              <div className="bg-light border-b-2 border-secondary px-5 py-3 rounded-t-xl font-special text-xl flex items-center justify-between w-full">
+                Average Score{" "}
+                <span>{formattedRatingDesktop(avg_rating(review))}</span>
               </div>
               <div className="bg-accent rounded-xl p-1 flex items-center gap-1 w-max">
                 <button
@@ -288,7 +289,7 @@ const ReviewView = () => {
                     );
                   })
                 ) : (
-                  <h6 className="text-center px-5 py-2 bg-light w-full rounded-lg text-secondary ring-1 ring-secondary">
+                  <h6 className="text-center px-5 py-3.5 text-lg font-bold bg-light w-full rounded-xl text-danger">
                     No reviews here yet.
                   </h6>
                 )}

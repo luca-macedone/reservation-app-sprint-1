@@ -315,7 +315,9 @@ const BookingsView = () => {
                 );
               })
             ) : (
-              <h6 className="text-center px-5 py-2">No messages here.</h6>
+              <h6 className="text-center px-5 py-3.5 text-lg font-bold bg-light w-full rounded-xl text-danger">
+                No messages here
+              </h6>
             )
           ) : (
             <div className="h-max lg:h-[600px] min-w-full bg-tertiary rounded-tr-xl font-special flex flex-col items-center text-primary justify-center col-span-1 lg:col-span-2">
