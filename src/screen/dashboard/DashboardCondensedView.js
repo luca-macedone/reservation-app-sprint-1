@@ -9,27 +9,27 @@ const DashboardCondensedView = () => {
     isLoading: true,
     messages: [],
     reviews: [],
-    orders: [],
+    // orders: [],
   });
 
   useEffect(() => {
     const fetchData = async () => {
       const url = new URL("https://65c3642539055e7482c0c4ba.mockapi.io/api/v1");
       try {
-        const [res1, res2, res3] = await Promise.all([
+        const [res1, res2] = await Promise.all([
           axios.get(`${url}/message`),
           axios.get(`${url}/review`),
-          axios.get(`${url}/order`),
+          // axios.get(`${url}/order`),
         ]);
 
         const latestMessages = res1.data.slice(0, 15);
         const latestReviews = res2.data.slice(0, 15);
-        const latestOrders = res3.data.slice(0, 15);
+        // const latestOrders = res3.data.slice(0, 15);
 
         setData({
           messages: [...latestMessages],
           reviews: [...latestReviews],
-          orders: [...latestOrders],
+          // orders: [...latestOrders],
           isLoading: false,
         });
       } catch (err) {

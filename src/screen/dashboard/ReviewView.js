@@ -154,7 +154,7 @@ const ReviewView = () => {
           )}
         </div>
         <div className="hidden lg:inline-flex bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
-          <div className="h-full w-full overflow-y-auto flex flex-col items-start justify-start gap-4 px-5 py-4">
+          <div className="h-full w-full overflow-y-scroll flex flex-col items-start justify-start gap-4 px-5 py-4">
             {isLoadingRestaurants ? (
               <LoadingComp />
             ) : (
@@ -204,9 +204,9 @@ const ReviewView = () => {
         <h2 className="font-special text-secondary text-3xl mb-3 text-end">
           Reviews
         </h2>
-        <div className="bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
+        <div className="bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl flex flex-col">
           {isVisibleReview && (
-            <div className="w-full flex flex-col items-end justify-start gap-5 px-5 py-4">
+            <div className="w-full flex flex-col items-end justify-start gap-5 px-5 pe-9 py-4">
               <div className="bg-light border-b-2 border-secondary px-5 py-3 rounded-t-xl font-special text-xl flex items-center justify-between w-full">
                 Average Score{" "}
                 <span>{formattedRatingDesktop(avg_rating(review))}</span>

@@ -198,7 +198,7 @@ const MenuView = () => {
           )}
         </div>
         <div className="hidden lg:inline-flex bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-xl lg:rounded-none lg:rounded-br-xl">
-          <div className="h-full w-full overflow-x-hidden overflow-y-auto flex flex-col items-start justify-start gap-4 px-5 py-4">
+          <div className="h-full w-full overflow-x-hidden overflow-y-scroll flex flex-col items-start justify-start gap-4 px-5 py-4">
             {isLoadingRestaurants ? (
               <LoadingComp />
             ) : (
@@ -248,210 +248,216 @@ const MenuView = () => {
           Menu
         </h2>
         <div className="bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
-          <div className="px-5 py-3 rounded-3xl w-full flex flex-col items-start justify-start gap-3 h-full overflow-y-auto">
+          <div className="rounded-3xl w-full flex flex-col items-start justify-start gap-3 h-full overflow-y-auto">
             {!isVisibleMenu ? (
-              <h2 className="font-special flex items-center gap-2 text-2xl mt-6">
+              <h2 className="font-special flex items-center gap-2 text-2xl mt-6 px-5">
                 <FontAwesomeIcon icon={faArrowAltCircleLeft} />
                 Choose the restaurant.
               </h2>
             ) : !isLoadingMenu ? (
               <>
-                <div className="flex flex-col lg:flex-row flex-wrap lg:items-center w-full lg:justify-between gap-4">
-                  <form
-                    className={`bg-secondary grid grid-flow-row grid-cols-1 lg:grid-cols-3 gap-3 transition-all ease-in-out duration-200 ${
-                      isNewDishFormOpen
-                        ? "w-full p-5 rounded-3xl"
-                        : "w-max rounded-xl"
-                    }`}
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      event.stopPropagation();
-                    }}
-                  >
-                    <button
-                      className={`text-light col-span-1 hover:scale-105 transition-all ease-in-out duration-200 lg:col-span-3 w-max font-bold flex items-center gap-2 ${
+                <div className="flex flex-col items-start justify-start gap-4 w-full">
+                  <div className="ps-5 pe-9 py-3 flex lg:flex-row flex-wrap lg:items-center w-full lg:justify-between h-full gap-4">
+                    <form
+                      className={`bg-secondary grid grid-flow-row grid-cols-1 lg:grid-cols-3 gap-3 transition-all ease-in-out duration-200 ${
                         isNewDishFormOpen
-                          ? "px-3 py-2 hover:bg-light hover:text-secondary rounded-xl"
-                          : "px-5 py-3"
+                          ? "w-full p-5 rounded-3xl"
+                          : "w-max rounded-xl"
                       }`}
-                      type="button"
-                      onClick={toggleNewDishForm}
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                      }}
                     >
-                      {isNewDishFormOpen ? (
-                        <>
-                          <FontAwesomeIcon
-                            icon={faX}
-                            className="text-xl"
-                          />
-                          <span>Close</span>
-                        </>
-                      ) : (
-                        <>
-                          <FontAwesomeIcon
-                            icon={faPlus}
-                            className="text-xl"
-                          />
-                          <span>Add a dish</span>
-                        </>
-                      )}
-                    </button>
-                    {isNewDishFormOpen && (
-                      <>
-                        <div className="flex flex-col items-start gap-1">
-                          <label
-                            htmlFor="new-dish-name"
-                            className="text-light"
-                          >
-                            Name
-                          </label>
-                          <input
-                            type="text"
-                            id="new-dish-name"
-                            className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
-                            name="new-dish-name"
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div className="flex flex-col items-start gap-1">
-                          <label
-                            htmlFor="new-dish-price"
-                            className="text-light"
-                          >
-                            Price
-                          </label>
-                          <input
-                            type="number"
-                            id="new-dish-price"
-                            className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
-                            name="new-dish-price"
-                            min={0}
-                            step={0.1}
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div className="flex flex-col items-start gap-1">
-                          <label
-                            htmlFor="new-dish-category"
-                            className="text-light"
-                          >
-                            Category **
-                          </label>
-                          <div className="relative w-full flex items-center">
-                            <input
-                              type="text"
-                              id="new-dish-category"
-                              className="bg-light px-5 py-2 rounded-l-lg text-dark w-full focus:outline-accent"
-                              name="new-dish-category"
-                              list="types"
-                              ref={newDishCategoryInput}
+                      <button
+                        className={`text-light col-span-1 hover:scale-105 transition-all ease-in-out duration-200 lg:col-span-3 w-max font-bold flex items-center gap-2 ${
+                          isNewDishFormOpen
+                            ? "px-3 py-2 hover:bg-light hover:text-secondary rounded-xl"
+                            : "px-5 py-3"
+                        }`}
+                        type="button"
+                        onClick={toggleNewDishForm}
+                      >
+                        {isNewDishFormOpen ? (
+                          <>
+                            <FontAwesomeIcon
+                              icon={faX}
+                              className="text-xl"
                             />
-                            <button
-                              className="bg-accent px-2 py-2 rounded-r-lg text-light hover:bg-light hover:text-accent transition-all ease-in-out duration-200"
-                              onClick={addNewDishCategory}
-                              type="button"
-                            >
-                              Insert
-                            </button>
-                          </div>
-                          <datalist id="types">
-                            {!isLoadingMenu &&
-                              types.map((t, index) => {
-                                return (
-                                  <option
-                                    key={index}
-                                    value={t}
-                                  >
-                                    {t}
-                                  </option>
-                                );
-                              })}
-                          </datalist>
-                        </div>
-                        <div className="flex flex-col col-span-1 lg:col-span-2 items-start justify-start h-full gap-1">
-                          <label
-                            htmlFor="new-dish-description"
-                            className="text-light"
-                          >
-                            Description
-                          </label>
-                          <textarea
-                            name="new-dish-description"
-                            id="new-dish-description"
-                            className="w-full rounded-lg text-dark bg-light py-2 px-5 focus:outline-accent"
-                            onChange={handleChange}
-                            rows="2"
-                            // value={reservation.notes}
-                          ></textarea>
-                        </div>
-                        <div className="flex items-end flex-col justify-end flex-wrap gap-2">
-                          <button
-                            type="button"
-                            className="bg-light text-dark ring-2 ring-transparent px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary transition-all ease-in-out duration-200 hover:ring-accent"
-                            // onClick={handleBookingReset}
-                          >
-                            Reset
-                          </button>
-                          <button
-                            type="submit"
-                            className="bg-accent text-light ring-2 ring-transparent px-8 py-2 rounded-lg flex items-center gap-2 col-span-1 hover:bg-light hover:text-primary transition-all ease-in-out duration-200 disabled:ring-2 disabled:ring-accent disabled:bg-light disabled:text-accent disabled:hover:scale-100 hover:ring-accent"
-                            onClick={() => handleNewDishFormSubmit(activeMenu)}
-                          >
+                            <span>Close</span>
+                          </>
+                        ) : (
+                          <>
                             <FontAwesomeIcon
                               icon={faPlus}
                               className="text-xl"
                             />
-                            <span>Add</span>
-                          </button>
-                        </div>
-                        <small className="text-light col-span-1 lg:col-span-3">
-                          ** Use this symbol
-                          <strong className="text-xl"> |</strong> to divide the
-                          categories
-                        </small>
-                      </>
-                    )}
-                  </form>
-                  <div className="flex items-center">
-                    <input
-                      type="text"
-                      name="search-input"
-                      id="search-input"
-                      className="bg-light px-3 py-2 rounded-l-xl focus:outline-accent"
-                      onChange={handleChange}
-                    />
-                    <button
-                      className="bg-light text-dark px-3 py-2 rounded-r-xl flex items-center gap-2 hover:text-light hover:bg-accent transition-all ease-in-out duration-200"
-                      onClick={filterData}
-                    >
-                      <FontAwesomeIcon
-                        icon={faSearch}
-                        className=""
+                            <span>Add a dish</span>
+                          </>
+                        )}
+                      </button>
+                      {isNewDishFormOpen && (
+                        <>
+                          <div className="flex flex-col items-start gap-1">
+                            <label
+                              htmlFor="new-dish-name"
+                              className="text-light"
+                            >
+                              Name
+                            </label>
+                            <input
+                              type="text"
+                              id="new-dish-name"
+                              className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
+                              name="new-dish-name"
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="flex flex-col items-start gap-1">
+                            <label
+                              htmlFor="new-dish-price"
+                              className="text-light"
+                            >
+                              Price
+                            </label>
+                            <input
+                              type="number"
+                              id="new-dish-price"
+                              className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
+                              name="new-dish-price"
+                              min={0}
+                              step={0.1}
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="flex flex-col items-start gap-1">
+                            <label
+                              htmlFor="new-dish-category"
+                              className="text-light"
+                            >
+                              Category **
+                            </label>
+                            <div className="relative w-full flex items-center">
+                              <input
+                                type="text"
+                                id="new-dish-category"
+                                className="bg-light px-5 py-2 rounded-l-lg text-dark w-full focus:outline-accent"
+                                name="new-dish-category"
+                                list="types"
+                                ref={newDishCategoryInput}
+                              />
+                              <button
+                                className="bg-accent px-2 py-2 rounded-r-lg text-light hover:bg-light hover:text-accent transition-all ease-in-out duration-200"
+                                onClick={addNewDishCategory}
+                                type="button"
+                              >
+                                Insert
+                              </button>
+                            </div>
+                            <datalist id="types">
+                              {!isLoadingMenu &&
+                                types.map((t, index) => {
+                                  return (
+                                    <option
+                                      key={index}
+                                      value={t}
+                                    >
+                                      {t}
+                                    </option>
+                                  );
+                                })}
+                            </datalist>
+                          </div>
+                          <div className="flex flex-col col-span-1 lg:col-span-2 items-start justify-start h-full gap-1">
+                            <label
+                              htmlFor="new-dish-description"
+                              className="text-light"
+                            >
+                              Description
+                            </label>
+                            <textarea
+                              name="new-dish-description"
+                              id="new-dish-description"
+                              className="w-full rounded-lg text-dark bg-light py-2 px-5 focus:outline-accent"
+                              onChange={handleChange}
+                              rows="2"
+                              // value={reservation.notes}
+                            ></textarea>
+                          </div>
+                          <div className="flex items-end flex-col justify-end flex-wrap gap-2">
+                            <button
+                              type="button"
+                              className="bg-light text-dark ring-2 ring-transparent px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary transition-all ease-in-out duration-200 hover:ring-accent"
+                              // onClick={handleBookingReset}
+                            >
+                              Reset
+                            </button>
+                            <button
+                              type="submit"
+                              className="bg-accent text-light ring-2 ring-transparent px-8 py-2 rounded-lg flex items-center gap-2 col-span-1 hover:bg-light hover:text-primary transition-all ease-in-out duration-200 disabled:ring-2 disabled:ring-accent disabled:bg-light disabled:text-accent disabled:hover:scale-100 hover:ring-accent"
+                              onClick={() =>
+                                handleNewDishFormSubmit(activeMenu)
+                              }
+                            >
+                              <FontAwesomeIcon
+                                icon={faPlus}
+                                className="text-xl"
+                              />
+                              <span>Add</span>
+                            </button>
+                          </div>
+                          <small className="text-light col-span-1 lg:col-span-3">
+                            ** Use this symbol
+                            <strong className="text-xl"> |</strong> to divide
+                            the categories
+                          </small>
+                        </>
+                      )}
+                    </form>
+                    <div className="flex items-center">
+                      <input
+                        type="text"
+                        name="search-input"
+                        id="search-input"
+                        className="bg-light px-3 py-2 rounded-l-xl focus:outline-accent"
+                        onChange={handleChange}
                       />
-                      Search
-                    </button>
+                      <button
+                        className="bg-light text-dark px-3 py-2 rounded-r-xl flex items-center gap-2 hover:text-light hover:bg-accent transition-all ease-in-out duration-200"
+                        onClick={filterData}
+                      >
+                        <FontAwesomeIcon
+                          icon={faSearch}
+                          className=""
+                        />
+                        Search
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <MenuContext.Provider value={{ menu, activeMenu }}>
-                  {filteredMenu.length > 0 ? (
-                    filteredMenu.map((dish) => {
-                      return (
-                        <DishComponent
-                          key={dish.id}
-                          dish={dish}
-                          updateMenuClbk={(_data) => {
-                            console.log(_data);
-                            setMenu((prev) => _data);
-                            setFilteredMenu((prev) => _data);
-                          }}
-                        />
-                      );
-                    })
-                  ) : (
-                    <h6 className="text-center px-5 py-3.5 text-lg font-bold bg-light w-full rounded-xl text-danger">
-                      Empty menu
-                    </h6>
-                  )}
-                </MenuContext.Provider>
+                <div className="h-full overflow-y-auto px-5 py-3 flex flex-col gap-5">
+                  <MenuContext.Provider value={{ menu, activeMenu }}>
+                    {filteredMenu.length > 0 ? (
+                      filteredMenu.map((dish) => {
+                        return (
+                          <DishComponent
+                            key={dish.id}
+                            dish={dish}
+                            updateMenuClbk={(_data) => {
+                              console.log(_data);
+                              setMenu((prev) => _data);
+                              setFilteredMenu((prev) => _data);
+                            }}
+                          />
+                        );
+                      })
+                    ) : (
+                      <h6 className="text-center px-5 py-3.5 text-lg font-bold bg-light w-full rounded-xl text-danger">
+                        Empty menu
+                      </h6>
+                    )}
+                  </MenuContext.Provider>
+                </div>
               </>
             ) : (
               <LoadingComp />
