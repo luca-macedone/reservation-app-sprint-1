@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import LoadingComp from "../../components/LoadingComp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowAltCircleLeft,
   faEye,
-  faPenToSquare,
   faPlus,
-  faTrash,
+  faSearch,
   faX,
 } from "@fortawesome/free-solid-svg-icons";
+import DishComponent from "../../components/dashboard/menu/DishComponent";
 
+export const MenuContext = createContext(null);
 const MenuView = () => {
   const [isLoadingRestaurants, setIsLoadingRestaurants] = useState(true);
   const [isLoadingMenu, setIsLoadingMenu] = useState(true);
@@ -25,8 +26,10 @@ const MenuView = () => {
   });
   const newDishCategoryInput = useRef(null);
   const [menu, setMenu] = useState([]);
+  const [filteredMenu, setFilteredMenu] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [types, setTypes] = useState([]);
+  const [dishFilter, setDishFilter] = useState("");
 
   const showSelectedMenu = async (_id) => {
     setActiveMenu(_id);
@@ -38,6 +41,7 @@ const MenuView = () => {
         // console.log(response.data);
         // if (response.status === "200") {
         setMenu(response.data);
+        setFilteredMenu(response.data);
         // }
       })
       .catch((err) => {
@@ -62,7 +66,7 @@ const MenuView = () => {
   const addNewDishCategory = () => {
     // console.log(newDishCategoryInput.current.value);
     let value = newDishCategoryInput.current.value;
-    let resultArray = value.split(" ").filter(Boolean);
+    let resultArray = value.split("|").filter(Boolean);
     // console.log(resultArray);
     setNewDish({ ...newDish, category: resultArray });
     // let res = newDishCategoryInput.current.value;
@@ -89,21 +93,15 @@ const MenuView = () => {
       .catch((err) => console.log(err));
   };
 
-  const handleDeleteDish = async (_id) => {
-    await axios
-      .delete(
-        `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${activeMenu}/Menu/${_id}`,
-        newDish
-      )
-      .then((response) => {
-        if (response.status === 200) {
-          let res = menu.filter((dish) => dish.id !== _id);
-          // console.log(res);
-          setMenu(res);
-        }
-        console.log(response);
-      })
-      .catch((err) => console.log(err));
+  const filterData = () => {
+    // console.log(dishFilter);
+    if (dishFilter.length > 0) {
+      let res = menu.filter((dish) => dish.name.includes(dishFilter));
+      // console.log(res);
+      setFilteredMenu(res);
+    } else {
+      setFilteredMenu(menu);
+    }
   };
 
   const handleChange = (evt) => {
@@ -125,10 +123,15 @@ const MenuView = () => {
           setNewDish({ ...newDish, price: value });
         }
         break;
-      // case "new-dish-category":
-      //   debouncedUpdateCategory(evt.target.value);
-      //   // setNewDish({ ...newDish, category: categoryArray });
-      //   break;
+      case "search-input":
+        // console.log(value);
+        // if (value.length > 2) {
+        setDishFilter(value);
+        // console.log("dentro il change");
+        // }
+        // debouncedUpdateCategory(evt.target.value);
+        // setNewDish({ ...newDish, category: categoryArray });
+        break;
       default:
         console.log("input name no match");
     }
@@ -163,6 +166,10 @@ const MenuView = () => {
     setIsLoadingRestaurants(true);
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(menu);
+  }, [menu]);
   return (
     <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 h-full overflow-hidden mt-8 lg:mt-0">
       <section className="h-full overflow-hidden flex flex-col">
@@ -249,221 +256,202 @@ const MenuView = () => {
               </h2>
             ) : !isLoadingMenu ? (
               <>
-                <form
-                  className={`bg-secondary grid grid-flow-row grid-cols-1 lg:grid-cols-3 gap-3 transition-all ease-in-out duration-200 ${
-                    isNewDishFormOpen
-                      ? "w-full p-5 rounded-3xl"
-                      : "w-max rounded-xl"
-                  }`}
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                  }}
-                >
-                  <button
-                    className={`text-light col-span-1 hover:scale-105 transition-all ease-in-out duration-200 lg:col-span-3 w-max font-bold flex items-center gap-2 ${
+                <div className="flex flex-col lg:flex-row flex-wrap lg:items-center w-full lg:justify-between gap-4">
+                  <form
+                    className={`bg-secondary grid grid-flow-row grid-cols-1 lg:grid-cols-3 gap-3 transition-all ease-in-out duration-200 ${
                       isNewDishFormOpen
-                        ? "px-3 py-2 hover:bg-light hover:text-secondary rounded-xl"
-                        : "px-5 py-3"
+                        ? "w-full p-5 rounded-3xl"
+                        : "w-max rounded-xl"
                     }`}
-                    type="button"
-                    onClick={toggleNewDishForm}
+                    onSubmit={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }}
                   >
-                    {isNewDishFormOpen ? (
-                      <>
-                        <FontAwesomeIcon
-                          icon={faX}
-                          className="text-xl"
-                        />
-                        <span>Close</span>
-                      </>
-                    ) : (
-                      <>
-                        <FontAwesomeIcon
-                          icon={faPlus}
-                          className="text-xl"
-                        />
-                        <span>Add a dish</span>
-                      </>
-                    )}
-                  </button>
-                  {isNewDishFormOpen && (
-                    <>
-                      <div className="flex flex-col items-start gap-1">
-                        <label
-                          htmlFor="new-dish-name"
-                          className="text-light"
-                        >
-                          Name
-                        </label>
-                        <input
-                          type="text"
-                          id="new-dish-name"
-                          className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
-                          name="new-dish-name"
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="flex flex-col items-start gap-1">
-                        <label
-                          htmlFor="new-dish-price"
-                          className="text-light"
-                        >
-                          Price
-                        </label>
-                        <input
-                          type="number"
-                          id="new-dish-price"
-                          className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
-                          name="new-dish-price"
-                          min={0}
-                          step={0.1}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="flex flex-col items-start gap-1">
-                        <label
-                          htmlFor="new-dish-category"
-                          className="text-light"
-                        >
-                          Category
-                        </label>
-                        <div className="relative w-full flex items-center">
-                          <input
-                            type="text"
-                            id="new-dish-category"
-                            className="bg-light px-5 py-2 rounded-l-lg text-dark w-full focus:outline-accent"
-                            name="new-dish-category"
-                            list="types"
-                            ref={newDishCategoryInput}
+                    <button
+                      className={`text-light col-span-1 hover:scale-105 transition-all ease-in-out duration-200 lg:col-span-3 w-max font-bold flex items-center gap-2 ${
+                        isNewDishFormOpen
+                          ? "px-3 py-2 hover:bg-light hover:text-secondary rounded-xl"
+                          : "px-5 py-3"
+                      }`}
+                      type="button"
+                      onClick={toggleNewDishForm}
+                    >
+                      {isNewDishFormOpen ? (
+                        <>
+                          <FontAwesomeIcon
+                            icon={faX}
+                            className="text-xl"
                           />
-                          <button
-                            className="bg-accent px-2 py-2 rounded-r-lg text-light hover:bg-light hover:text-accent transition-all ease-in-out duration-200"
-                            onClick={addNewDishCategory}
-                            type="button"
-                          >
-                            Insert
-                          </button>
-                        </div>
-                        <datalist id="types">
-                          {!isLoadingMenu &&
-                            types.map((t, index) => {
-                              return (
-                                <option
-                                  key={index}
-                                  value={t}
-                                >
-                                  {t}
-                                </option>
-                              );
-                            })}
-                        </datalist>
-                      </div>
-                      <div className="flex flex-col col-span-1 lg:col-span-2 items-start justify-start h-full gap-1">
-                        <label
-                          htmlFor="new-dish-description"
-                          className="text-light"
-                        >
-                          Description
-                        </label>
-                        <textarea
-                          name="new-dish-description"
-                          id="new-dish-description"
-                          className="w-full rounded-lg text-dark bg-light py-2 px-5 focus:outline-accent"
-                          onChange={handleChange}
-                          rows="2"
-                          // value={reservation.notes}
-                        ></textarea>
-                      </div>
-                      <div className="flex items-end flex-col justify-end flex-wrap gap-2">
-                        <button
-                          type="button"
-                          className="bg-light text-dark ring-2 ring-transparent px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary transition-all ease-in-out duration-200 hover:ring-accent"
-                          // onClick={handleBookingReset}
-                        >
-                          Reset
-                        </button>
-                        <button
-                          type="submit"
-                          className="bg-accent text-light ring-2 ring-transparent px-8 py-2 rounded-lg flex items-center gap-2 col-span-1 hover:bg-light hover:text-primary transition-all ease-in-out duration-200 disabled:ring-2 disabled:ring-accent disabled:bg-light disabled:text-accent disabled:hover:scale-100 hover:ring-accent"
-                          onClick={() => handleNewDishFormSubmit(activeMenu)}
-                        >
+                          <span>Close</span>
+                        </>
+                      ) : (
+                        <>
                           <FontAwesomeIcon
                             icon={faPlus}
                             className="text-xl"
                           />
-                          <span>Add</span>
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </form>
-                {menu.length > 0 ? (
-                  menu.map((dish) => {
-                    return (
-                      <div
-                        key={dish.id}
-                        className="w-full"
-                      >
-                        <div className="w-full flex items-center justify-end">
-                          <div className="w-max flex items-center justify-end gap-3 bg-light px-3 pt-3 rounded-t-2xl">
-                            <button className="bg-accent text-light ring-2 ring-accent hover:bg-light hover:text-accent rounded-lg px-4 py-2 transition-all ease-in-out duration-200">
-                              <FontAwesomeIcon
-                                icon={faPenToSquare}
-                                className="me-2"
-                              />
-                              Edit
-                            </button>
-                            {/* TODO: add patch call to modify the dish of the menu */}
+                          <span>Add a dish</span>
+                        </>
+                      )}
+                    </button>
+                    {isNewDishFormOpen && (
+                      <>
+                        <div className="flex flex-col items-start gap-1">
+                          <label
+                            htmlFor="new-dish-name"
+                            className="text-light"
+                          >
+                            Name
+                          </label>
+                          <input
+                            type="text"
+                            id="new-dish-name"
+                            className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
+                            name="new-dish-name"
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="flex flex-col items-start gap-1">
+                          <label
+                            htmlFor="new-dish-price"
+                            className="text-light"
+                          >
+                            Price
+                          </label>
+                          <input
+                            type="number"
+                            id="new-dish-price"
+                            className="bg-light px-5 py-2 rounded-lg text-dark w-full focus:outline-accent"
+                            name="new-dish-price"
+                            min={0}
+                            step={0.1}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="flex flex-col items-start gap-1">
+                          <label
+                            htmlFor="new-dish-category"
+                            className="text-light"
+                          >
+                            Category **
+                          </label>
+                          <div className="relative w-full flex items-center">
+                            <input
+                              type="text"
+                              id="new-dish-category"
+                              className="bg-light px-5 py-2 rounded-l-lg text-dark w-full focus:outline-accent"
+                              name="new-dish-category"
+                              list="types"
+                              ref={newDishCategoryInput}
+                            />
                             <button
-                              className="bg-accent text-light ring-2 ring-accent hover:bg-light hover:text-accent rounded-lg px-4 py-2 transition-all ease-in-out duration-200"
-                              onClick={() => handleDeleteDish(dish.id)}
+                              className="bg-accent px-2 py-2 rounded-r-lg text-light hover:bg-light hover:text-accent transition-all ease-in-out duration-200"
+                              onClick={addNewDishCategory}
+                              type="button"
                             >
-                              <FontAwesomeIcon
-                                icon={faTrash}
-                                className="me-2"
-                              />
-                              Delete
+                              Insert
                             </button>
                           </div>
+                          <datalist id="types">
+                            {!isLoadingMenu &&
+                              types.map((t, index) => {
+                                return (
+                                  <option
+                                    key={index}
+                                    value={t}
+                                  >
+                                    {t}
+                                  </option>
+                                );
+                              })}
+                          </datalist>
                         </div>
-                        <div className="p-5 bg-light rounded-3xl rounded-tr-none w-full flex flex-col items-start gap-2">
-                          <div className="flex items-start flex-col-reverse justify-between w-full">
-                            <div className="flex items-start justify-between w-full">
-                              <div>
-                                <h6 className="font-semibold border-b-2 mb-2 border-secondary w-max px-3">
-                                  {dish.name}
-                                </h6>
-                                <p className="text-sm px-3">
-                                  {dish.description}
-                                </p>
-                              </div>
-                              <div className="text-nowrap pe-3">
-                                {dish.price} €
-                              </div>
-                            </div>
-                          </div>
-                          <div className="px-3 flex items-center gap-2 flex-wrap">
-                            {dish.category.map((c, index) => {
-                              return (
-                                <span
-                                  className="bg-primary text-light px-3 py-1 rounded-2xl"
-                                  key={index}
-                                >
-                                  {c}
-                                </span>
-                              );
-                            })}
-                          </div>
+                        <div className="flex flex-col col-span-1 lg:col-span-2 items-start justify-start h-full gap-1">
+                          <label
+                            htmlFor="new-dish-description"
+                            className="text-light"
+                          >
+                            Description
+                          </label>
+                          <textarea
+                            name="new-dish-description"
+                            id="new-dish-description"
+                            className="w-full rounded-lg text-dark bg-light py-2 px-5 focus:outline-accent"
+                            onChange={handleChange}
+                            rows="2"
+                            // value={reservation.notes}
+                          ></textarea>
                         </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <h6 className="text-center px-5 py-3.5 text-lg font-bold bg-light w-full rounded-xl text-danger">
-                    Empty menu
-                  </h6>
-                )}
+                        <div className="flex items-end flex-col justify-end flex-wrap gap-2">
+                          <button
+                            type="button"
+                            className="bg-light text-dark ring-2 ring-transparent px-3 py-2 rounded-lg flex items-center gap-3 hover:bg-light hover:text-primary transition-all ease-in-out duration-200 hover:ring-accent"
+                            // onClick={handleBookingReset}
+                          >
+                            Reset
+                          </button>
+                          <button
+                            type="submit"
+                            className="bg-accent text-light ring-2 ring-transparent px-8 py-2 rounded-lg flex items-center gap-2 col-span-1 hover:bg-light hover:text-primary transition-all ease-in-out duration-200 disabled:ring-2 disabled:ring-accent disabled:bg-light disabled:text-accent disabled:hover:scale-100 hover:ring-accent"
+                            onClick={() => handleNewDishFormSubmit(activeMenu)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faPlus}
+                              className="text-xl"
+                            />
+                            <span>Add</span>
+                          </button>
+                        </div>
+                        <small className="text-light col-span-1 lg:col-span-3">
+                          ** Use this symbol
+                          <strong className="text-xl"> |</strong> to divide the
+                          categories
+                        </small>
+                      </>
+                    )}
+                  </form>
+                  <div className="flex items-center">
+                    <input
+                      type="text"
+                      name="search-input"
+                      id="search-input"
+                      className="bg-light px-3 py-2 rounded-l-xl focus:outline-accent"
+                      onChange={handleChange}
+                    />
+                    <button
+                      className="bg-light text-dark px-3 py-2 rounded-r-xl flex items-center gap-2 hover:text-light hover:bg-accent transition-all ease-in-out duration-200"
+                      onClick={filterData}
+                    >
+                      <FontAwesomeIcon
+                        icon={faSearch}
+                        className=""
+                      />
+                      Search
+                    </button>
+                  </div>
+                </div>
+                <MenuContext.Provider value={{ menu, activeMenu }}>
+                  {filteredMenu.length > 0 ? (
+                    filteredMenu.map((dish) => {
+                      return (
+                        <DishComponent
+                          key={dish.id}
+                          dish={dish}
+                          updateMenuClbk={(_data) => {
+                            console.log(_data);
+                            setMenu((prev) => _data);
+                            setFilteredMenu((prev) => _data);
+                          }}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h6 className="text-center px-5 py-3.5 text-lg font-bold bg-light w-full rounded-xl text-danger">
+                      Empty menu
+                    </h6>
+                  )}
+                </MenuContext.Provider>
               </>
             ) : (
               <LoadingComp />
