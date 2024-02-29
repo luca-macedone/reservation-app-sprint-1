@@ -4,6 +4,7 @@ import LoadingComp from "../../components/LoadingComp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowAltCircleLeft,
+  faArrowAltCircleUp,
   faEye,
   faPlus,
   faSearch,
@@ -104,6 +105,10 @@ const MenuView = () => {
     }
   };
 
+  const handleSelectedMenu = (evt) => {
+    showSelectedMenu(evt.target.value);
+  };
+
   const handleChange = (evt) => {
     let name = evt.target.name;
     let value = evt.target.value;
@@ -166,12 +171,8 @@ const MenuView = () => {
     setIsLoadingRestaurants(true);
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log(menu);
-  }, [menu]);
   return (
-    <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 h-full overflow-hidden mt-8 lg:mt-0">
+    <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 h-max lg:h-full overflow-hidden mt-8 lg:mt-0">
       <section className="h-full overflow-hidden flex flex-col">
         <h2 className="font-special text-secondary text-3xl mb-3 mt-5 lg:mt-0 text-end">
           Your Restaurants
@@ -180,24 +181,30 @@ const MenuView = () => {
           {isLoadingRestaurants ? (
             <h2>Loading</h2>
           ) : (
-            <select
-              id="restaurants-mobile-selector"
-              className="bg-light px-3 py-2 w-full rounded-md text-dark"
-            >
-              {restaurants.map((rest) => {
-                return (
-                  <option
-                    key={rest.id}
-                    value={rest.id}
-                  >
-                    {rest.name}
-                  </option>
-                );
-              })}
-            </select>
+            <>
+              <select
+                id="restaurants-mobile-selector"
+                className="bg-light px-3 py-2 w-full rounded-lg text-dark ring-2 ring-secondary focus:outline-none focus:ring-accent"
+                onChange={handleSelectedMenu}
+              >
+                {restaurants.map((rest) => {
+                  return (
+                    <option
+                      key={rest.id}
+                      value={rest.id}
+                    >
+                      {rest.name}
+                    </option>
+                  );
+                })}
+              </select>
+              <small className="py-3 font-semibold text-secondary">
+                Choose the restaurant here
+              </small>
+            </>
           )}
         </div>
-        <div className="hidden lg:inline-flex bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-xl lg:rounded-none lg:rounded-br-xl">
+        <div className="hidden lg:inline-flex bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-xl lg:rounded-none lg:rounded-bl-xl">
           <div className="h-full w-full overflow-x-hidden overflow-y-scroll flex flex-col items-start justify-start gap-4 px-5 py-4">
             {isLoadingRestaurants ? (
               <LoadingComp />
@@ -243,21 +250,28 @@ const MenuView = () => {
           </div>
         </div>
       </section>
-      <section className="h-full overflow-hidden flex flex-col">
+      <section className="h-max lg:h-full flex flex-col overflow-hidden">
         <h2 className="font-special text-secondary text-3xl mb-3 text-end">
           Menu
         </h2>
-        <div className="bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
-          <div className="rounded-3xl w-full flex flex-col items-start justify-start gap-3 h-full overflow-y-auto">
+        <div className="bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-b-xl lg:rounded-none lg:rounded-br-xl">
+          <div className="rounded-3xl w-full h-full overflow-hidden flex flex-col gap-3">
             {!isVisibleMenu ? (
-              <h2 className="font-special flex items-center gap-2 text-2xl mt-6 px-5">
-                <FontAwesomeIcon icon={faArrowAltCircleLeft} />
+              <h2 className="font-special flex items-center gap-2 text-2xl py-6 lg:mt-6 px-5">
+                <FontAwesomeIcon
+                  icon={faArrowAltCircleLeft}
+                  className="hidden lg:inline-flex"
+                />
+                <FontAwesomeIcon
+                  icon={faArrowAltCircleUp}
+                  className="lg:hidden"
+                />
                 Choose the restaurant.
               </h2>
             ) : !isLoadingMenu ? (
               <>
-                <div className="flex flex-col items-start justify-start gap-4 w-full">
-                  <div className="ps-5 pe-9 py-3 flex lg:flex-row flex-wrap lg:items-center w-full lg:justify-between h-full gap-4">
+                <div className="flex flex-col gap-4 w-full">
+                  <div className="ps-5 lg:pe-9 py-3 flex lg:flex-row flex-wrap lg:items-center w-full lg:justify-between h-full gap-4">
                     <form
                       className={`bg-secondary grid grid-flow-row grid-cols-1 lg:grid-cols-3 gap-3 transition-all ease-in-out duration-200 ${
                         isNewDishFormOpen
@@ -435,7 +449,7 @@ const MenuView = () => {
                     </div>
                   </div>
                 </div>
-                <div className="h-full overflow-y-auto px-5 py-3 flex flex-col gap-5">
+                <div className="h-full overflow-y-scroll px-5 py-3 flex flex-col gap-5">
                   <MenuContext.Provider value={{ menu, activeMenu }}>
                     {filteredMenu.length > 0 ? (
                       filteredMenu.map((dish) => {

@@ -4,6 +4,7 @@ import LoadingComp from "../../components/LoadingComp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowAltCircleLeft,
+  faArrowAltCircleUp,
   faArrowDownWideShort,
   faArrowUpShortWide,
   faEye,
@@ -153,7 +154,7 @@ const ReviewView = () => {
             </>
           )}
         </div>
-        <div className="hidden lg:inline-flex bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl">
+        <div className="hidden lg:inline-flex bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-b-xl lg:rounded-none lg:rounded-bl-xl">
           <div className="h-full w-full overflow-y-scroll flex flex-col items-start justify-start gap-4 px-5 py-4">
             {isLoadingRestaurants ? (
               <LoadingComp />
@@ -206,7 +207,7 @@ const ReviewView = () => {
         </h2>
         <div className="bg-tertiary border-t-2 border-secondary h-full overflow-hidden rounded-bl-xl flex flex-col">
           {isVisibleReview && (
-            <div className="w-full flex flex-col items-end justify-start gap-5 px-5 pe-9 py-4">
+            <div className="w-full flex flex-col items-end justify-start gap-5 px-5 lg:pe-9 py-4">
               <div className="bg-light border-b-2 border-secondary px-5 py-3 rounded-t-xl font-special text-xl flex items-center justify-between w-full">
                 Average Score{" "}
                 <span>{formattedRatingDesktop(avg_rating(review))}</span>
@@ -253,8 +254,15 @@ const ReviewView = () => {
           )}
           <div className="px-5 py-3 rounded-3xl w-full flex flex-col items-start justify-start gap-3 h-full overflow-y-auto">
             {!isVisibleReview ? (
-              <h2 className="font-special flex items-center gap-2 text-2xl mt-6">
-                <FontAwesomeIcon icon={faArrowAltCircleLeft} />
+              <h2 className="font-special flex items-center gap-2 text-2xl py-6 lg:mt-6 px-5">
+                <FontAwesomeIcon
+                  icon={faArrowAltCircleLeft}
+                  className="hidden lg:inline-flex"
+                />
+                <FontAwesomeIcon
+                  icon={faArrowAltCircleUp}
+                  className="lg:hidden"
+                />
                 Choose the restaurant.
               </h2>
             ) : !isLoadingReview ? (
