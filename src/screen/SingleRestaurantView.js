@@ -30,33 +30,42 @@ const SingleRestaurantView = () => {
     window.scrollTo(0, 0);
     const fetchRestaurant = async () => {
       try {
-        const [res1, res2, res3] = await Promise.all([
+        const [res1, res2] = await Promise.all([
           axios.get(
             `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${id}`
           ),
           axios.get(
             `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${id}/gallery`
           ),
-          axios.get(
-            `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${id}/Menu`
-          ),
         ]);
         // console.log(await fetchReviews());
-        let reviewsData = await fetchReviews();
-        // console.log(reviewsData);
-        setRestaurant({
-          data: { ...res1.data },
-          gallery: [...res2.data],
-          menu: [...res3.data],
-          reviews: [...reviewsData],
-        });
+        if (
+          res1.status === 200 ||
+          res2.status === 200 ||
+          res1.status === 201 ||
+          res2.status === 201
+        ) {
+          let reviewsData = await fetchReviews();
+          let menuData = await fetchMenu();
+          // console.log(reviewsData);
+          setRestaurant({
+            data: { ...res1?.data },
+            gallery: [...res2?.data],
+            menu: [...menuData],
+            reviews: [...reviewsData],
+          });
+        }
       } catch (err) {
-        console.error(err);
-        navigator("/error");
+        // console.error(err);
+        console.log(err);
+        if (!restaurant.data) {
+          navigator("/error");
+        }
       } finally {
         setIsLoading(false);
       }
     };
+
     const fetchReviews = async () => {
       let res = await axios
         .get(
@@ -75,6 +84,21 @@ const SingleRestaurantView = () => {
 
     fetchRestaurant();
   }, []);
+
+  const fetchMenu = async () => {
+    let res = await axios
+      .get(
+        `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${id}/Menu`
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((err) => {
+        return [];
+      });
+
+    return res;
+  };
 
   return (
     <>

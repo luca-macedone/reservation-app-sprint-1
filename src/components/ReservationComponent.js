@@ -23,9 +23,11 @@ const ReservationComponent = (restaurant) => {
   const formRef = useRef(null);
 
   const addReservation = async () => {
-    // console.log(validateData());
+    console.log(validateData());
     if (!validateData()) {
       const existingReservation = await checkExistingReservation();
+      console.log(existingReservation);
+      console.log(reservationMessage);
       if (!existingReservation) {
         axios
           .post(
@@ -44,18 +46,9 @@ const ReservationComponent = (restaurant) => {
               setReservationMessage({ status: "", message: "" });
             }
           })
-          .catch((err) => console.error(err))
-          .finally(() => {
-            setReservation({ email: "", seats: 0, when: "", notes: "" }); // after the submit of the form it will reset the reservation to avoid sending old data with the empty form
-            setInvalidInput({
-              email: false,
-              seats: false,
-              when: false,
-              notes: false,
-            });
-            formRef.current.reset();
-          });
+          .catch((err) => console.error(err));
       }
+      setReservation({ email: "", seats: 0, when: "", notes: "" });
     }
   };
 
@@ -119,7 +112,16 @@ const ReservationComponent = (restaurant) => {
     evt.stopPropagation();
     // console.log(evt);
     console.log(reservation);
-    addReservation();
+    addReservation().finally(() => {
+      formRef.current.reset();
+      setInvalidInput({
+        email: false,
+        seats: false,
+        when: false,
+        notes: false,
+      });
+      setReservation({ email: "", seats: 0, when: "", notes: "" });
+    });
   };
 
   const validateData = () => {
@@ -170,8 +172,8 @@ const ReservationComponent = (restaurant) => {
             break;
           }
           case "when": {
-            console.log(!validDate(reservation.when));
-            console.log(reservation.when);
+            // console.log(!validDate(reservation.when));
+            // console.log(reservation.when);
             if (!validDate(reservation.when)) {
               errors = { ...errors, when: true };
               result = true;

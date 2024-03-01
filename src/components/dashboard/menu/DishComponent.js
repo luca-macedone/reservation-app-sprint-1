@@ -16,10 +16,7 @@ const DishComponent = ({ dish, updateMenuClbk }) => {
   const [isDeleteFormOpen, setIsDeleteFormOpen] = useState(false);
   const newDishCategoryInput = useRef(null);
   const [newDish, setNewDish] = useState({
-    name: "",
-    description: "",
-    price: -1,
-    category: [],
+    ...dish,
   });
 
   const toggleDeleteForm = () => {
@@ -57,6 +54,7 @@ const DishComponent = ({ dish, updateMenuClbk }) => {
   const handleChange = (evt) => {
     let name = evt.target.name;
     let value = evt.target.value;
+    console.log(evt.target.value, newDish);
     switch (name) {
       case "edit-dish-name":
         if (value.length > 2) {
@@ -64,7 +62,7 @@ const DishComponent = ({ dish, updateMenuClbk }) => {
         }
         break;
       case "edit-dish-description":
-        if (value.length > 3) {
+        if (value.length >= 3) {
           setNewDish({ ...newDish, description: value });
         }
         break;
@@ -83,17 +81,14 @@ const DishComponent = ({ dish, updateMenuClbk }) => {
   };
 
   const handleEditDish = () => {
-    setNewDish({
-      name: "",
-      description: "",
-      price: -1,
-      category: [],
-    });
     setIsEditMode((_prev) => !_prev);
   };
 
   const handleEditSubmit = async (_id) => {
+    // console.log("edit submit");
+    console.log(newDish);
     if (newDish.name.length > 2 && newDish.price > 0) {
+      // console.log(newDish);
       await axios
         .put(
           `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${activeMenu}/Menu/${_id}`,
@@ -104,9 +99,10 @@ const DishComponent = ({ dish, updateMenuClbk }) => {
             // let res = menu.filter((dish) => dish.id !== _id);
             let updatedIndex = menu.findIndex((d) => d.id === dish.id);
             let res = [...menu];
-            res[updatedIndex] = newDish;
+            res[updatedIndex] = { ...newDish };
             // console.log(res);
             updateMenuClbk(res);
+            handleEditDish();
           }
           // console.log(response);
         })

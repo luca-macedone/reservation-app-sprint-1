@@ -73,14 +73,16 @@ const MenuView = () => {
     // let res = newDishCategoryInput.current.value;
   };
 
-  const handleNewDishFormSubmit = async (_id) => {
-    // console.log(newDish);
+  const handleNewDishFormSubmit = async (evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    console.log(activeMenu);
     // let newMenu = [...menu, newDish];
     // let newMenu = [].push(newDish);
-    // console.log(newMenu);
+    console.log(newDish);
     await axios
       .post(
-        `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${_id}/Menu`,
+        `https://65c3642539055e7482c0c4ba.mockapi.io/api/v1/Restaurant/${activeMenu}/Menu`,
         newDish
       )
       .then((response) => {
@@ -88,6 +90,8 @@ const MenuView = () => {
           // menu.push(newDish);
           let res = [...menu, newDish];
           setMenu(res);
+          setFilteredMenu(res);
+          toggleNewDishForm();
         }
         // console.log(response);
       })
@@ -171,6 +175,7 @@ const MenuView = () => {
     setIsLoadingRestaurants(true);
     fetchData();
   }, []);
+
   return (
     <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 h-max lg:h-full overflow-hidden mt-8 lg:mt-0">
       <section className="h-full overflow-hidden flex flex-col">
@@ -278,10 +283,6 @@ const MenuView = () => {
                           ? "w-full p-5 rounded-3xl"
                           : "w-max rounded-xl"
                       }`}
-                      onSubmit={(event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                      }}
                     >
                       <button
                         className={`text-light col-span-1 hover:scale-105 transition-all ease-in-out duration-200 lg:col-span-3 w-max font-bold flex items-center gap-2 ${
@@ -409,9 +410,7 @@ const MenuView = () => {
                             <button
                               type="submit"
                               className="bg-accent text-light ring-2 ring-transparent px-8 py-2 rounded-lg flex items-center gap-2 col-span-1 hover:bg-light hover:text-primary transition-all ease-in-out duration-200 disabled:ring-2 disabled:ring-accent disabled:bg-light disabled:text-accent disabled:hover:scale-100 hover:ring-accent"
-                              onClick={() =>
-                                handleNewDishFormSubmit(activeMenu)
-                              }
+                              onClick={handleNewDishFormSubmit}
                             >
                               <FontAwesomeIcon
                                 icon={faPlus}
